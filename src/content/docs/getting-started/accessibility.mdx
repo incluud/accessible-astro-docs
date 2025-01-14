@@ -1,0 +1,166 @@
+---
+title: Accessibility
+description: Learn about our accessibility-first approach and how we ensure our components and themes work for everyone.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Our approach to accessibility
+
+Accessibility isn't an afterthought in Accessible Astro—it's our foundation. We follow the WAI-ARIA guidelines and WCAG 2.2 standards to ensure our components and themes work for everyone, regardless of how they interact with the web.
+
+## Key principles
+
+### 1. Semantic HTML
+- Using proper HTML elements (`<button>`, `<nav>`, `<main>`, etc.)
+- Maintaining logical heading hierarchy
+- Providing meaningful landmarks
+- Using lists for navigation items
+
+### 2. Keyboard navigation
+- All interactive elements are focusable
+- Focus order matches visual order
+- Clear focus indicators
+- Keyboard shortcuts where appropriate
+- Proper tab management in modals
+
+### 3. ARIA implementation
+- Proper roles and attributes
+- Dynamic content updates
+- State management
+- Clear labeling
+- Descriptive announcements
+
+### 4. Visual considerations
+- Sufficient color contrast
+- Content visible without color
+- Text resizing without loss of functionality
+- Responsive design that works at 200% zoom
+- Support for high contrast modes
+
+<Aside type="tip" title="Color contrast">
+  All our components meet WCAG 2.2 Level AA contrast requirements by default, with many meeting the stricter AAA level.
+</Aside>
+
+## User preferences
+
+We respect user preferences through:
+
+```css
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  /* Motion-based animations are disabled */
+}
+
+/* Color scheme */
+@media (prefers-color-scheme: dark) {
+  /* Dark mode styles */
+}
+
+/* Contrast */
+@media (prefers-contrast: more) {
+  /* High contrast styles */
+}
+```
+
+## Screen reader support
+
+Our components are tested with popular screen readers:
+- NVDA on Windows
+- VoiceOver on macOS
+- TalkBack on Android
+- VoiceOver on iOS
+
+<Aside type="note" title="Testing">
+  We recommend testing your implementation with real screen readers to ensure the best experience for your users.
+</Aside>
+
+## Focus management
+
+We handle focus carefully:
+- Trapping focus in modals
+- Returning focus after modal closes
+- Skip links for main content
+- Proper focus order in complex components
+- Clear focus styles that work on all backgrounds
+
+## Common patterns
+
+### Buttons vs Links
+```astro
+<!-- Use buttons for actions -->
+<button type="button" onClick={handleAction}>
+  Perform Action
+</button>
+
+<!-- Use links for navigation -->
+<a href="/some-page">
+  Go to Page
+</a>
+```
+
+### Hidden content
+```astro
+<!-- Visually hidden but available to screen readers -->
+<span class="sr-only">Additional context</span>
+
+<!-- Hidden from all users -->
+<div hidden>Not visible or announced</div>
+```
+
+### Dynamic content
+```astro
+<!-- Live regions for important updates -->
+<div role="status" aria-live="polite">
+  Status message
+</div>
+
+<!-- Busy indicators -->
+<button aria-busy="true">
+  Processing...
+</button>
+```
+
+## Best practices
+
+1. **Test early and often**
+   - Use keyboard navigation
+   - Test with screen readers
+   - Verify color contrast
+   - Check at different zoom levels
+
+2. **Progressive enhancement**
+   - Ensure basic functionality without JavaScript
+   - Add enhanced interactions thoughtfully
+   - Provide fallbacks for modern features
+
+3. **Clear communication**
+   - Use clear, concise language
+   - Provide helpful error messages
+   - Include proper form labels
+   - Use descriptive link text
+
+<Aside type="tip" title="ESLint plugin">
+  We recommend using the `eslint-plugin-jsx-a11y` package to catch common accessibility issues during development. This plugin is already included in our starter themes:
+  ```bash
+  npm install -D eslint-plugin-jsx-a11y
+  ```
+</Aside>
+
+## Resources
+
+- [WAI-ARIA Practices Guide](https://www.w3.org/WAI/ARIA/apg/)
+- [WCAG 2.2 Guidelines](https://www.w3.org/TR/WCAG22/)
+- [A11y Project Checklist](https://www.a11yproject.com/checklist/)
+- [Inclusive Components](https://inclusive-components.design/)
+
+## Testing tools
+
+- [axe DevTools](https://www.deque.com/axe/)
+- [WAVE Browser Extension](https://wave.webaim.org/extension/)
+- [Lighthouse](https://developers.google.com/web/tools/lighthouse)
+- [Color Contrast Analyzer](https://www.tpgi.com/color-contrast-checker/)
+
+<Aside type="caution" title="Automated testing">
+  While automated tools are helpful, they can't catch all accessibility issues. Manual testing and user feedback are essential.
+</Aside>

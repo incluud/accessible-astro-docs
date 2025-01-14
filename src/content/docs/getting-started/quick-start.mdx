@@ -1,0 +1,103 @@
+---
+title: Quick Start
+description: Get started with Accessible Astro Components and Themes in minutes.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Using components
+
+Our components package provides ready-to-use, accessible components that you can easily add to any Astro project. Here's how to get started:
+
+### 1. Install the package
+
+```bash
+npm install accessible-astro-components
+```
+
+### 2. Import components
+
+```astro
+---
+import { Modal, Notification } from 'accessible-astro-components'
+---
+```
+
+### 3. Use in your template
+
+```astro
+<button id="modal-trigger">Open Modal</button>
+
+<Modal
+  triggerId="modal-trigger"
+  title="Welcome!"
+>
+  <p>You've successfully added your first accessible component!</p>
+</Modal>
+```
+
+<Aside type="tip" title="TypeScript">
+  The package includes TypeScript definitions out of the box. No additional setup required!
+</Aside>
+
+## Using starter themes
+
+If you're looking to kickstart a new project, our starter themes come with accessibility features, components, and best practices built in. Choose the theme that best fits your needs:
+
+### Accessible Astro Starter
+
+A minimal blog theme with all essential features for content-focused websites:
+
+1. Clone the repository:
+```bash
+git clone https://github.com/markteekman/accessible-astro-starter.git my-project
+```
+
+2. Install dependencies:
+```bash
+cd my-project
+npm install
+```
+
+3. Start developing:
+```bash
+npm run dev
+```
+
+### Accessible Astro Dashboard
+
+A comprehensive admin dashboard theme with authentication, navigation, and interactive components:
+
+1. Clone the repository:
+```bash
+git clone https://github.com/markteekman/accessible-astro-dashboard.git my-dashboard
+```
+
+2. Install dependencies:
+```bash
+cd my-dashboard
+npm install
+```
+
+3. Start developing:
+```bash
+npm run dev
+```
+
+<Aside type="note" title="Authentication">
+  The dashboard includes a demo login:
+  - Email: `admin@astro.demo`
+  - Password: `Astronaut570`
+</Aside>
+
+## Next steps
+
+Once you have your project set up, you might want to:
+- Read the [accessibility guidelines](/getting-started/accessibility)
+- Explore available [components](/components/accordion)
+- Check out [theme customization](/themes/accessible-astro-starter#customization)
+- Join our [community](/getting-started/introduction#community)
+
+<Aside type="tip" title="Development">
+  Run `npm run dev` to start the development server and visit `http://localhost:4321` to see your site.
+</Aside>

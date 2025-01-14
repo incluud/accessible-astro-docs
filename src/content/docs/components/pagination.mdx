@@ -1,0 +1,123 @@
+---
+title: Pagination
+description: A fully accessible pagination component for navigating through multi-page content with proper ARIA labels and keyboard support.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Pagination } from 'accessible-astro-components';
+
+## Introduction
+
+The Pagination component provides a navigation system for multi-page content with first, previous, next, and last page controls. It includes proper ARIA labels and keyboard navigation support.
+
+## When to use
+
+- Blog post listings
+- Search results
+- Product catalogs
+- Image galleries
+- Data tables
+- Any content split across multiple pages
+
+<Aside type="tip" title="Progressive enhancement">
+  The component disables navigation controls when no valid URL is provided, ensuring a good user experience even at page boundaries.
+</Aside>
+
+## Usage
+
+```astro
+---
+import { Pagination } from 'accessible-astro-components'
+---
+
+<Pagination 
+  firstPage="/blog/1"
+  previousPage="/blog/4"
+  nextPage="/blog/6"
+  lastPage="/blog/12"
+  currentPage="5"
+  totalPages="12"
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `firstPage` | `string \| null \| undefined` | `'#'` | URL for the first page, falsy value disables the control |
+| `previousPage` | `string \| null \| undefined` | `'#'` | URL for the previous page, falsy value disables the control |
+| `nextPage` | `string \| null \| undefined` | `'#'` | URL for the next page, falsy value disables the control |
+| `lastPage` | `string \| null \| undefined` | `'#'` | URL for the last page, falsy value disables the control |
+| `currentPage` | `string \| number` | `'1'` | Current page number |
+| `totalPages` | `string \| number` | `'12'` | Total number of pages |
+| `renderProgress` | `Function` | `undefined` | Custom function to render the progress text |
+
+## Accessibility features
+
+- Semantic `<nav>` element with proper `aria-label`
+- Clear visual indication of disabled controls
+- Descriptive ARIA labels for navigation buttons
+- Keyboard navigation support
+- High contrast icons
+- Clear focus indicators
+- Proper button states
+
+## Styling
+
+<Tabs>
+  <TabItem label="CSS Custom Properties">
+    ```css
+    .pagination {
+      --pagination-gap: 1rem;
+      --pagination-border-width: 2px;
+      --pagination-radius: 3px;
+      --pagination-hover-bg: orange;
+      --pagination-disabled-opacity: 0.5;
+    }
+    ```
+  </TabItem>
+  <TabItem label="CSS Classes">
+    ```css
+    .pagination__list {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .pagination a,
+    .pagination .disabled {
+      display: block;
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 3px;
+    }
+
+    .pagination .disabled {
+      border-color: grey;
+      opacity: 0.5;
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive example
+
+<Pagination 
+  firstPage="#first"
+  previousPage="#prev"
+  nextPage="#next"
+  lastPage="#last"
+  currentPage="5"
+  totalPages="12"
+/>
+
+<Aside type="note" title="Custom progress text">
+  You can customize the progress text using the `renderProgress` prop:
+  ```astro
+  <Pagination
+    renderProgress={({ currentPage, totalPages }) => 
+      `${currentPage} of ${totalPages} pages`
+    }
+  />
+  ```
+</Aside>

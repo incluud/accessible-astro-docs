@@ -1,0 +1,104 @@
+---
+title: Card
+description: A flexible and extensible content container that follows accessibility best practices.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Card } from 'accessible-astro-components';
+
+## Introduction
+
+The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization.
+
+## When to use
+
+- Featured content sections
+- Product displays
+- Blog post previews
+- Service highlights
+- Team member profiles
+- Any grouped content that benefits from visual containment
+
+## Usage
+
+<Aside type="tip" title="Flexible content">
+  The Card component accepts any content through its default slot, allowing for flexible layouts while maintaining accessibility.
+</Aside>
+
+```astro
+---
+import { Card } from 'accessible-astro-components'
+---
+
+<Card
+  img="path/to/image.jpg"
+  url="/blog/post"
+  title="Card Title"
+>
+  <p>This is the card content that can include any HTML.</p>
+</Card>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `url` | `string` | `''` | URL for the card's link wrapper |
+| `img` | `string` | `''` | Path to the card's image |
+| `title` | `string` | `''` | Title text for the card |
+| `class` | `string` | `''` | Additional CSS classes to apply to the card |
+
+## Accessibility features
+
+- Uses semantic HTML structure
+- Proper heading hierarchy with configurable levels
+- Images include proper alt text support
+- Links are properly structured for keyboard navigation
+- Focus states are clearly visible
+- Color contrast meets WCAG guidelines
+
+## Styling
+
+<Tabs>
+  <TabItem label="CSS Custom Properties">
+    ```css
+    .card {
+      --card-padding: 1rem;
+      --card-radius: 0.5rem;
+      --card-color: var(--sl-color-gray-5);
+      --card-bg: var(--sl-color-gray-7);
+    }
+    ```
+  </TabItem>
+  <TabItem label="CSS Classes">
+    ```css
+    .card {
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    .card__image {
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
+    .card__content {
+      padding: 1rem;
+    }
+
+    .card__title {
+      margin-top: 0;
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive example
+
+<Card
+  img="https://picsum.photos/800/600"
+  url="#"
+  title="Example card"
+>
+  <p>This is an example of the Card component with an image, title, and custom content.</p>
+</Card>

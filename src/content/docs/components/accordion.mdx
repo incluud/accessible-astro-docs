@@ -1,0 +1,128 @@
+---
+title: Accordion
+description: A fully accessible accordion component for expanding and collapsing content sections using native HTML elements.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Accordion, AccordionItem } from 'accessible-astro-components';
+
+## Introduction
+
+The Accordion component provides an expandable/collapsible section of content that follows the WAI-ARIA best practices. It uses native HTML `<details>` and `<summary>` elements for built-in accessibility and functionality.
+
+## When to use
+
+- FAQ sections
+- Content that needs to be shown/hidden
+- Settings panels
+- Any content that benefits from progressive disclosure
+
+## Usage
+
+<Aside type="tip" title="Exclusive Behavior">
+  Add the same `name` prop to multiple AccordionItems to make them work as an exclusive group - only one item can be open at a time.
+</Aside>
+
+```astro ins={15}
+---
+import { Accordion, AccordionItem } from 'accessible-astro-components'
+---
+
+<Accordion>
+  <AccordionItem
+    title="First Item"
+  >
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <a href="#">Tab to me!</a>
+  </AccordionItem>
+
+  <!-- Items in the same group will close others when opened -->
+  <AccordionItem
+    name="group1"
+    title="Second Item"
+  >
+    <p>Content for second item</p>
+  </AccordionItem>
+</Accordion>
+```
+
+## Props
+
+### Accordion component
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `class` | `string` | `''` | Additional CSS classes to apply to the accordion wrapper |
+
+### AccordionItem component
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | required | The header text for the accordion item |
+| `name` | `string` | `''` | Optional group name for exclusive opening behavior |
+| `class` | `string` | `''` | Additional CSS classes to apply to the item |
+
+## Accessibility features
+
+- Uses native HTML `<details>` and `<summary>` elements for built-in accessibility
+- Proper heading structure with `<h3>` elements
+- Keyboard navigation support:
+  - `Enter` or `Space`: Toggle accordion item
+  - `Tab`: Navigate between focusable elements
+- ARIA attributes automatically managed by native elements
+- Respects user's reduced-motion preferences
+
+## Styling
+
+The Accordion component can be styled using CSS custom properties or by targeting specific classes.
+
+<Tabs>
+  <TabItem label="CSS Custom Properties">
+    ```css
+    .accordion {
+      --accordion-border: 2px solid var(--sl-color-gray-5);
+      --accordion-radius: 0.5rem;
+      --accordion-padding: 1rem;
+    }
+    ```
+  </TabItem>
+  <TabItem label="CSS Classes">
+    ```css
+    .accordion__wrapper {
+      border: 2px solid var(--sl-color-gray-5);
+      border-radius: 0.5rem;
+    }
+
+    .accordion__title {
+      padding: 1rem;
+      font-weight: 600;
+    }
+
+    .accordion__content {
+      padding: 1rem;
+      border-top: 1px solid var(--sl-color-gray-5);
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive example
+
+<Accordion>
+  <AccordionItem
+    title="First Item"
+  >
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <a href="#">Tab to me!</a>
+  </AccordionItem>
+  <AccordionItem
+    title="Second Item"
+  >
+    <p>Content for second item</p>
+  </AccordionItem>
+  <AccordionItem
+    title="Third Item"
+  >
+    <p>Content for third item</p>
+  </AccordionItem>
+</Accordion>

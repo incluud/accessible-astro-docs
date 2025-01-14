@@ -1,0 +1,158 @@
+---
+title: Installation
+description: Learn how to install and set up Accessible Astro Components and Themes in your project.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Installing components
+
+Choose your preferred package manager to install the components. The package includes TypeScript definitions out of the box and requires no additional configuration.
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install accessible-astro-components
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add accessible-astro-components
+    ```
+  </TabItem>
+  <TabItem label="Yarn">
+    ```bash
+    yarn add accessible-astro-components
+    ```
+  </TabItem>
+</Tabs>
+
+## Installing themes
+
+Our themes come with all the components pre-installed and configured. You can choose between using `git clone` or `degit` for installation.
+
+### Starter theme
+
+<Tabs>
+  <TabItem label="Git">
+    ```bash
+    git clone https://github.com/markteekman/accessible-astro-starter.git my-project
+    ```
+  </TabItem>
+  <TabItem label="Degit">
+    ```bash
+    npx degit markteekman/accessible-astro-starter my-project
+    ```
+  </TabItem>
+</Tabs>
+
+### Dashboard theme
+
+<Tabs>
+  <TabItem label="Git">
+    ```bash
+    git clone https://github.com/markteekman/accessible-astro-dashboard.git my-dashboard
+    ```
+  </TabItem>
+  <TabItem label="Degit">
+    ```bash
+    npx degit markteekman/accessible-astro-dashboard my-dashboard
+    ```
+  </TabItem>
+</Tabs>
+
+## Post installation
+
+After installing, you'll need to set up your project. The steps differ slightly depending on whether you're using the components package or a theme.
+
+### Components setup
+
+1. Import the components you need:
+```astro
+---
+import { Modal, Notification } from 'accessible-astro-components'
+---
+```
+
+2. Add the component to your template:
+```astro
+<Modal triggerId="modal" title="Welcome">
+  <p>Content goes here</p>
+</Modal>
+```
+
+### Theme setup
+
+1. Install dependencies:
+```bash
+cd my-project
+npm install
+```
+
+2. Start development server:
+```bash
+npm run dev
+```
+
+<Aside type="tip" title="Development">
+  Your site will be available at `http://localhost:4321` by default.
+</Aside>
+
+## Optional dependencies
+
+Some components require additional packages to unlock their full potential. Here's what you might need:
+
+### Icon support
+To use icons in components like Notifications:
+
+<Tabs>
+  <TabItem label="Installation">
+    ```bash
+    npm install astro-icon
+    ```
+  </TabItem>
+  <TabItem label="Configuration">
+    ```js
+    import icon from 'astro-icon'
+
+    export default defineConfig({
+      integrations: [icon()]
+    })
+    ```
+  </TabItem>
+</Tabs>
+
+### ESLint for accessibility
+
+We recommend using ESLint with accessibility rules to catch common issues during development:
+
+```bash
+npm install -D eslint-plugin-jsx-a11y
+```
+
+<Aside type="note" title="Starter themes">
+  Our starter themes already include these dependencies and configurations.
+</Aside>
+
+## Troubleshooting
+
+Here are some common issues you might encounter and how to resolve them:
+
+### Common issues
+
+1. **Port conflicts**: If port 4321 is in use, Astro will automatically try the next available port.
+
+2. **Node.js version**: Ensure you're using Node.js 18.14.1 or higher:
+```bash
+node --version
+```
+
+3. **Dependency conflicts**: Clear your dependencies and reinstall if needed:
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+<Aside type="tip" title="Getting help">
+  If you run into issues, check our [GitHub Discussions](https://github.com/markteekman/accessible-astro-components/discussions) or [open an issue](https://github.com/markteekman/accessible-astro-components/issues).
+</Aside>

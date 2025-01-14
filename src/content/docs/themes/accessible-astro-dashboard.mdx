@@ -1,0 +1,129 @@
+---
+title: Accessible Astro Dashboard
+description: A fully accessible dashboard theme built with Astro and accessibility in mind.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Introduction
+
+Accessible Astro Dashboard is a comprehensive admin dashboard theme that includes a login system, dashboard overview, and various admin pages. It's built with accessibility in mind and includes numerous utility classes and design system primitives.
+
+<div class="flex gap-2 mb-8">
+  <a href="https://github.com/markteekman/accessible-astro-dashboard" class="sl-flex">GitHub Repository</a>
+  <a href="https://accessible-astro-dashboard.netlify.app" class="sl-flex">Live Demo</a>
+</div>
+
+## Key Features
+
+- Login system with authentication example
+- Dashboard overview with widgets
+- Admin pages (Media, Messages, Products, Settings, Users)
+- Keyboard accessible sidebar navigation
+- Collapsible sidebar with localStorage preference
+- Dark mode with system preference detection
+- Responsive design with mobile navigation
+- Design system utilities and primitives
+
+## Accessibility Features
+
+- Semantic HTML landmarks
+- Skip links navigation
+- Keyboard accessible navigation (arrow keys, escape key)
+- Screen reader friendly components
+- Focus management
+- Proper ARIA attributes
+- High contrast mode support
+- Reduced motion preferences
+- Clear focus indicators
+- Screen reader only text utilities
+
+<Aside type="tip" title="Authentication">
+  The demo includes a basic authentication system. Use these credentials to log in:
+  - Email: `admin@astro.demo`
+  - Password: `Astronaut570`
+</Aside>
+
+## Components
+
+The dashboard includes several specialized components:
+
+- `LoginForm` - Accessible login form with validation
+- `DashboardWidget` - Customizable dashboard widgets
+- `EmptyState` - Placeholder for empty data states
+- `Navigation` - Collapsible sidebar navigation
+- `Media` - Media gallery with pagination
+- `ResponsiveToggle` - Mobile navigation toggle
+- And more through the components package
+
+## Design System
+
+The theme includes a comprehensive design system with:
+
+### Layout Utilities
+- 12-column grid system
+- Auto-grid layouts
+- Flexible container system
+- Alignment utilities
+
+### Visual Utilities
+- Color system with semantic variables
+- Typography scale
+- Spacing system
+- Elevation (box-shadow) utilities
+- Border radius utilities
+- Animation utilities
+
+### Example Usage
+
+```astro
+<div class="grid">
+  <div class="small-12 medium-3">
+    <div class="space-32 radius-large elevation-400">
+      <h3>Dashboard Widget</h3>
+      <!-- Widget content -->
+    </div>
+  </div>
+</div>
+```
+
+## Getting Started
+
+1. Clone the repository:
+```bash
+git clone https://github.com/markteekman/accessible-astro-dashboard.git
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start development server:
+```bash
+npm run dev
+```
+
+<Aside type="note" title="SSR Support">
+  While the demo uses SSG for simplicity, it's recommended to use Astro's SSR capabilities for proper authentication in production.
+</Aside>
+
+## Customization
+
+The dashboard can be customized through:
+- SCSS variables in `public/scss/base`
+- Component modifications in `src/components`
+- Layout adjustments in `src/layouts`
+- Page content in `src/pages`
+
+## Contributing
+
+You can contribute to this project by:
+1. Filing an issue
+2. Submitting a pull request
+3. Starting a discussion
+4. Supporting the project
+
+<Aside type="tip" title="Best Practice">
+  When customizing the dashboard, maintain the accessibility features and test with screen readers and keyboard navigation.
+</Aside>

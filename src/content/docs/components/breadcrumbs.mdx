@@ -1,0 +1,98 @@
+---
+title: Breadcrumbs
+description: A fully accessible breadcrumbs navigation component that helps users understand their location in a website's hierarchy.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import { Breadcrumbs, BreadcrumbsItem } from 'accessible-astro-components';
+
+## Introduction
+
+The Breadcrumbs component provides a navigation aid that helps users understand their current location within a website's hierarchy. It uses semantic HTML and follows WAI-ARIA best practices for navigation.
+
+## When to use
+
+- Website navigation
+- Multi-level page structures
+- Complex information architectures
+- E-commerce product categories
+- Any context where showing the user's location in the site hierarchy is helpful
+
+## Usage
+
+<Aside type="tip" title="Current Page">
+  Use the `currentPage` prop to indicate the current page in the breadcrumb trail. This will render it as a `<span>` instead of a link and add the appropriate ARIA attributes.
+</Aside>
+
+```astro ins={7}
+---
+import { Breadcrumbs, BreadcrumbsItem } from 'accessible-astro-components'
+---
+
+<Breadcrumbs>
+  <BreadcrumbsItem href="/" label="Home" />
+  <BreadcrumbsItem href="/products" label="Products" />
+  <BreadcrumbsItem label="Current Page" currentPage={true} />
+</Breadcrumbs>
+```
+
+## Props
+
+### Breadcrumbs component
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `class` | `string` | `''` | Additional CSS classes to apply to the breadcrumbs wrapper |
+
+### BreadcrumbsItem component
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `href` | `string` | `'#'` | The URL the breadcrumb item links to |
+| `label` | `string` | `'Breadcrumb'` | The text to display for the breadcrumb item |
+| `currentPage` | `boolean` | `false` | Whether this item represents the current page |
+
+## Accessibility features
+
+- Uses semantic `<nav>` element with appropriate `aria-label`
+- Proper list structure with `<ol>` for screen readers
+- Current page indicated with `aria-current="page"`
+- Visual separator between items that's hidden from screen readers
+- Maintains keyboard navigation support
+
+## Styling
+
+<Tabs>
+  <TabItem label="CSS Custom Properties">
+    ```css
+    .breadcrumbs {
+      --breadcrumb-separator: '/';
+      --breadcrumb-spacing: 0.5rem;
+      --breadcrumb-color: var(--sl-color-gray-5);
+    }
+    ```
+  </TabItem>
+  <TabItem label="CSS Classes">
+    ```css
+    .breadcrumbs__item {
+      display: inline;
+    }
+
+    .breadcrumbs__item::after {
+      content: '/';
+      margin: 0 0.5rem;
+    }
+
+    .breadcrumbs__item:last-child::after {
+      content: '';
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive example
+
+<Breadcrumbs>
+  <BreadcrumbsItem href="#" label="Home" />
+  <BreadcrumbsItem href="#" label="Documentation" />
+  <BreadcrumbsItem label="Breadcrumbs" currentPage={true} />
+</Breadcrumbs>

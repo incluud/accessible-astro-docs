@@ -1,0 +1,145 @@
+---
+title: Accessible Astro Starter
+description: A minimal, accessible starter theme for your Astro projects.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Introduction
+
+Accessible Astro Starter is a ready-to-use, SEO and accessibility-friendly blogging theme. It provides a solid foundation with numerous accessible components, Tailwind CSS integration, and example pages including a dynamic blog, 404 page, and MDX support.
+
+<div class="flex gap-2 mb-8">
+  <a href="https://github.com/markteekman/accessible-astro-starter" class="sl-flex">GitHub Repository</a>
+  <a href="https://accessible-astro.netlify.app/" class="sl-flex">Live Demo</a>
+</div>
+
+## Key Features
+
+- Built on Astro 5.0
+- Tailwind CSS integration
+- Markdown and MDX support
+- Excellent Lighthouse scores
+- ESLint with strict accessibility settings
+- Prettier integration
+- View Transitions support
+
+## Accessibility Features
+
+- Semantic HTML landmarks (`header`, `main`, `footer`, `nav`, etc.)
+- Proper heading hierarchy
+- ARIA attributes for enhanced screen reader support
+- Keyboard-accessible navigation with dropdown support
+- Skip links for main menu and content
+- Dark mode with system preference detection
+- Focus indicators that work on all backgrounds
+- Reduced motion preferences support
+- Screen reader only text utilities
+
+<Aside type="tip" title="Best Practice">
+  The theme follows WCAG guidelines and includes ESLint rules to help maintain accessibility standards in your code.
+</Aside>
+
+## Components
+
+The starter includes several pre-built accessible components:
+
+- Header with responsive navigation
+- Footer with customizable content
+- Skip links for keyboard users
+- Dark mode toggle
+- Responsive navigation toggle
+- SEO meta component
+- Dynamic blog pages with pagination
+- Custom 404 error page
+- And many more through the components package
+
+## Getting Started
+
+1. Clone the repository:
+```bash
+git clone https://github.com/markteekman/accessible-astro-starter.git
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start development server:
+```bash
+npm run dev
+```
+
+## Available Commands
+
+| Command | Action |
+|---------|--------|
+| `npm install` | Install dependencies |
+| `npm run dev` | Start dev server at `localhost:4321` |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+
+## Project Structure
+
+```plaintext
+/
+├── public/
+├── src/
+│   ├── assets/
+│   │   └── scss/
+│   ├── components/
+│   ├── layouts/
+│   ├── pages/
+│   └── content/
+└── package.json
+```
+
+<Aside type="note" title="View Transitions">
+  While the theme supports Astro's View Transitions, please review the accessibility considerations in the Astro documentation.
+</Aside>
+
+## Customization
+
+### Styling
+
+The theme uses Tailwind CSS with additional SCSS utilities:
+
+```scss
+// Example custom styles
+@layer base {
+  :root {
+    --color-primary: #4f46e5;
+    --color-secondary: #7c3aed;
+  }
+}
+```
+
+### Components
+
+Extend or modify existing components in the `src/components` directory:
+
+```astro
+---
+// src/components/Header.astro
+import Navigation from './Navigation.astro'
+---
+
+<header>
+  <Navigation />
+  <!-- Add your custom header content -->
+</header>
+```
+
+## Contributing
+
+Contributions are welcome! You can help improve this starter by:
+
+1. Filing an issue
+2. Submitting a pull request
+3. Starting a discussion
+4. Supporting the project
+
+<Aside type="tip" title="Getting Help">
+  If you find any issues or have questions, please open an issue on GitHub or start a discussion in the repository.
+</Aside>

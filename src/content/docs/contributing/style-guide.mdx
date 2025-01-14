@@ -1,0 +1,196 @@
+---
+title: Style guide
+description: Code and documentation standards for Accessible Astro Components and Themes.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Code style
+
+Maintaining consistent code style across the project helps make our codebase more readable and maintainable. We follow modern JavaScript and TypeScript conventions while prioritizing accessibility and performance.
+
+### TypeScript
+
+We use TypeScript to ensure type safety and better developer experience. Here are our TypeScript conventions:
+
+```typescript
+// Use interfaces for object definitions
+interface ButtonProps {
+  label: string;
+  onClick?: () => void;
+  variant?: 'primary' | 'secondary';
+}
+
+// Use type for unions or complex types
+type Theme = 'light' | 'dark' | 'system';
+
+// Use meaningful variable names
+const isMenuOpen = false; // ✅
+const x = false; // ❌
+```
+
+### Components
+
+Our components follow a consistent structure to make them easy to understand and maintain:
+
+```astro
+---
+// Imports at the top
+import { Button } from '../components/Button'
+
+// Props interface
+interface Props {
+  title: string;
+  description?: string;
+}
+
+// Destructure props
+const { title, description } = Astro.props
+---
+
+<!-- Template -->
+<div class="card">
+  <h2>{title}</h2>
+  {description && <p>{description}</p>}
+  <Button>Click me</Button>
+</div>
+
+<style>
+  /* Component styles */
+  .card {
+    /* Use logical properties */
+    margin-block: 1rem;
+    padding-inline: 1rem;
+  }
+</style>
+```
+
+### CSS
+
+We prioritize modern CSS practices with a focus on accessibility and maintainability:
+
+```css
+/* Use logical properties */
+.container {
+  margin-block: 1rem;
+  padding-inline: 1rem;
+  border-start: 1px solid;
+}
+
+/* Use CSS custom properties */
+.button {
+  --button-background: var(--color-primary);
+  --button-color: var(--color-white);
+  
+  background: var(--button-background);
+  color: var(--button-color);
+}
+
+/* Mobile-first approach */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+```
+
+## Documentation style
+
+Clear and consistent documentation helps both new contributors and users understand our project better. Here are our documentation guidelines:
+
+### Headers
+- Use sentence case for headers
+- Only capitalize proper nouns
+- No period at the end
+
+### Code examples
+- Include language identifier
+- Keep examples concise
+- Add comments for clarity
+- Use meaningful variable names
+
+### Lists
+- Use hyphen (-) for unordered lists
+- Use numbers for ordered lists
+- Capitalize first word
+- End with period if full sentence
+
+### Links
+- Use descriptive link text
+- Avoid "click here" or "read more"
+- Include relevant context
+
+<Aside type="tip" title="Link text">
+  Good: "Read our [accessibility guidelines](/accessibility)"
+  Bad: "Click [here](/accessibility) to read guidelines"
+</Aside>
+
+## Git commits
+
+### Commit messages
+- Use conventional commits
+- Start with type: `feat:`, `fix:`, `docs:`, etc.
+- Keep messages concise but descriptive
+- Reference issues when relevant
+
+```bash
+# Good
+feat: add dark mode support
+fix: resolve keyboard navigation in modal
+docs: update installation instructions
+
+# Bad
+update stuff
+fixed bug
+changes
+```
+
+### Branch names
+- Use kebab-case
+- Include type prefix
+- Be descriptive
+
+```bash
+# Good
+feat/add-dark-mode
+fix/modal-keyboard-nav
+docs/update-install-guide
+
+# Bad
+darkmode
+fix-stuff
+update
+```
+
+## File organization
+
+### Component files
+```bash
+src/components/
+├── Button/
+│   ├── Button.tsx
+│   ├── Button.css
+│   └── Button.test.ts
+├── Modal/
+│   ├── Modal.tsx
+│   ├── Modal.css
+│   └── Modal.test.ts
+```
+
+### Documentation files
+```bash
+docs/
+├── components/
+│   ├── button.mdx
+│   └── modal.mdx
+├── guides/
+│   ├── getting-started.mdx
+│   └── installation.mdx
+```
+
+<Aside type="note" title="Consistency">
+  Following these guidelines helps maintain consistency across the project and makes the codebase more maintainable.
+</Aside>
