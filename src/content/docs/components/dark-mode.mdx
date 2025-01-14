@@ -1,0 +1,95 @@
+---
+title: Dark mode
+description: A fully accessible dark mode toggle that respects user preferences and persists across page loads.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { DarkMode } from 'accessible-astro-components';
+
+## Introduction
+
+The Dark mode component provides a toggle for switching between light and dark color schemes. It uses system preferences, persists user choices, and follows accessibility best practices.
+
+## When to use
+
+- Website theming
+- User interface customization
+- Reducing eye strain in low-light conditions
+- Respecting user system preferences
+- Battery saving on OLED displays
+
+## Usage
+
+<Aside type="tip" title="Initial mode">
+  Use the `initialMode` prop to set the default color scheme. Options are 'light', 'dark', or 'auto' (uses system preference).
+</Aside>
+
+```astro
+---
+import { DarkMode } from 'accessible-astro-components'
+---
+
+<!-- Defaults to 'auto' mode -->
+<DarkMode />
+
+<!-- Force initial dark mode -->
+<DarkMode initialMode="dark" />
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `initialMode` | `'light' \| 'dark' \| 'auto'` | `'auto'` | Sets the initial color scheme mode |
+
+## Accessibility features
+
+- Uses semantic button element
+- Proper ARIA attributes (`aria-pressed`, `aria-label`)
+- Keyboard navigation support
+- Respects user's motion preferences
+- High contrast icons
+- Maintains focus states
+- Persists across page loads using `localStorage`
+
+## Styling
+
+<Tabs>
+  <TabItem label="CSS Custom Properties">
+    ```css
+    .darkmode-toggle {
+      --toggle-size: 2rem;
+      --toggle-padding: 0.5rem;
+      --toggle-color: var(--sl-color-gray-5);
+    }
+    ```
+  </TabItem>
+  <TabItem label="CSS Classes">
+    ```css
+    .darkmode-toggle {
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .darkmode-toggle svg {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    /* Applied to html element when dark mode is active */
+    .darkmode {
+      color-scheme: dark;
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive example
+
+<DarkMode />
+
+<Aside type="note" title="View transitions">
+  The component automatically handles Astro's view transitions using the `transition:persist` directive and `astro:after-swap` event listener.
+</Aside>

@@ -1,0 +1,100 @@
+---
+title: Skip Links
+description: A fully accessible skip links component that helps users bypass repetitive content and navigate directly to the main content.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { SkipLinks } from 'accessible-astro-components';
+
+## Introduction
+
+The Skip Links component provides a way for keyboard and screen reader users to bypass repetitive navigation elements and jump directly to the main content. It's a crucial accessibility feature that becomes visible only when focused.
+
+## When to use
+
+- At the top of every page
+- Before navigation menus
+- On pages with repetitive content
+- Any site that prioritizes keyboard accessibility
+- Content-heavy websites
+- Complex navigation structures
+
+<Aside type="caution" title="Required markup">
+  Your page must have either an element with `id="main-content"` or an `<h1>` element for the skip link to work properly.
+</Aside>
+
+## Usage
+
+```astro
+---
+import { SkipLinks } from 'accessible-astro-components'
+---
+
+<SkipLinks />
+
+<!-- Target element -->
+<main id="main-content">
+  <h1>Page Title</h1>
+  <!-- Your content -->
+</main>
+```
+
+## Accessibility features
+
+- Appears only when focused (visually hidden otherwise)
+- Provides keyboard-only navigation
+- Uses high contrast colors for visibility
+- Clear focus indicators
+- Semantic HTML structure
+- Proper focus management
+- Fallback to `<h1>` if main content ID is missing
+- Console warning if neither target is found
+
+## Styling
+
+<Tabs>
+  <TabItem label="CSS Custom Properties">
+    ```css
+    .skip-links {
+      --action-color: #222;
+      --background: #fff;
+      --skip-links-padding: 1rem 3.25rem;
+      --skip-links-radius: 6px;
+    }
+    ```
+  </TabItem>
+  <TabItem label="CSS Classes">
+    ```css
+    .skip-links a {
+      position: absolute;
+      z-index: 9999;
+      top: -100vh;
+      left: 0;
+      padding: 1rem 3.25rem;
+      border-bottom-right-radius: 6px;
+    }
+
+    .skip-links a:hover,
+    .skip-links a:focus {
+      top: 0;
+      outline-offset: 2px;
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive example
+
+<SkipLinks />
+
+<div style="margin-block: 1rem;">
+  <p>Tab through this page to see the skip link in action.</p>
+</div>
+
+<Aside type="tip" title="Best practice">
+  Place the Skip Links component as the first focusable element on your page, before any navigation or content.
+</Aside>
+
+<Aside type="note" title="Implementation note">
+  The component automatically handles focus management and keyboard interactions using the Enter key.
+</Aside>

@@ -1,0 +1,143 @@
+---
+title: Notification component
+description: A fully accessible notification component for displaying status messages, alerts, and feedback to users.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Notification } from 'accessible-astro-components';
+import { Icon } from 'astro-icon/components';
+
+## Introduction
+
+The Notification component provides a way to display important messages to users with different severity levels and proper ARIA attributes for accessibility. It supports various types of notifications and can be enhanced with icons.
+
+## When to use
+
+- Status updates
+- Success messages
+- Warning alerts
+- Error messages
+- Information notices
+- System feedback
+- Form submission results
+- Toast notifications
+
+<Aside type="tip" title="Dynamic notifications">
+  When adding notifications dynamically (after user interaction), use `role="status"` and `aria-live="polite"` to inform screen reader users.
+</Aside>
+
+## Usage
+
+```astro ins={13}
+---
+import { Notification } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+---
+
+<!-- Basic notification -->
+<Notification>
+  <p><strong>Message:</strong> This is a notification!</p>
+</Notification>
+
+<!-- With icon and type -->
+<Notification type="info" role="status">
+  <Icon name="ion:information-circle-outline" />
+  <p><strong>Info:</strong> This is an info notification.</p>
+</Notification>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `'info' \| 'success' \| 'warning' \| 'error' \| 'default'` | `'default'` | Sets the notification style and context |
+| `role` | `'none' \| 'alert' \| 'log' \| 'marquee' \| 'status' \| 'timer' \| 'region'` | `'none'` | ARIA role for the notification |
+| `ariaLive` | `'off' \| 'polite' \| 'assertive'` | `'off'` | Controls how screen readers announce updates |
+
+## Accessibility features
+
+- Different colors and icons for different notification types
+- Proper ARIA roles for dynamic content
+- High contrast colors meeting WCAG guidelines
+- Contextual information through clear labeling
+- Screen reader announcements for dynamic notifications
+
+## Styling
+
+<Tabs>
+  <TabItem label="CSS Custom Properties">
+    ```css
+    .notification {
+      --neutral-900: #202427;
+      --neutral-200: #f6f8f9;
+      --neutral-600: #858d93;
+      
+      --info-900: #035486;
+      --info-100: #e0f7ff;
+      --info-600: #1a91d1;
+      
+      --success-900: #014b3e;
+      --success-100: #eefcf6;
+      --success-500: #28a980;
+      
+      --warning-900: #8e2a0b;
+      --warning-100: #fffbeb;
+      --warning-600: #dc901e;
+      
+      --error-900: #5e0317;
+      --error-100: #ffe0e0;
+      --error-500: #df2a39;
+    }
+    ```
+  </TabItem>
+  <TabItem label="CSS Classes">
+    ```css
+    .notification {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      border-radius: 0.25rem;
+    }
+
+    .notification.type-info {
+      color: var(--info-900);
+      background-color: var(--info-100);
+      border-color: var(--info-600);
+    }
+
+    /* Additional type classes follow the same pattern */
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive example
+
+<Notification>
+  <Icon name="ion:notifications-outline" />
+  <p><strong>Message:</strong> This is a notification!</p>
+</Notification>
+
+<Notification type="info" role="status">
+  <Icon name="ion:information-circle-outline" />
+  <p><strong>Info:</strong> This is a notification of type info.</p>
+</Notification>
+
+<Notification type="success" role="status">
+  <Icon name="ion:checkbox-outline" />
+  <p><strong>Success:</strong> This is a notification of type success.</p>
+</Notification>
+
+<Notification type="warning" role="status">
+  <Icon name="ion:warning-outline" />
+  <p><strong>Warning:</strong> This is a notification of type warning.</p>
+</Notification>
+
+<Notification type="error" role="alert">
+  <Icon name="ion:alert-circle-outline" />
+  <p><strong>Error:</strong> This is a notification of type error.</p>
+</Notification>
+
+<Aside type="note" title="Icon integration">
+  The examples use Astro Icon for the notification icons, but you can use any icon system or custom icons.
+</Aside>

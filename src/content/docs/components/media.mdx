@@ -1,0 +1,108 @@
+---
+title: Media component
+description: A fully accessible media component for handling images with proper fallbacks and loading states.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Media } from 'accessible-astro-components';
+
+## Introduction
+
+The Media component provides a flexible way to display images while ensuring proper loading states, fallbacks, and accessibility features. It handles lazy loading and includes built-in error handling.
+
+## When to use
+
+- Responsive images
+- Blog post media
+- Product images
+- Background media
+- Any content requiring image display
+- Hero sections
+- Gallery items
+
+## Usage
+
+<Aside type="tip" title="Loading behavior">
+  The component uses native lazy loading by default for better performance, but this can be customized through props.
+</Aside>
+
+```astro
+---
+import { Media } from 'accessible-astro-components'
+---
+
+<Media 
+  src="/path/to/image.jpg" 
+  alt="Descriptive alt text"
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | `string` | required | URL or path to the image |
+| `alt` | `string` | `''` | Alternative text for the image (required for accessibility) |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+
+<Aside type="note" title="Coming soon">
+  Future updates will include:
+  - Video embed support with iframe title prop
+  - Customizable loading behavior (eager/lazy)
+  - Aspect ratio controls
+</Aside>
+
+## Accessibility features
+
+- Required `alt` text support for images
+- Loading states with appropriate ARIA attributes
+- High contrast fallback for loading states
+- Error states for failed image loads
+- Proper focus management
+
+## Styling
+
+<Tabs>
+  <TabItem label="CSS Custom Properties">
+    ```css
+    .media {
+      --media-radius: 0.5rem;
+      --media-shadow: none;
+      --media-loading-bg: var(--sl-color-gray-5);
+      --media-error-color: var(--sl-color-red-high);
+    }
+    ```
+  </TabItem>
+  <TabItem label="CSS Classes">
+    ```css
+    .media {
+      position: relative;
+      width: 100%;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    .media__image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .media--loading {
+      background: var(--media-loading-bg);
+      min-height: 200px;
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive example
+
+<Media 
+  src="https://picsum.photos/800/600" 
+  alt="A random example image from Lorem Picsum"
+/>
+
+<Aside type="note" title="Browser support">
+  The component uses native lazy loading with automatic fallbacks for older browsers.
+</Aside>

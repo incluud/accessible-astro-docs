@@ -1,0 +1,105 @@
+---
+title: Introduction
+description: A collection of accessible Astro components and themes that help you build inclusive websites faster.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Welcome to Accessible Astro
+
+Accessible Astro is a collection of accessible components and themes for your Astro projects. Built with both developers and users in mind, it helps you create inclusive websites that work for everyone.
+
+## Why Accessible Astro?
+
+Building accessible websites can be challenging. You need to consider:
+- ARIA attributes and roles
+- Keyboard navigation
+- Screen reader compatibility
+- Focus management
+- Color contrast
+- Motion preferences
+
+This is where Accessible Astro comes in with:
+
+### Components
+- Built following WAI-ARIA guidelines
+- Thoroughly tested with screen readers
+- Keyboard accessible
+- Styled with logical properties
+- Customizable through CSS custom properties
+- Well-documented with examples
+
+### Themes
+- Ready-to-use starter templates
+- Built-in accessibility features
+- Responsive layouts
+- Dark mode support
+- Performance optimized
+- SEO friendly
+
+## What's included
+
+### Components package
+- **Navigation**: Breadcrumbs, Skip Links
+- **Interactive elements**: Accordion, Modal, Tabs
+- **Media components**: Media, Card
+- **User interface**: Dark Mode, Notification, Pagination
+
+### Starter themes
+- **[Accessible Astro Starter](/themes/accessible-astro-starter)**: A minimal blog theme with all essential features
+- **[Accessible Astro Dashboard](/themes/accessible-astro-dashboard)**: A comprehensive admin dashboard theme
+
+<Aside type="tip" title="Getting help">
+  Need assistance? Check our [GitHub Discussions](https://github.com/markteekman/accessible-astro-components/discussions) or [open an issue](https://github.com/markteekman/accessible-astro-components/issues).
+</Aside>
+
+## Quick example
+
+Here's a quick example of using the Modal component:
+
+```astro
+---
+import { Modal } from 'accessible-astro-components'
+---
+
+<button id="modal-trigger">Open Modal</button>
+
+<Modal
+  triggerId="modal-trigger"
+  title="Welcome!"
+>
+  <p>This is an accessible modal dialog.</p>
+</Modal>
+```
+
+## Project goals
+
+1. **Accessibility first**: Everything follows accessibility best practices by default
+2. **Developer experience**: Clear documentation, TypeScript support, and intuitive APIs
+3. **User experience**: Smooth interactions, proper focus management, and responsive design
+4. **Customization**: Flexible styling options without compromising accessibility
+5. **Performance**: Lightweight solutions with no external dependencies
+
+<Aside type="note" title="TypeScript">
+  All components include TypeScript definitions for better development experience and type safety.
+</Aside>
+
+## Next steps
+
+- Follow the [Quick Start](/getting-started/quick-start) guide
+- Learn about [installation](/getting-started/installation) options
+- Explore the [components](/components/accordion)
+- Check out our [starter themes](/themes/accessible-astro-starter)
+
+## Community
+
+Join our growing community of developers building accessible websites with Astro:
+
+- Star us on GitHub:
+  - [Accessible Astro Components](https://github.com/markteekman/accessible-astro-components)
+  - [Accessible Astro Starter](https://github.com/markteekman/accessible-astro-starter)
+  - [Accessible Astro Dashboard](https://github.com/markteekman/accessible-astro-dashboard)
+- Join discussions in our GitHub Discussions:
+  - [Accessible Astro Components](https://github.com/markteekman/accessible-astro-components/discussions)
+  - [Accessible Astro Starter](https://github.com/markteekman/accessible-astro-starter/discussions)
+  - [Accessible Astro Dashboard](https://github.com/markteekman/accessible-astro-dashboard/discussions)

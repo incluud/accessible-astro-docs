@@ -1,0 +1,13 @@
+body {
+  .page {
+    @media (min-width: 50rem) {
+      details {
+        details {
+          summary span {
+            font-size: 85%;
+          }
+        }
+      }
+    }
+  }
+}

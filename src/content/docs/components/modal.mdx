@@ -1,0 +1,120 @@
+---
+title: Modal component
+description: A fully accessible modal dialog that uses the native dialog element with proper focus management and keyboard interactions.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Modal } from 'accessible-astro-components';
+
+## Introduction
+
+The Modal component provides a dialog window that appears on top of the main content, using the native HTML `<dialog>` element for built-in accessibility features. It includes smooth transitions, focus management, and keyboard interactions.
+
+## When to use
+
+- Confirmation dialogs
+- Important notifications
+- Form submissions
+- Image galleries
+- Terms and conditions
+- Cookie consent notices
+- Any content requiring immediate user attention
+
+<Aside type="caution" title="Use sparingly">
+  Modals can be disruptive to the user experience. Only use them when you need the user's immediate attention or action.
+</Aside>
+
+## Usage
+
+```astro
+---
+import { Modal } from 'accessible-astro-components'
+---
+
+<button id="modal-trigger">Open Modal</button>
+
+<Modal
+  triggerId="modal-trigger"
+  title="Welcome!"
+>
+  <p>This is the modal content.</p>
+  <button onclick="closeModal()">Confirm action</button>
+</Modal>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `triggerId` | `string` | required | ID of the button that triggers the modal |
+| `title` | `string` | required | Title text for the modal header |
+| `closeText` | `string` | `'Close'` | Text for the close button |
+
+## Accessibility features
+
+- Uses native `<dialog>` element for built-in accessibility
+- Proper focus management
+  - Focus is trapped inside the modal
+  - Returns focus to trigger element on close
+- Keyboard support
+  - Close with Escape key
+  - Tab/Shift+Tab for navigation
+- ARIA attributes
+  - `aria-labelledby` connects trigger to modal
+  - `aria-hidden` manages content visibility
+- Smooth transitions that respect reduced-motion preferences
+- Semantic HTML structure
+
+## Styling
+
+<Tabs>
+  <TabItem label="CSS Custom Properties">
+    ```css
+    .modal {
+      --translate-offset-y: 7.5vh;
+      /* Customize modal appearance */
+    }
+    ```
+  </TabItem>
+  <TabItem label="CSS Classes">
+    ```css
+    .modal {
+      position: fixed;
+      inset-block: 0;
+      inset-inline: 0;
+      margin: auto;
+      inline-size: min(80%, 450px);
+    }
+
+    .modal__inner {
+      position: relative;
+      padding: 2rem;
+    }
+
+    .modal__close {
+      position: absolute;
+      inset-inline-end: 1.5rem;
+      inset-block-start: 1.5rem;
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive example
+
+<button id="example-modal">Open Example Modal</button>
+
+<Modal
+  triggerId="example-modal"
+  title="Example Modal"
+>
+  <p>This is an example of the Modal component with its default styling.</p>
+</Modal>
+
+<Aside type="tip" title="Global close function">
+  The component exposes a global `closeModal()` function that you can use in your own buttons or callbacks.
+</Aside>
+
+<Aside type="note" title="View transitions">
+  The component automatically handles Astro's view transitions using the `astro:after-swap` event listener.
+</Aside>
