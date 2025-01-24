@@ -3,7 +3,7 @@ title: Installation
 description: Learn how to install and set up Accessible Astro Components and Themes in your project.
 ---
 
-import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 ## Installing components
 
@@ -67,32 +67,40 @@ After installing, you'll need to set up your project. The steps differ slightly 
 
 ### Components setup
 
+<Steps>
+
 1. Import the components you need:
-```astro
----
-import { Modal, Notification } from 'accessible-astro-components'
----
-```
+    ```astro
+    ---
+    import { Modal, Notification } from 'accessible-astro-components'
+    ---
+    ```
 
 2. Add the component to your template:
-```astro
-<Modal triggerId="modal" title="Welcome">
-  <p>Content goes here</p>
-</Modal>
-```
+    ```astro
+    <Modal triggerId="modal" title="Welcome">
+      <p>Content goes here</p>
+    </Modal>
+    ```
+
+</Steps>
 
 ### Theme setup
 
+<Steps>
+
 1. Install dependencies:
-```bash
-cd my-project
-npm install
-```
+    ```bash
+    cd my-project
+    npm install
+    ```
 
 2. Start development server:
-```bash
-npm run dev
-```
+    ```bash
+    npm run dev
+    ```
+
+</Steps>
 
 <Aside type="tip" title="Development">
   Your site will be available at `http://localhost:4321` by default.
@@ -154,5 +162,5 @@ npm install
 ```
 
 <Aside type="tip" title="Getting help">
-  If you run into issues, check our [GitHub Discussions](https://github.com/markteekman/accessible-astro-components/discussions) or [open an issue](https://github.com/markteekman/accessible-astro-components/issues).
+  Need assistance? Check our GitHub Discussions or open an issue on either the components or starter themes repository.
 </Aside>

@@ -3,38 +3,42 @@ title: Quick Start
 description: Get started with Accessible Astro Components and Themes in minutes.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Steps } from '@astrojs/starlight/components';
 
 ## Using components
 
 Our components package provides ready-to-use, accessible components that you can easily add to any Astro project. Here's how to get started:
 
-### 1. Install the package
+<Steps>
 
-```bash
-npm install accessible-astro-components
-```
+1. Install the package
 
-### 2. Import components
+    ```bash
+    npm install accessible-astro-components
+    ```
 
-```astro
----
-import { Modal, Notification } from 'accessible-astro-components'
----
-```
+2. Import components
 
-### 3. Use in your template
+    ```astro
+    ---
+    import { Modal, Notification } from 'accessible-astro-components'
+    ---
+    ```
 
-```astro
-<button id="modal-trigger">Open Modal</button>
+3. Use in your template
 
-<Modal
-  triggerId="modal-trigger"
-  title="Welcome!"
->
-  <p>You've successfully added your first accessible component!</p>
-</Modal>
-```
+    ```astro
+    <button id="modal-trigger">Open Modal</button>
+
+    <Modal
+      triggerId="modal-trigger"
+      title="Welcome!"
+    >
+      <p>You've successfully added your first accessible component!</p>
+    </Modal>
+    ```
+
+</Steps>
 
 <Aside type="tip" title="TypeScript">
   The package includes TypeScript definitions out of the box. No additional setup required!
@@ -48,41 +52,49 @@ If you're looking to kickstart a new project, our starter themes come with acces
 
 A minimal blog theme with all essential features for content-focused websites:
 
+<Steps>
+
 1. Clone the repository:
-```bash
-git clone https://github.com/markteekman/accessible-astro-starter.git my-project
-```
+    ```bash
+    git clone https://github.com/markteekman/accessible-astro-starter.git my-project
+    ```
 
 2. Install dependencies:
-```bash
-cd my-project
-npm install
-```
+    ```bash
+    cd my-project
+    npm install
+    ```
 
 3. Start developing:
-```bash
-npm run dev
-```
+    ```bash
+    npm run dev
+    ```
+
+</Steps>
 
 ### Accessible Astro Dashboard
 
 A comprehensive admin dashboard theme with authentication, navigation, and interactive components:
 
+<Steps>
+
 1. Clone the repository:
-```bash
-git clone https://github.com/markteekman/accessible-astro-dashboard.git my-dashboard
-```
+    ```bash
+    git clone https://github.com/markteekman/accessible-astro-dashboard.git my-dashboard
+    ```
 
 2. Install dependencies:
-```bash
-cd my-dashboard
-npm install
-```
+    ```bash
+    cd my-dashboard
+    npm install
+    ```
 
 3. Start developing:
-```bash
-npm run dev
-```
+    ```bash
+    npm run dev
+    ```
+
+</Steps>
 
 <Aside type="note" title="Authentication">
   The dashboard includes a demo login:

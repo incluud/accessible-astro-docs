@@ -1,7 +1,7 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
-import icon from 'astro-icon';
+import { defineConfig } from 'astro/config'
+import starlight from '@astrojs/starlight'
+import icon from 'astro-icon'
 
 // https://astro.build/config
 export default defineConfig({
@@ -30,6 +30,14 @@ export default defineConfig({
             {
               label: 'Why accessibility matters',
               link: '/getting-started/accessibility',
+            },
+            {
+              label: 'Accessibility testing',
+              link: '/getting-started/accessibility-testing',
+              badge: {
+                text: 'tip',
+                variant: 'note',
+              },
             },
             {
               label: 'Quick start guide',
@@ -66,6 +74,22 @@ export default defineConfig({
               link: '/components/accordion',
             },
             {
+              label: 'Avatar',
+              link: '/components/avatar',
+              badge: {
+                text: 'next',
+                variant: 'tip',
+              },
+            },
+            {
+              label: 'Badge',
+              link: '/components/badge',
+              badge: {
+                text: 'next',
+                variant: 'tip',
+              },
+            },
+            {
               label: 'Breadcrumbs',
               link: '/components/breadcrumbs',
             },
@@ -76,6 +100,22 @@ export default defineConfig({
             {
               label: 'DarkMode',
               link: '/components/dark-mode',
+            },
+            {
+              label: 'Drawer',
+              link: '/components/drawer',
+              badge: {
+                text: 'soon',
+                variant: 'caution',
+              },
+            },
+            {
+              label: 'Forms',
+              link: '/components/forms',
+              badge: {
+                text: 'soon',
+                variant: 'caution',
+              },
             },
             {
               label: 'Media',
@@ -100,6 +140,18 @@ export default defineConfig({
             {
               label: 'Tabs',
               link: '/components/tabs',
+            },
+            {
+              label: 'Test',
+              link: '/components/test',
+            },
+            {
+              label: 'Tooltip',
+              link: '/components/tooltip',
+              badge: {
+                text: 'soon',
+                variant: 'caution',
+              },
             },
           ],
         },
@@ -133,4 +185,4 @@ export default defineConfig({
     }),
     icon(),
   ],
-});
+})
