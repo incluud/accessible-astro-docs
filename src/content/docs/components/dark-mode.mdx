@@ -4,7 +4,9 @@ description: A fully accessible dark mode toggle that respects user preferences 
 ---
 
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
-import { DarkMode } from 'accessible-astro-components';
+// import { DarkMode } from 'accessible-astro-components';
+import DarkMode from '../../../components/DarkMode.astro';
+import { Icon } from 'astro-icon/components';
 
 ## Introduction
 
@@ -29,18 +31,25 @@ The Dark mode component provides a toggle for switching between light and dark c
 import { DarkMode } from 'accessible-astro-components'
 ---
 
-<!-- Defaults to 'auto' mode -->
+<!-- Default with system preference -->
 <DarkMode />
 
-<!-- Force initial dark mode -->
-<DarkMode initialMode="dark" />
+<!-- With custom icons -->
+<DarkMode>
+  <Icon name="ion:bulb" slot="light" />
+  <Icon name="ion:bulb-outline" slot="dark" />
+</DarkMode>
 ```
 
 ## Props
 
+<div class="props-wrapper"> 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `initialMode` | `'light' \| 'dark' \| 'auto'` | `'auto'` | Sets the initial color scheme mode |
+| `label` | `string` | `'Toggle Dark Mode'` | Accessible label for the toggle button |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
 
 ## Accessibility features
 
@@ -54,42 +63,71 @@ import { DarkMode } from 'accessible-astro-components'
 
 ## Styling
 
+Make the DarkMode component your own with custom styling while maintaining its accessibility features.
+
+<Aside type="caution" title="Accessibility considerations">
+  When applying custom styles, ensure they don't compromise accessibility by maintaining sufficient color contrast and touch target sizes.
+</Aside>
+
 <Tabs>
-  <TabItem label="CSS Custom Properties">
+  <TabItem label="Custom CSS">
     ```css
     .darkmode-toggle {
-      --toggle-size: 2rem;
-      --toggle-padding: 0.5rem;
-      --toggle-color: var(--sl-color-gray-5);
+      font-size: 1.125rem;
+      color: var(--sl-color-gray-5);
+    }
+
+    .darkmode-toggle:hover {
+      color: var(--sl-color-gray-2);
+    }
+
+    /* Dark mode styles applied to html element */
+    .darkmode {
+      color-scheme: dark;
+      background: #1a1a1a;
+      color: #ffffff;
     }
     ```
   </TabItem>
-  <TabItem label="CSS Classes">
-    ```css
-    .darkmode-toggle {
-      border: none;
-      background: none;
-      cursor: pointer;
-      padding: 0.5rem;
-    }
-
-    .darkmode-toggle svg {
-      width: 2rem;
-      height: 2rem;
-    }
-
-    /* Applied to html element when dark mode is active */
-    .darkmode {
-      color-scheme: dark;
-    }
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <DarkMode 
+      class="text-lg text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+    >
+      <Icon 
+        name="ion:sunny" 
+        slot="light"
+        class="w-6 h-6"
+      />
+      <Icon 
+        name="ion:moon" 
+        slot="dark"
+        class="w-6 h-6"
+      />
+    </DarkMode>
     ```
   </TabItem>
 </Tabs>
 
-## Interactive example
+## Interactive examples
 
-<DarkMode />
+See the DarkMode component in action with these practical examples demonstrating different variants and styling options.
 
 <Aside type="note" title="View transitions">
   The component automatically handles Astro's view transitions using the `transition:persist` directive and `astro:after-swap` event listener.
 </Aside>
+
+### Default Style
+
+<div class="not-content">
+  <DarkMode />
+</div>
+
+### With Custom Icons
+
+<div class="not-content">
+  <DarkMode>
+    <Icon name="ion:sunny" slot="light" />
+    <Icon name="ion:moon" slot="dark" />
+  </DarkMode>
+</div>

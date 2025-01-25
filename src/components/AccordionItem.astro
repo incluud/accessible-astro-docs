@@ -1,0 +1,193 @@
+---
+interface Props {
+  name?: string
+  title: string
+  class?: string
+  children: any
+  tagName?: string
+  variant?: 'default' | 'chevron'
+}
+
+const { name, title, class: classNames, tagName = 'h3', variant = 'default' } = Astro.props
+
+const Tag = tagName
+---
+
+<li class:list={['item', classNames]}>
+  <details class="wrapper" name={name} data-variant={variant}>
+    <summary class="title">
+      <Tag>
+        {
+          variant === 'chevron' ? (
+            <>
+              {title}
+              <span class="icon-chevron">
+                <svg
+                  aria-hidden="true"
+                  width="12"
+                  height="8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.4 1.6L6 6.2l4.6-4.6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </>
+          ) : (
+            <>
+              <span class="icon-plus">
+                <svg
+                  aria-hidden="true"
+                  width="20"
+                  height="2"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path fill="currentColor" d="M20 .5v1H0v-1z" />
+                </svg>
+                <svg width="2" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="currentColor" d="M1.5 20h-1V0h1z" />
+                </svg>
+              </span>
+              {title}
+            </>
+          )
+        }
+      </Tag>
+    </summary>
+    <div class="content">
+      <slot />
+    </div>
+  </details>
+</li>
+
+<style>
+  :where(.wrapper) {
+    border-block-start: 2px solid light-dark(#202020, #dddddd);
+    interpolate-size: allow-keywords;
+  }
+
+  .title h2,
+  .title h3,
+  .title h4,
+  .title h5,
+  .title h6 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-inline-size: 100%;
+    font-size: 1.25rem;
+    font-weight: normal;
+  }
+
+  .wrapper::details-content {
+    opacity: 0;
+    block-size: 0;
+    overflow-y: clip;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition:
+        content-visibility 0.2s allow-discrete,
+        opacity 0.2s ease-in-out,
+        block-size 0.2s ease-in-out;
+    }
+  }
+
+  :where(.wrapper[open])::details-content {
+    opacity: 1;
+    block-size: auto;
+  }
+
+  :where(.wrapper[data-variant='default']) .content {
+    padding: 0 0 1.5rem 2.2rem;
+  }
+
+  :where(.wrapper[data-variant='chevron']) {
+    .title h2,
+    .title h3,
+    .title h4,
+    .title h5,
+    .title h6 {
+      justify-content: space-between;
+    }
+
+    .content {
+      padding-block-end: 2.2rem;
+    }
+  }
+
+  :where(.title) {
+    display: flex;
+    padding-block: 0.75rem;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  :where(.title)::marker,
+  :where(.title)::-webkit-details-marker {
+    display: none;
+    content: '';
+  }
+
+  :where(.title:hover, .title:focus-visible) {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  :where(.icon-plus) {
+    position: relative;
+    display: inline-block;
+    block-size: 20px;
+    aspect-ratio: 1;
+  }
+
+  :where(.icon-plus svg) {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  :where(.icon-plus svg:first-of-type) {
+    inset-inline-start: 0;
+    transform: translateY(-50%);
+  }
+
+  :where(.icon-plus svg:last-of-type) {
+    transform: translateY(-50%) rotate(0deg);
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition:
+        transform 0.2s ease-in-out,
+        inset-block-start 0.2s ease-in-out;
+    }
+  }
+
+  :where(.icon-chevron) {
+    @media (prefers-reduced-motion: no-preference) {
+      transition: transform 0.2s ease-in-out;
+    }
+  }
+
+  :where(.content a) {
+    display: inline-block;
+  }
+
+  :where(.content > *:not(:first-child)) {
+    margin-block-start: 0.75rem;
+  }
+
+  :where(.wrapper[open]) .icon-plus svg:last-of-type {
+    transform: translateY(-50%) rotate(90deg);
+  }
+
+  :where(.wrapper[open]) .icon-chevron {
+    transform: scaleY(-1);
+  }
+</style>

@@ -1,0 +1,87 @@
+---
+interface Props {
+  href?: string
+  label: string
+  currentPage?: boolean
+  hasIcon?: boolean
+  class?: string
+}
+
+const {
+  href = '#',
+  label = 'Breadcrumb',
+  currentPage = false,
+  hasIcon = false,
+  class: classNames,
+} = Astro.props
+---
+
+<li class:list={['item', classNames]}>
+  {
+    currentPage ? (
+      <span aria-current="page" class:list={[hasIcon ? 'has-icon' : '']}>
+        {hasIcon ? (
+          <>
+            <slot name="icon" />
+            <span class="sr-only">{label}</span>
+          </>
+        ) : (
+          label
+        )}
+      </span>
+    ) : (
+      <a href={href} class:list={[hasIcon ? 'has-icon' : '']}>
+        {hasIcon ? (
+          <>
+            <slot name="icon" />
+            <span class="sr-only">{label}</span>
+          </>
+        ) : (
+          label
+        )}
+      </a>
+    )
+  }
+  <slot name="separator">
+    <span class="separator" aria-hidden="true">/</span>
+  </slot>
+</li>
+
+<style>
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .item :global(.separator) {
+    display: flex;
+    align-items: center;
+  }
+
+  .item :global(svg) {
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  li.item:last-child :global(.separator) {
+    display: none;
+  }
+
+  .has-icon :global(svg) {
+    display: flex;
+    align-items: center;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

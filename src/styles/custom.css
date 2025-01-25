@@ -11,3 +11,37 @@ body {
     }
   }
 }
+
+.props-wrapper {
+  position: relative;
+  min-inline-size: 100%;
+}
+
+/* Add subtle fade on the right when content is scrollable */
+.props-wrapper::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-start: 0;
+  inline-size: 2rem;
+  block-size: 100%;
+  background: linear-gradient(to right, transparent, var(--sl-color-bg) 90%);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+table {
+  font-size: 0.9375rem; /* Slightly smaller than default */
+  min-inline-size: 100%;
+}
+
+table thead,
+table tbody,
+table tr {
+  min-inline-size: 100%;
+}
+
+table td {
+  white-space: nowrap;
+}

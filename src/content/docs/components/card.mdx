@@ -3,8 +3,9 @@ title: Card
 description: A flexible and extensible content container that follows accessibility best practices.
 ---
 
-import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
-import { Card } from 'accessible-astro-components';
+import { Aside, Badge, Tabs, TabItem } from '@astrojs/starlight/components';
+// import { Card } from 'accessible-astro-components';
+import Card from '../../../components/Card.astro';
 
 ## Introduction
 
@@ -41,12 +42,15 @@ import { Card } from 'accessible-astro-components'
 
 ## Props
 
+<div class="props-wrapper">
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `url` | `string` | `''` | URL for the card's link wrapper |
 | `img` | `string` | `''` | Path to the card's image |
 | `title` | `string` | `''` | Title text for the card |
 | `class` | `string` | `''` | Additional CSS classes to apply to the card |
+| `tagName` | `string` | `'h3'` | HTML tag name for the title |
+</div>
 
 ## Accessibility features
 
@@ -59,22 +63,24 @@ import { Card } from 'accessible-astro-components'
 
 ## Styling
 
+Make the Card component your own with custom styling while maintaining its accessibility features.
+
+<Aside type="caution" title="Accessibility considerations">
+  When applying custom styles, ensure they don't compromise accessibility by maintaining sufficient color contrast and touch target sizes.
+</Aside>
+
 <Tabs>
-  <TabItem label="CSS Custom Properties">
-    ```css
-    .card {
-      --card-padding: 1rem;
-      --card-radius: 0.5rem;
-      --card-color: var(--sl-color-gray-5);
-      --card-bg: var(--sl-color-gray-7);
-    }
-    ```
-  </TabItem>
-  <TabItem label="CSS Classes">
+  <TabItem label="Custom CSS">
     ```css
     .card {
       border-radius: 0.5rem;
       overflow: hidden;
+      background: var(--sl-color-gray-7);
+      color: var(--sl-color-gray-1);
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     }
 
     .card__image {
@@ -87,18 +93,47 @@ import { Card } from 'accessible-astro-components'
     }
 
     .card__title {
-      margin-top: 0;
+      margin-block-start: 0;
+      font-size: 1.25rem;
     }
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <Card
+      class="rounded-lg overflow-hidden bg-white dark:bg-gray-800 hover:shadow-md"
+      title="Example Card"
+      url="#"
+      img="path/to/image.jpg"
+    >
+      <p class="text-gray-600 dark:text-gray-300">
+        Card content with Tailwind styling
+      </p>
+    </Card>
     ```
   </TabItem>
 </Tabs>
 
 ## Interactive example
 
-<Card
-  img="https://picsum.photos/800/600"
-  url="#"
-  title="Example card"
->
-  <p>This is an example of the Card component with an image, title, and custom content.</p>
-</Card>
+See the Card component in action with this example demonstrating different variants and styling options.
+
+### Default style
+
+<div class="not-content">
+  <Card
+    img="https://picsum.photos/800/600"
+    url="#"
+    title="Example card"
+  >This is an example of the Card component with an image, title, and custom content that demonstrates how the component handles different types of content while maintaining accessibility and visual appeal.</Card>
+</div>
+
+### With meta info
+
+<div class="not-content">
+  <Card
+    img="https://picsum.photos/800/600"
+    url="#"
+    title="Example card"
+  ><span slot="meta"><Badge text="Science" variant="tip" /><Badge text="Technology" variant="danger" /></span><p>This is an example of the Card component with an image, title, and custom content that shows how to use meta tags through the meta slot. The badges in the meta slot can be used to categorize or tag the card content.</p></Card>
+</div>

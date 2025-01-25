@@ -1,0 +1,170 @@
+---
+interface Props {
+  initialMode?: 'light' | 'dark' | 'auto'
+  label?: string
+  class?: string
+}
+
+const { initialMode = 'auto', label = 'Toggle Dark Mode', class: className } = Astro.props
+---
+
+<button
+  class:list={['darkmode-toggle', className]}
+  aria-pressed="false"
+  aria-label={label}
+  data-initial-mode={initialMode}
+  transition:persist
+>
+  <span class="icon icon-light">
+    <slot name="light">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M13 3a1 1 0 1 0-2 0v1a1 1 0 1 0 2 0V3zM5.707 4.293a1 1 0 0 0-1.414 1.414l1 1a1 1 0 0 0 1.414-1.414l-1-1zm14 0a1 1 0 0 0-1.414 0l-1 1a1 1 0 0 0 1.414 1.414l1-1a1 1 0 0 0 0-1.414zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm-9 4a1 1 0 1 0 0 2h1a1 1 0 1 0 0-2H3zm17 0a1 1 0 1 0 0 2h1a1 1 0 1 0 0-2h-1zM6.707 18.707a1 1 0 1 0-1.414-1.414l-1 1a1 1 0 1 0 1.414 1.414l1-1zm12-1.414a1 1 0 0 0-1.414 1.414l1 1a1 1 0 0 0 1.414-1.414l-1-1zM13 20a1 1 0 1 0-2 0v1a1 1 0 1 0 2 0v-1z"
+          fill="currentColor"></path>
+      </svg>
+    </slot>
+  </span>
+  <span class="icon icon-dark">
+    <slot name="dark">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M9.353 3C5.849 4.408 3 7.463 3 11.47A9.53 9.53 0 0 0 12.53 21c4.007 0 7.062-2.849 8.47-6.353C8.17 17.065 8.14 8.14 9.353 3z"
+        ></path>
+      </svg>
+    </slot>
+  </span>
+</button>
+
+<style>
+  :where(.darkmode-toggle) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+    border-radius: 0.5rem;
+    padding-block: 0.5rem;
+    padding-inline: 0.5rem;
+    background: transparent;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease-in-out;
+  }
+
+  :where(.darkmode-toggle:hover) {
+    box-shadow: 0 0 0 0.25rem;
+  }
+
+  :where(.darkmode-toggle:focus-visible) {
+    outline: none;
+    box-shadow: 0 0 0 0.25rem;
+  }
+
+  .icon {
+    display: flex;
+    block-size: 1.5rem;
+    inline-size: 1.5rem;
+  }
+
+  /* Target both default and slotted icons */
+  .icon svg,
+  .icon :global(svg) {
+    block-size: 100%;
+    inline-size: 100%;
+  }
+
+  /* Show/hide based on dark mode */
+  .icon-light {
+    display: none;
+  }
+
+  :global(.darkmode) .icon-light {
+    display: flex;
+  }
+
+  :global(.darkmode) .icon-dark {
+    display: none;
+  }
+</style>
+
+<script is:inline define:vars={{ initialMode }}>
+  // Only run once
+  if (!window.darkModeInitialized) {
+    window.darkModeInitialized = true
+
+    const root = document.documentElement
+    let darkMode = localStorage.getItem('darkMode')
+
+    const enableDarkMode = (store = true) => {
+      const darkModeToggles = document.querySelectorAll('.darkmode-toggle')
+      root.classList.add('darkmode')
+      root.style.colorScheme = 'dark'
+      darkModeToggles.forEach((toggle) => toggle.setAttribute('aria-pressed', 'true'))
+      if (store) localStorage.setItem('darkMode', 'enabled')
+    }
+
+    const disableDarkMode = (store = true) => {
+      const darkModeToggles = document.querySelectorAll('.darkmode-toggle')
+      root.classList.remove('darkmode')
+      root.style.colorScheme = 'light'
+      darkModeToggles.forEach((toggle) => toggle.setAttribute('aria-pressed', 'false'))
+      if (store) localStorage.setItem('darkMode', 'disabled')
+    }
+
+    const checkPreference = () => {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        enableDarkMode(false)
+      } else {
+        disableDarkMode(false)
+      }
+    }
+
+    const initializeDarkMode = () => {
+      if (darkMode) {
+        darkMode === 'enabled' ? enableDarkMode() : disableDarkMode()
+        return
+      }
+
+      switch (initialMode) {
+        case 'dark':
+          enableDarkMode()
+          break
+        case 'light':
+          disableDarkMode()
+          break
+        default: // 'auto'
+          checkPreference()
+      }
+    }
+
+    // execution
+    initializeDarkMode()
+
+    // Add click handlers to all toggles
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.darkmode-toggle')) {
+        darkMode = root.classList.contains('darkmode')
+        !darkMode ? enableDarkMode() : disableDarkMode()
+      }
+    })
+
+    // Listen for view transitions
+    document.addEventListener('astro:after-swap', () => {
+      darkMode = localStorage.getItem('darkMode')
+      initializeDarkMode()
+    })
+  }
+</script>

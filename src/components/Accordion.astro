@@ -1,0 +1,28 @@
+---
+import type { AccordionItem } from '.'
+
+interface Props {
+  class?: string
+  children: AccordionItem | AccordionItem[]
+}
+
+const { class: classNames } = Astro.props
+---
+
+<ul class:list={['accordion', classNames]}>
+  <slot />
+</ul>
+
+<style>
+  :where(.accordion) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  :global(.accordion > .item:first-child .wrapper) {
+    border-block-start: none;
+  }
+</style>

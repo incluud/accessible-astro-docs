@@ -1,0 +1,28 @@
+---
+import type { BreadcrumbsItem } from '.'
+
+interface Props {
+  class?: string
+  children: BreadcrumbsItem | BreadcrumbsItem[]
+  ariaLabel: string
+}
+
+const { class: classNames, ariaLabel = 'Breadcrumbs' } = Astro.props
+---
+
+<nav class:list={['breadcrumbs', classNames]} aria-label={ariaLabel}>
+  <ol>
+    <slot />
+  </ol>
+</nav>
+
+<style>
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+</style>

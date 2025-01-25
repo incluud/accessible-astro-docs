@@ -153,6 +153,14 @@ export default defineConfig({
                 variant: 'caution',
               },
             },
+            {
+              label: 'Video',
+              link: '/components/video',
+              badge: {
+                text: 'new!',
+                variant: 'success',
+              },
+            },
           ],
         },
         {

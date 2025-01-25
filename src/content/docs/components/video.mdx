@@ -1,0 +1,139 @@
+---
+title: Video
+description: A fully accessible video component that handles responsive video with customizable aspect ratios and loading strategies.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import Video from '../../../components/Video.astro';
+
+## Introduction
+
+The Video component provides a flexible way to embed videos while ensuring accessibility and proper aspect ratio handling. It includes special handling for YouTube videos to prevent keyboard traps and maintain WCAG compliance.
+
+<Aside type="note" title="Video platform support">
+  Currently, this component is optimized for YouTube embeds. Support for other platforms like Vimeo, Wistia, and self-hosted videos is planned for future releases. Feel free to contribute if you'd like to help expand platform support!
+</Aside>
+
+<Aside type="tip" title="Accessibility first">
+  Always ensure your videos include proper captions and audio descriptions. This component handles the technical accessibility aspects, but content accessibility is equally important!
+</Aside>
+
+## When to use
+
+The Video component is perfect for situations where you need embedded videos:
+
+- Product demonstrations
+- Tutorial videos
+- Background videos
+- Video testimonials
+- Course content
+- Marketing materials
+- YouTube embeds
+
+## Usage
+
+Learn how to implement the Video component in your project.
+
+### Basic
+
+```astro
+---
+import { Video } from 'accessible-astro-components'
+---
+
+<Video 
+  src="https://www.youtube.com/watch?v=aqz-KE-bpKQ"
+  title="Big Buck Bunny"
+  ratio="16:9"
+/>
+```
+
+### YouTube Specific
+
+<Aside type="note" title="YouTube Keyboard Handling">
+  When embedding YouTube videos, the component automatically adds `disablekb=1` to prevent YouTube's default keyboard shortcuts from interfering with your website's accessibility. If you've already included this parameter, the component will detect it and avoid duplication.
+</Aside>
+
+```astro
+<Video 
+  src="https://www.youtube.com/watch?v=aqz-KE-bpKQ"
+  title="Big Buck Bunny Official Short Film"
+  ratio="21:9"
+  loading="eager"
+/>
+```
+
+## Props
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | `string` | - | URL of the video (supports YouTube and direct embed URLs) |
+| `title` | `string` | - | Title for the video (required for accessibility) |
+| `ratio` | `'1:1' \| '4:3' \| '16:9' \| '21:9'` | `'16:9'` | Aspect ratio of the video |
+| `loading` | `'lazy' \| 'eager'` | `'lazy'` | iframe loading strategy |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
+
+## Accessibility
+
+The Video component prioritizes accessibility through several features:
+
+- Required title attribute for screen readers
+- Prevention of YouTube keyboard traps
+- Maintained aspect ratios to prevent layout shift
+- Proper iframe attributes for security
+- Semantic HTML structure
+
+<Aside type="caution" title="Content accessibility">
+  Remember to provide captions and audio descriptions for your videos. While this component handles technical accessibility, content accessibility requires proper video production.
+</Aside>
+
+## Styling
+
+Customize the Video component while maintaining its accessibility features.
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```css
+    .video-wrapper {
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <Video 
+      src="https://youtube.com/..."
+      title="Example Video"
+      class="rounded-lg overflow-hidden shadow-md"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive examples
+
+See the Video component in action with these practical examples.
+
+### Default YouTube Embed
+
+<Video 
+  src="https://www.youtube.com/watch?v=j8K-ESJF814&t=3s"
+  title="One year of Starlight: Astro's community-built documentation theme"
+  ratio="16:9"
+/>
+
+### Widescreen Format
+
+<Aside type="caution" title="Clipping in thumbnails">
+  Changing the aspect ratio can cause clipping in thumbnails.
+</Aside>
+
+<Video 
+  src="https://www.youtube.com/watch?v=tk1RWcasgxs&t=2s"
+  title="Astro Together keynote in 6 minutes"
+  ratio="21:9"
+/>

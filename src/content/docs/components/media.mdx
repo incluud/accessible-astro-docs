@@ -1,29 +1,40 @@
 ---
-title: Media component
-description: A fully accessible media component for handling images with proper fallbacks and loading states.
+title: Media
+description: A fully accessible media component that handles responsive images with customizable aspect ratios and loading strategies.
 ---
 
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
-import { Media } from 'accessible-astro-components';
+// import { Media } from 'accessible-astro-components';
+import Media from '../../../components/Media.astro';
 
 ## Introduction
 
-The Media component provides a flexible way to display images while ensuring proper loading states, fallbacks, and accessibility features. It handles lazy loading and includes built-in error handling.
+The Media component provides a flexible way to display images with built-in support for different aspect ratios and loading strategies. It uses semantic HTML and follows best practices for performance and accessibility.
+
+<Aside type="note" title="Astro's Image component">
+  Astro provides a powerful [Image component](https://docs.astro.build/en/guides/images/) with excellent image optimization capabilities. Our Media component complements Astro's ecosystem as part of our accessibility-focused component collection, offering ready-to-use defaults and aspect ratio handling that integrates seamlessly with other accessible-astro-components.
+</Aside>
 
 ## When to use
 
-- Responsive images
-- Blog post media
-- Product images
-- Background media
-- Any content requiring image display
-- Hero sections
-- Gallery items
+The Media component is perfect for situations where you need responsive images with controlled aspect ratios:
+
+- Hero images
+- Product galleries
+- Blog post featured images
+- Profile pictures
+- Background images
+- Above-the-fold content
+- Image-heavy layouts
 
 ## Usage
 
-<Aside type="tip" title="Loading behavior">
-  The component uses native lazy loading by default for better performance, but this can be customized through props.
+Learn how to implement the Media component in your project, from basic usage to advanced configurations.
+
+### Basic
+
+<Aside type="tip" title="Loading strategy">
+  Use the `loading` and `fetchpriority` props to optimize the loading behavior of above-the-fold images.
 </Aside>
 
 ```astro
@@ -32,77 +43,110 @@ import { Media } from 'accessible-astro-components'
 ---
 
 <Media 
-  src="/path/to/image.jpg" 
+  src="/path/to/image.jpg"
   alt="Descriptive alt text"
+  ratio="16:9"
+/>
+```
+
+### With Custom Loading
+
+```astro
+<Media 
+  src="/hero-image.jpg"
+  alt="Hero section image"
+  ratio="21:9"
+  loading="eager"
+  fetchpriority="high"
 />
 ```
 
 ## Props
 
+<div class="props-wrapper">
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `src` | `string` | required | URL or path to the image |
-| `alt` | `string` | `''` | Alternative text for the image (required for accessibility) |
+| `src` | `string` | `'https://fakeimg.pl/640x360'` | URL or path to the image |
+| `alt` | `string` | `''` | Alternative text for the image |
+| `ratio` | `'1:1' \| '4:3' \| '16:9' \| '21:9' \| 'auto'` | `'auto'` | Aspect ratio of the image |
+| `loading` | `'lazy' \| 'eager'` | `'lazy'` | Image loading strategy |
+| `decoding` | `'async' \| 'sync' \| 'auto'` | `'async'` | Image decoding behavior |
+| `fetchpriority` | `'high' \| 'low' \| 'auto'` | `'auto'` | Resource loading priority |
 | `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
 
-<Aside type="note" title="Coming soon">
-  Future updates will include:
-  - Video embed support with iframe title prop
-  - Customizable loading behavior (eager/lazy)
-  - Aspect ratio controls
-</Aside>
+## Accessibility
 
-## Accessibility features
+Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper image handling:
 
-- Required `alt` text support for images
-- Loading states with appropriate ARIA attributes
-- High contrast fallback for loading states
-- Error states for failed image loads
-- Proper focus management
+- Required `alt` text support
+- Maintains aspect ratio without layout shift
+- Proper loading states
+- Respects user's reduced data preferences
+- Semantic HTML structure
 
 ## Styling
 
+Make the Media component your own with custom styling while maintaining its accessibility features.
+
+<Aside type="caution" title="Accessibility considerations">
+  When applying custom styles, ensure they don't compromise accessibility by maintaining proper image visibility and loading states.
+</Aside>
+
 <Tabs>
-  <TabItem label="CSS Custom Properties">
+  <TabItem label="Custom CSS">
     ```css
-    .media {
-      --media-radius: 0.5rem;
-      --media-shadow: none;
-      --media-loading-bg: var(--sl-color-gray-5);
-      --media-error-color: var(--sl-color-red-high);
-    }
-    ```
-  </TabItem>
-  <TabItem label="CSS Classes">
-    ```css
-    .media {
-      position: relative;
-      width: 100%;
+    .media-wrapper {
       border-radius: 0.5rem;
       overflow: hidden;
     }
 
-    .media__image {
+    .media-wrapper img {
+      object-fit: cover;
       width: 100%;
-      height: auto;
-      display: block;
     }
-
-    .media--loading {
-      background: var(--media-loading-bg);
-      min-height: 200px;
-    }
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <Media 
+      src="/image.jpg"
+      alt="Example image"
+      class="rounded-lg overflow-hidden shadow-md"
+    />
     ```
   </TabItem>
 </Tabs>
 
-## Interactive example
+## Interactive examples
 
-<Media 
-  src="https://picsum.photos/800/600" 
-  alt="A random example image from Lorem Picsum"
-/>
+See the Media component in action with these practical examples demonstrating different aspect ratios and use cases.
 
-<Aside type="note" title="Browser support">
-  The component uses native lazy loading with automatic fallbacks for older browsers.
-</Aside>
+### Default Style
+
+<div class="not-content">
+  <Media 
+    src="https://picsum.photos/800/600"
+    alt="Example image with default settings"
+  />
+</div>
+
+### Square Aspect Ratio
+
+<div class="not-content">
+  <Media 
+    src="https://picsum.photos/800/800"
+    alt="Example image with 1:1 aspect ratio"
+    ratio="1:1"
+  />
+</div>
+
+### Widescreen Format
+
+<div class="not-content">
+  <Media 
+    src="https://picsum.photos/1920/1080"
+    alt="Example image in 16:9 format"
+    ratio="16:9"
+  />
+</div>
