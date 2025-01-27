@@ -1,0 +1,70 @@
+---
+interface Props {
+  /**
+   * Unique identifier for the tab
+   */
+  id: string
+  /**
+   * ID of the panel this tab controls
+   */
+  controls: string
+  /**
+   * Whether this tab is currently selected
+   */
+  selected?: boolean
+  /**
+   * Additional classes to apply to the tab
+   */
+  class?: string
+}
+
+const { id, controls, selected = false, class: className } = Astro.props
+---
+
+<button
+  id={id}
+  role="tab"
+  class:list={['tab', className]}
+  aria-controls={controls}
+  aria-selected={selected}
+  tabindex={selected ? 0 : -1}
+>
+  <slot />
+</button>
+
+<style>
+  :where(.tab) {
+    flex-grow: 1;
+    padding-block: 0.75rem;
+    padding-inline: 1rem;
+    border: 2px solid;
+    border-radius: 0.5rem;
+    border-color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+    background-color: transparent;
+    color: inherit;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: all 0.15s ease-in-out;
+    }
+  }
+
+  :where(.tab[aria-selected='true']),
+  :where(.tab:hover),
+  :where(.tab:focus-visible) {
+    color: light-dark(hsl(0 0% 100%), hsl(215 25% 27%));
+    background-color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+    border-color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+  }
+
+  @media (min-width: 31.25rem) {
+    :where(.tab) {
+      border-end-end-radius: 0;
+      border-end-start-radius: 0;
+      border-block-end: 0;
+    }
+  }
+</style>

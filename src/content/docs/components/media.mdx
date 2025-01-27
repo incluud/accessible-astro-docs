@@ -96,15 +96,59 @@ Make the Media component your own with custom styling while maintaining its acce
 <Tabs>
   <TabItem label="Custom CSS">
     ```css
-    .media-wrapper {
-      border-radius: 0.5rem;
-      overflow: hidden;
-    }
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.media) {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background: light-dark(hsl(204 20% 94%), hsl(215 25% 15%));
+      }
 
-    .media-wrapper img {
-      object-fit: cover;
-      width: 100%;
-    }
+      :global(.media img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.2s ease;
+      }
+
+      :global(.media:hover img) {
+        transform: scale(1.05);
+      }
+
+      :global(.media[data-loading="true"])::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: light-dark(hsl(204 10% 90% / 0.5), hsl(215 15% 15% / 0.5));
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .media {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background: light-dark(hsl(204 20% 94%), hsl(215 25% 15%));
+      }
+
+      .media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.2s ease;
+      }
+
+      .media:hover img {
+        transform: scale(1.05);
+      }
+
+      .media[data-loading="true"]::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: light-dark(hsl(204 10% 90% / 0.5), hsl(215 15% 15% / 0.5));
+      }
+    </style>
     ```
   </TabItem>
   <TabItem label="Tailwind Classes">
@@ -112,11 +156,15 @@ Make the Media component your own with custom styling while maintaining its acce
     <Media 
       src="/image.jpg"
       alt="Example image"
-      class="rounded-lg overflow-hidden shadow-md"
+      class="rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 hover:scale-105 transition-transform duration-200"
     />
     ```
   </TabItem>
 </Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
 
 ## Interactive examples
 
@@ -126,7 +174,7 @@ See the Media component in action with these practical examples demonstrating di
 
 <div class="not-content">
   <Media 
-    src="https://picsum.photos/800/600"
+    src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=80&w=800"
     alt="Example image with default settings"
   />
 </div>
@@ -135,7 +183,7 @@ See the Media component in action with these practical examples demonstrating di
 
 <div class="not-content">
   <Media 
-    src="https://picsum.photos/800/800"
+    src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=80&w=800"
     alt="Example image with 1:1 aspect ratio"
     ratio="1:1"
   />
@@ -145,7 +193,7 @@ See the Media component in action with these practical examples demonstrating di
 
 <div class="not-content">
   <Media 
-    src="https://picsum.photos/1920/1080"
+    src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=80&w=800"
     alt="Example image in 16:9 format"
     ratio="16:9"
   />

@@ -96,11 +96,35 @@ Customize the Video component while maintaining its accessibility features.
 <Tabs>
   <TabItem label="Custom CSS">
     ```css
-    .video-wrapper {
-      border-radius: 0.5rem;
-      overflow: hidden;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    }
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.video-wrapper) {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      }
+
+      :global(.video-wrapper iframe) {
+        aspect-ratio: var(--ratio);
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .video-wrapper {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      }
+
+      .video-wrapper iframe {
+        aspect-ratio: var(--ratio);
+        width: 100%;
+        height: 100%;
+      }
+    </style>
     ```
   </TabItem>
   <TabItem label="Tailwind Classes">
@@ -113,6 +137,10 @@ Customize the Video component while maintaining its accessibility features.
     ```
   </TabItem>
 </Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
 
 ## Interactive examples
 

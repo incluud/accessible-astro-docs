@@ -1,0 +1,30 @@
+---
+interface Props {
+  /**
+   * Additional classes to apply to the tabs list container
+   */
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<div class:list={['tabs-list', className]} role="tablist">
+  <slot />
+</div>
+
+<style>
+  :where(.tabs-list) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.5rem;
+    margin-block-end: 0.5rem;
+  }
+
+  @media (min-width: 500px) {
+    :where(.tabs-list) {
+      margin-block-end: 0;
+    }
+  }
+</style>

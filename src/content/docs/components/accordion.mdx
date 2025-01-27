@@ -119,24 +119,40 @@ The Accordion component is built with accessibility in mind:
 
 ## Styling
 
-Make the Accordion component your own with custom styling while maintaining its accessibility features. Choose between traditional CSS classes or Tailwind utilities.
+Make the Accordion component your own with custom styling while maintaining its accessibility features.
 
 <Aside type="caution" title="Accessibility considerations">
-  When applying custom styles, ensure they don't compromise accessibility by regularly testing your changes by doing manual and automated accessibility audits.
+  When applying custom styles, ensure they don't compromise accessibility by regularly testing your changes with manual and automated accessibility audits.
 </Aside>
 
 <Tabs>
-  <TabItem label="Custom CSS Class">
+  <TabItem label="Custom CSS">
     ```css
-    .my-custom-accordion .title {
-      font-size: 1.5rem;
-      color: purple;
-    }
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.accordion .title) {
+        font-size: 1.5rem;
+        color: var(--sl-color-purple-600);
+      }
 
-    .my-custom-accordion .content {
-      padding: 2rem;
-      background: #f5f5f5;
-    }
+      :global(.accordion .content) {
+        padding: 2rem;
+        background: light-dark(hsl(204 20% 94%), hsl(215 25% 15%));
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .accordion .title {
+        font-size: 1.5rem;
+        color: var(--sl-color-purple-600);
+      }
+
+      .accordion .content {
+        padding: 2rem;
+        background: light-dark(hsl(204 20% 94%), hsl(215 25% 15%));
+      }
+    </style>
     ```
   </TabItem>
   <TabItem label="Tailwind Classes">
@@ -144,7 +160,7 @@ Make the Accordion component your own with custom styling while maintaining its 
     <Accordion class="border-2 border-dashed border-yellow-400 rounded-lg p-4">
       <AccordionItem 
         title="Styled with Tailwind" 
-        class="hover:bg-yellow-50"
+        class="hover:bg-yellow-50 dark:hover:bg-yellow-900"
       >
         Content
       </AccordionItem>
@@ -152,6 +168,10 @@ Make the Accordion component your own with custom styling while maintaining its 
     ```
   </TabItem>
 </Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
 
 ## Interactive examples
 

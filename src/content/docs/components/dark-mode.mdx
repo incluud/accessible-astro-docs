@@ -72,21 +72,43 @@ Make the DarkMode component your own with custom styling while maintaining its a
 <Tabs>
   <TabItem label="Custom CSS">
     ```css
-    .darkmode-toggle {
-      font-size: 1.125rem;
-      color: var(--sl-color-gray-5);
-    }
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.darkmode-toggle) {
+        font-size: 1.125rem;
+        color: light-dark(hsl(215 8% 45%), hsl(215 8% 65%));
+      }
 
-    .darkmode-toggle:hover {
-      color: var(--sl-color-gray-2);
-    }
+      :global(.darkmode-toggle:hover) {
+        color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+      }
 
-    /* Dark mode styles applied to html element */
-    .darkmode {
-      color-scheme: dark;
-      background: #1a1a1a;
-      color: #ffffff;
-    }
+      /* Dark mode styles applied to html element */
+      :global(.darkmode) {
+        color-scheme: dark;
+        background: hsl(0 0% 10%);
+        color: hsl(0 0% 100%);
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .darkmode-toggle {
+        font-size: 1.125rem;
+        color: light-dark(hsl(215 8% 45%), hsl(215 8% 65%));
+      }
+
+      .darkmode-toggle:hover {
+        color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+      }
+
+      /* Dark mode styles applied to html element */
+      .darkmode {
+        color-scheme: dark;
+        background: hsl(0 0% 10%);
+        color: hsl(0 0% 100%);
+      }
+    </style>
     ```
   </TabItem>
   <TabItem label="Tailwind Classes">
@@ -108,6 +130,10 @@ Make the DarkMode component your own with custom styling while maintaining its a
     ```
   </TabItem>
 </Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
 
 ## Interactive examples
 

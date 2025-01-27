@@ -4,26 +4,31 @@ description: A fully accessible pagination component for navigating through mult
 ---
 
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
-import { Pagination } from 'accessible-astro-components';
+// import { Pagination } from 'accessible-astro-components';
+import Pagination from '../../../components/Pagination.astro';
 
 ## Introduction
 
-The Pagination component provides a navigation system for multi-page content with first, previous, next, and last page controls. It includes proper ARIA labels and keyboard navigation support.
+The Pagination component provides a navigation system for multi-page content with first, previous, next, and last page controls. It's built with accessibility in mind, featuring proper ARIA labels, keyboard navigation, and clear visual states.
 
 ## When to use
+
+Use the Pagination component when you need to split content across multiple pages:
 
 - Blog post listings
 - Search results
 - Product catalogs
 - Image galleries
 - Data tables
-- Any content split across multiple pages
+- Long form content
 
 <Aside type="tip" title="Progressive enhancement">
-  The component disables navigation controls when no valid URL is provided, ensuring a good user experience even at page boundaries.
+  The component automatically disables navigation controls when no valid URL is provided, ensuring a good user experience even at page boundaries.
 </Aside>
 
 ## Usage
+
+Learn how to implement the Pagination component in your project:
 
 ```astro
 ---
@@ -37,79 +42,9 @@ import { Pagination } from 'accessible-astro-components'
   lastPage="/blog/12"
   currentPage="5"
   totalPages="12"
+  ariaLabel="Blog navigation"
 />
 ```
-
-## Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `firstPage` | `string \| null \| undefined` | `'#'` | URL for the first page, falsy value disables the control |
-| `previousPage` | `string \| null \| undefined` | `'#'` | URL for the previous page, falsy value disables the control |
-| `nextPage` | `string \| null \| undefined` | `'#'` | URL for the next page, falsy value disables the control |
-| `lastPage` | `string \| null \| undefined` | `'#'` | URL for the last page, falsy value disables the control |
-| `currentPage` | `string \| number` | `'1'` | Current page number |
-| `totalPages` | `string \| number` | `'12'` | Total number of pages |
-| `renderProgress` | `Function` | `undefined` | Custom function to render the progress text |
-
-## Accessibility features
-
-- Semantic `<nav>` element with proper `aria-label`
-- Clear visual indication of disabled controls
-- Descriptive ARIA labels for navigation buttons
-- Keyboard navigation support
-- High contrast icons
-- Clear focus indicators
-- Proper button states
-
-## Styling
-
-<Tabs>
-  <TabItem label="CSS Custom Properties">
-    ```css
-    .pagination {
-      --pagination-gap: 1rem;
-      --pagination-border-width: 2px;
-      --pagination-radius: 3px;
-      --pagination-hover-bg: orange;
-      --pagination-disabled-opacity: 0.5;
-    }
-    ```
-  </TabItem>
-  <TabItem label="CSS Classes">
-    ```css
-    .pagination__list {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .pagination a,
-    .pagination .disabled {
-      display: block;
-      border-width: 2px;
-      border-style: solid;
-      border-radius: 3px;
-    }
-
-    .pagination .disabled {
-      border-color: grey;
-      opacity: 0.5;
-    }
-    ```
-  </TabItem>
-</Tabs>
-
-## Interactive example
-
-<Pagination 
-  firstPage="#first"
-  previousPage="#prev"
-  nextPage="#next"
-  lastPage="#last"
-  currentPage="5"
-  totalPages="12"
-/>
 
 <Aside type="note" title="Custom progress text">
   You can customize the progress text using the `renderProgress` prop:
@@ -121,3 +56,121 @@ import { Pagination } from 'accessible-astro-components'
   />
   ```
 </Aside>
+
+## Props
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `firstPage` | `string \| null \| undefined` | `'#'` | URL for the first page, falsy value disables the control |
+| `previousPage` | `string \| null \| undefined` | `'#'` | URL for the previous page, falsy value disables the control |
+| `nextPage` | `string \| null \| undefined` | `'#'` | URL for the next page, falsy value disables the control |
+| `lastPage` | `string \| null \| undefined` | `'#'` | URL for the last page, falsy value disables the control |
+| `currentPage` | `string \| number` | `'1'` | Current page number |
+| `totalPages` | `string \| number` | `'12'` | Total number of pages |
+| `renderProgress` | `Function` | See description | Custom function to render the progress text |
+| `ariaLabel` | `string` | `'Pagination'` | Accessible label for the navigation |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
+
+## Accessibility
+
+The Pagination component prioritizes accessibility through several features:
+
+- Semantic `<nav>` element with descriptive `aria-label`
+- Clear visual indication of disabled controls
+- Descriptive ARIA labels for navigation buttons
+- Keyboard navigation support
+- High contrast icons and text
+- Clear focus indicators
+- Proper disabled states
+
+<Aside type="tip" title="Screen readers">
+  The component uses descriptive ARIA labels like "Go to first page" to ensure clear navigation for screen reader users.
+</Aside>
+
+## Styling
+
+<Aside type="caution" title="Maintain accessibility">
+  When customizing styles, ensure you maintain sufficient color contrast ratios and don't remove focus indicators or other accessibility features.
+</Aside>
+
+The component includes built-in styling with light and dark mode support. You can customize its appearance while maintaining accessibility:
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```css
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.pagination .list) {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      :global(.pagination a),
+      :global(.pagination .disabled) {
+        display: flex;
+        place-items: center;
+        inline-size: 2rem;
+        block-size: 2rem;
+        border: 2px solid;
+        border-radius: 0.25rem;
+      }
+
+      :global(.pagination a) {
+        border-color: light-dark(hsl(204 8% 40%), hsl(215 25% 65%));
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .pagination .list {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .pagination a,
+      .pagination .disabled {
+        display: flex;
+        place-items: center;
+        inline-size: 2rem;
+        block-size: 2rem;
+        border: 2px solid;
+        border-radius: 0.25rem;
+      }
+
+      .pagination a {
+        border-color: light-dark(hsl(204 8% 40%), hsl(215 25% 65%));
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <Pagination 
+      class="rounded-lg shadow-md"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
+
+## Interactive example
+
+See the Pagination component in action with this practical example:
+
+<div class="not-content">
+  <Pagination 
+    firstPage="#first"
+    previousPage="#prev"
+    nextPage="#next"
+    lastPage="#last"
+    currentPage="5"
+    totalPages="12"
+  />
+</div>

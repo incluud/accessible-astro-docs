@@ -1,0 +1,67 @@
+---
+interface Props {
+  text?: string
+  target?: string
+  class?: string
+}
+
+const { text = 'Skip to main content', target = '#main-content', class: className } = Astro.props
+---
+
+<div class:list={['skip-links', className]}>
+  <a href={target}>{text}</a>
+</div>
+
+<script is:inline define:vars={{ target }}>
+  // variables
+  const skipLink = document.querySelector('.skip-links a')
+
+  // execution
+  skipLink.addEventListener('keydown', (event) => {
+    if (!event.target.closest('a')) return
+    const key = event.key
+
+    if (key !== 'Enter') return
+    event.preventDefault()
+
+    if (document.querySelector(target)) {
+      const targetElement = document.querySelector(target)
+      targetElement.setAttribute('tabindex', '-1')
+      targetElement.focus()
+    } else if (!document.querySelector(target) && document.querySelector('h1')) {
+      const h1 = document.querySelector('h1')
+      h1.setAttribute('tabindex', '-1')
+      h1.focus()
+    } else {
+      console.warn('SkipLinks are not set, either missing an h1 or main content id on the page.')
+    }
+  })
+</script>
+
+<style>
+  :where(.skip-links a) {
+    position: absolute;
+    z-index: 9999;
+    inset-block-start: -100vh;
+    inset-inline-start: 0;
+    padding-block: 1rem;
+    padding-inline: 3.25rem;
+    border-end-end-radius: 0.5rem;
+    background: light-dark(hsl(0 0% 100%), hsl(215 25% 15%));
+    color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+    transition: inset-block-start 0.2s ease-in-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(.skip-links a) {
+      transition: none;
+    }
+  }
+
+  :where(.skip-links a:hover),
+  :where(.skip-links a:focus-visible) {
+    inset-block-start: 0;
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+</style>

@@ -1,0 +1,311 @@
+---
+interface Props {
+  class?: string
+  triggerId: string
+  title: string
+  closeText?: string
+  closeIcon?: boolean
+  children?: HTMLElement | HTMLElement[]
+}
+
+const { class: className, triggerId, title, closeText = 'Close', closeIcon = true } = Astro.props
+---
+
+<dialog class:list={['modal', className]} aria-labelledby={triggerId}>
+  <div class="modal-inner">
+    <div class="modal-content">
+      <h3 tabindex="-1" autofocus>
+        {title}
+      </h3>
+      <slot>Modal description.</slot>
+    </div>
+    <div class="modal-close">
+      <button>
+        {
+          closeIcon && (
+            <span class="modal-close-icon">
+              <svg width="20" height="2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor" d="M20 .5v1H0v-1z" />
+              </svg>
+              <svg width="20" height="2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor" d="M20 .5v1H0v-1z" />
+              </svg>
+            </span>
+          )
+        }
+        <span class="sr-only">{closeText}</span>
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  type FocusableElement =
+    | HTMLAnchorElement
+    | HTMLButtonElement
+    | HTMLInputElement
+    | HTMLTextAreaElement
+    | HTMLSelectElement
+    | HTMLDetailsElement
+
+  // variables
+  let modals = document.querySelectorAll<HTMLDialogElement>('.modal')
+
+  // abort controllers for global event listeners
+  let trapFocusController: AbortController | undefined
+  let keydownController: AbortController | undefined
+
+  const getKeyboardFocusableElements = (element: HTMLElement) => {
+    return [
+      ...element.querySelectorAll<FocusableElement>(
+        'a, button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])',
+      ),
+    ].filter((el) => !el.hasAttribute('disabled'))
+  }
+
+  const trapFocus = (event: KeyboardEvent, modal: HTMLDialogElement) => {
+    const focusables = getKeyboardFocusableElements(modal)
+
+    // These will not be undefined as a modal always has at least one <button>
+    const firstFocusable = focusables[0]!
+    const lastFocusable = focusables[focusables.length - 1]!
+
+    if (document.activeElement === lastFocusable && event.key === 'Tab' && !event.shiftKey) {
+      event.preventDefault()
+      firstFocusable.focus()
+    }
+
+    if (document.activeElement === firstFocusable && event.key === 'Tab' && event.shiftKey) {
+      event.preventDefault()
+      lastFocusable.focus()
+    }
+  }
+
+  const openModal = (modal: HTMLDialogElement) => {
+    const modalInner = modal.querySelector<HTMLDivElement>('.modal-inner')
+
+    modal.showModal()
+
+    trapFocusController = new AbortController()
+    keydownController = new AbortController()
+
+    document.addEventListener('keydown', (e) => trapFocus(e, modal), {
+      signal: trapFocusController.signal,
+    })
+
+    modal.addEventListener(
+      'click',
+      () => {
+        closeModal()
+      },
+      { signal: keydownController.signal },
+    )
+
+    modalInner!.addEventListener(
+      'click',
+      (event) => {
+        event.stopPropagation()
+      },
+      { signal: keydownController.signal },
+    )
+  }
+
+  const closeModal = () => {
+    modals.forEach((modal) => {
+      const modalId = modal.getAttribute('aria-labelledby')
+      const modalTrigger = document.querySelector(`#${modalId}`) as HTMLButtonElement
+      modalTrigger.focus({ preventScroll: true })
+      modal.close()
+      trapFocusController?.abort()
+      keydownController?.abort()
+    })
+  }
+
+  // execution
+  modals.forEach((modal) => {
+    const modalId = modal.getAttribute('aria-labelledby')
+    const modalCloseButton = modal.querySelector('.modal-close button')
+    const modalTrigger = document.querySelector(`#${modalId}`)
+
+    if (!modalTrigger) {
+      throw new Error(`Trigger element not found. \n
+      Did you forget to add a trigger element with id: "${modalId}"?`)
+    }
+
+    modalTrigger.addEventListener('click', () => openModal(modal))
+    modalCloseButton!.addEventListener('click', closeModal)
+  })
+
+  window.closeModal = closeModal
+
+  // Listen for view transitions
+  document.addEventListener('astro:after-swap', () => {
+    // reset variables
+    modals = document.querySelectorAll<HTMLDialogElement>('.modal')
+
+    // execution
+    modals.forEach((modal) => {
+      const modalId = modal.getAttribute('aria-labelledby')
+      const modalCloseButton = modal.querySelector('.modal-close button')
+      const modalTrigger = document.querySelector(`#${modalId}`)
+
+      if (!modalTrigger) {
+        throw new Error(`Trigger element not found. \n
+      Did you forget to add a trigger element with id: "${modalId}"?`)
+      }
+
+      modalTrigger.addEventListener('click', () => openModal(modal))
+      modalCloseButton!.addEventListener('click', closeModal)
+    })
+  })
+</script>
+
+<style>
+  :where(.modal) {
+    --translate-offset-y: 7.5vh;
+
+    position: fixed;
+    inset: 0;
+    padding: 0;
+    margin: auto;
+    inline-size: min(80%, 450px);
+    border: 2px solid light-dark(hsl(0 0% 13%), hsl(0 0% 94%));
+    border-radius: 0.5rem;
+    opacity: 0;
+    overscroll-behavior-block: contain;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition-property: display, opacity, translate, overlay;
+      transition-duration: 0.3s;
+      transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+      transition-behavior: allow-discrete;
+      translate: 0 var(--translate-offset-y);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  }
+
+  .modal[open] {
+    display: block;
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  @starting-style {
+    .modal[open] {
+      opacity: 0;
+      translate: 0 calc(var(--translate-offset-y) * -1);
+    }
+
+    .modal[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  .modal[open]::backdrop {
+    opacity: 1;
+  }
+
+  .modal::backdrop {
+    opacity: 0;
+    background-color: rgba(0 0 0 / 0.5);
+    backdrop-filter: blur(5px);
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition-property: display, opacity, overlay;
+      transition-duration: 0.3s;
+      transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+      transition-behavior: allow-discrete;
+    }
+  }
+
+  .modal-content {
+    padding: 2rem;
+    background-color: light-dark(hsl(204 20% 94%), hsl(215 25% 15%));
+  }
+
+  .modal-content h3 {
+    font-size: 1.5rem;
+  }
+
+  :global(.modal-content > *:not(:first-child)) {
+    margin-block-start: 0.75rem;
+  }
+
+  .modal-close {
+    position: absolute;
+    inset-inline-end: 1.5rem;
+    inset-block-start: 1.5rem;
+    align-self: flex-end;
+  }
+
+  .modal-close button {
+    display: flex;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease-in-out;
+  }
+
+  :where(.modal-close button:hover) {
+    box-shadow: 0 0 0 0.25rem;
+  }
+
+  :where(.modal-close button:focus-visible) {
+    outline: none;
+    box-shadow: 0 0 0 0.25rem;
+  }
+
+  .modal-close-icon {
+    position: relative;
+    display: inline-block;
+    block-size: 20px;
+    aspect-ratio: 1;
+
+    svg {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+
+      &:first-of-type {
+        transform: rotate(45deg);
+      }
+
+      &:last-of-type {
+        transform: rotate(-45deg);
+
+        @media (prefers-reduced-motion: no-preference) {
+          transition: transform 0.2s ease-in-out;
+        }
+      }
+    }
+  }
+
+  .modal-close button:where(:hover, :focus-visible) {
+    .modal-close-icon {
+      svg:first-of-type {
+        transform: rotate(0deg);
+      }
+
+      svg:last-of-type {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  body:has(dialog[open]) {
+    overflow-y: clip;
+  }
+</style>

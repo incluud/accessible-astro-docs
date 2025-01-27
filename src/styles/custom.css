@@ -45,3 +45,10 @@ table tr {
 table td {
   white-space: nowrap;
 }
+
+.skip-links a {
+  position: relative;
+  display: inline-block;
+  inset-block-start: 0;
+  margin-block: 1rem;
+}

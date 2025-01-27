@@ -120,28 +120,71 @@ Make the Breadcrumbs component your own with custom styling while maintaining it
 <Tabs>
   <TabItem label="Custom CSS">
     ```css
-    .breadcrumbs {
-      font-size: 1.125rem;
-      color: var(--sl-color-gray-5);
-    }
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.breadcrumbs .list) {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-    .breadcrumbs a:hover {
-      text-decoration: underline;
-    }
+      :global(.breadcrumbs a) {
+        color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+        text-decoration: none;
+      }
+
+      :global(.breadcrumbs a:hover) {
+        text-decoration: underline;
+      }
+
+      :global(.breadcrumbs .separator) {
+        color: light-dark(hsl(215 8% 45%), hsl(215 8% 65%));
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .breadcrumbs .list {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .breadcrumbs a {
+        color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+        text-decoration: none;
+      }
+
+      .breadcrumbs a:hover {
+        text-decoration: underline;
+      }
+
+      .breadcrumbs .separator {
+        color: light-dark(hsl(215 8% 45%), hsl(215 8% 65%));
+      }
+    </style>
     ```
   </TabItem>
   <TabItem label="Tailwind Classes">
     ```astro
-    <Breadcrumbs class="text-lg text-gray-600 dark:text-gray-400">
+    <Breadcrumbs class="text-gray-600 dark:text-gray-400">
       <BreadcrumbsItem 
         href="/" 
         label="Home"
-        class="hover:text-primary-600"
-      />
+        class="hover:text-gray-900 dark:hover:text-gray-100"
+      >
+        <span slot="separator" class="text-gray-400 dark:text-gray-600">
+          <Icon name="ion:chevron-forward" />
+        </span>
+      </BreadcrumbsItem>
     </Breadcrumbs>
     ```
   </TabItem>
 </Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
 
 ## Interactive examples
 
@@ -157,7 +200,7 @@ See the Breadcrumbs component in action with these practical examples demonstrat
   </Breadcrumbs>
 </div>
 
-### With Home Icon
+### With home icon
 
 <div class="not-content">
   <Breadcrumbs>
@@ -169,7 +212,7 @@ See the Breadcrumbs component in action with these practical examples demonstrat
   </Breadcrumbs>
 </div>
 
-### Custom Separator
+### Custom separator
 
 <div class="not-content">
   <Breadcrumbs>

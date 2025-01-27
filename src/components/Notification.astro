@@ -1,0 +1,67 @@
+---
+interface Props {
+  type?: 'info' | 'success' | 'warning' | 'error' | 'default'
+  role?: 'none' | 'alert' | 'log' | 'marquee' | 'status' | 'timer' | 'region'
+  ariaLive?: 'off' | 'polite' | 'assertive'
+  message?: string
+  class?: string
+  children?: any
+}
+
+const {
+  type = 'default',
+  role = 'none',
+  ariaLive = 'off',
+  message = 'This is a notification!',
+  class: className,
+} = Astro.props
+---
+
+<aside class:list={['notification', `type-${type}`, className]} role={role} aria-live={ariaLive}>
+  <slot>
+    <p><strong>Message:</strong> {message}</p>
+  </slot>
+</aside>
+
+<style>
+  :where(.notification) {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    color: light-dark(hsl(204 8% 14%), hsl(0 0% 100%));
+    background-color: light-dark(hsl(200 20% 97%), hsl(215 25% 13%));
+    border: 2px solid light-dark(hsl(204 8% 55%), hsl(215 15% 45%));
+    border-radius: 0.25rem;
+  }
+
+  :where(.type-info) {
+    color: light-dark(hsl(200 96% 27%), hsl(0 0% 100%));
+    background-color: light-dark(hsl(198 100% 94%), hsl(234 54% 20%));
+    border-color: light-dark(hsl(200 78% 46%), hsl(234 100% 60%));
+  }
+
+  :where(.type-success) {
+    color: light-dark(hsl(170 96% 15%), hsl(0 0% 100%));
+    background-color: light-dark(hsl(160 71% 96%), hsl(101 39% 22%));
+    border-color: light-dark(hsl(160 61% 41%), hsl(101 82% 63%));
+  }
+
+  :where(.type-warning) {
+    color: light-dark(hsl(15 85% 30%), hsl(0 0% 100%));
+    background-color: light-dark(hsl(48 100% 96%), hsl(41 39% 22%));
+    border-color: light-dark(hsl(35 75% 49%), hsl(41 82% 63%));
+  }
+
+  :where(.type-error) {
+    color: light-dark(hsl(350 94% 19%), hsl(0 0% 100%));
+    background-color: light-dark(hsl(0 100% 94%), hsl(339 39% 22%));
+    border-color: light-dark(hsl(355 73% 51%), hsl(339 82% 63%));
+  }
+
+  :where(.notification [data-icon]) {
+    flex-shrink: 0;
+    inline-size: 2.5rem;
+    block-size: auto;
+  }
+</style>

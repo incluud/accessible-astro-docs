@@ -50,56 +50,6 @@ const { initialMode = 'auto', label = 'Toggle Dark Mode', class: className } = A
   </span>
 </button>
 
-<style>
-  :where(.darkmode-toggle) {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid;
-    border-radius: 0.5rem;
-    padding-block: 0.5rem;
-    padding-inline: 0.5rem;
-    background: transparent;
-    cursor: pointer;
-    transition: box-shadow 0.15s ease-in-out;
-  }
-
-  :where(.darkmode-toggle:hover) {
-    box-shadow: 0 0 0 0.25rem;
-  }
-
-  :where(.darkmode-toggle:focus-visible) {
-    outline: none;
-    box-shadow: 0 0 0 0.25rem;
-  }
-
-  .icon {
-    display: flex;
-    block-size: 1.5rem;
-    inline-size: 1.5rem;
-  }
-
-  /* Target both default and slotted icons */
-  .icon svg,
-  .icon :global(svg) {
-    block-size: 100%;
-    inline-size: 100%;
-  }
-
-  /* Show/hide based on dark mode */
-  .icon-light {
-    display: none;
-  }
-
-  :global(.darkmode) .icon-light {
-    display: flex;
-  }
-
-  :global(.darkmode) .icon-dark {
-    display: none;
-  }
-</style>
-
 <script is:inline define:vars={{ initialMode }}>
   // Only run once
   if (!window.darkModeInitialized) {
@@ -168,3 +118,53 @@ const { initialMode = 'auto', label = 'Toggle Dark Mode', class: className } = A
     })
   }
 </script>
+
+<style>
+  :where(.darkmode-toggle) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+    border-radius: 0.5rem;
+    padding-block: 0.5rem;
+    padding-inline: 0.5rem;
+    background: transparent;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease-in-out;
+  }
+
+  :where(.darkmode-toggle:hover) {
+    box-shadow: 0 0 0 0.25rem;
+  }
+
+  :where(.darkmode-toggle:focus-visible) {
+    outline: none;
+    box-shadow: 0 0 0 0.25rem;
+  }
+
+  .icon {
+    display: flex;
+    block-size: 1.5rem;
+    inline-size: 1.5rem;
+  }
+
+  /* Target both default and slotted icons */
+  .icon svg,
+  .icon :global(svg) {
+    block-size: 100%;
+    inline-size: 100%;
+  }
+
+  /* Show/hide based on dark mode */
+  .icon-light {
+    display: none;
+  }
+
+  :global(.darkmode) .icon-light {
+    display: flex;
+  }
+
+  :global(.darkmode) .icon-dark {
+    display: none;
+  }
+</style>

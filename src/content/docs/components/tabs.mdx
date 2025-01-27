@@ -4,7 +4,11 @@ description: A fully accessible tabs component that follows WAI-ARIA guidelines 
 ---
 
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
-import { Tabs as AccessibleTabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components';
+// import { Tabs as AccessibleTabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components';
+import AccessibleTabs from '../../../components/Tabs.astro';
+import TabsList from '../../../components/TabsList.astro';
+import TabsTab from '../../../components/TabsTab.astro';
+import TabsPanel from '../../../components/TabsPanel.astro';
 
 ## Introduction
 
@@ -12,18 +16,22 @@ The Tabs component provides a way to organize content into different sections th
 
 ## When to use
 
-- Organizing related content into sections
-- Switching between different views
-- Form sections
-- Product details pages
-- Settings panels
-- Dashboard sections
+Use the Tabs component when you need to:
+
+- Organize related content into sections
+- Switch between different views
+- Present form sections
+- Display product details
+- Show settings panels
+- Structure dashboard sections
+
+## Usage
+
+The Tabs component consists of four parts: the container, list wrapper, individual tabs, and their corresponding panels.
 
 <Aside type="tip" title="Progressive enhancement">
   The component uses JavaScript for enhanced functionality but maintains a logical structure even without it.
 </Aside>
-
-## Usage
 
 ```astro
 ---
@@ -32,20 +40,21 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
 
 <Tabs>
   <TabsList>
-    <TabsTab id="tab1" controls="panel1" selected>Tab 1</TabsTab>
-    <TabsTab id="tab2" controls="panel2">Tab 2</TabsTab>
-    <TabsTab id="tab3" controls="panel3">Tab 3</TabsTab>
+    <TabsTab id="tab1" controls="panel1" selected>First tab</TabsTab>
+    <TabsTab id="tab2" controls="panel2">Second tab</TabsTab>
+    <TabsTab id="tab3" controls="panel3">Third tab</TabsTab>
   </TabsList>
+
   <TabsPanel id="panel1" labelledby="tab1" selected>
-    <h2>Panel 1</h2>
+    <h2>First panel</h2>
     <p>Content for first panel</p>
   </TabsPanel>
   <TabsPanel id="panel2" labelledby="tab2">
-    <h2>Panel 2</h2>
+    <h2>Second panel</h2>
     <p>Content for second panel</p>
   </TabsPanel>
   <TabsPanel id="panel3" labelledby="tab3">
-    <h2>Panel 3</h2>
+    <h2>Third panel</h2>
     <p>Content for third panel</p>
   </TabsPanel>
 </Tabs>
@@ -53,15 +62,17 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
 
 ## Props
 
+Each component in the Tabs system accepts specific props:
+
 ### Tabs
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `class` | `string` | `undefined` | Optional CSS class name |
+| `class` | `string` | `undefined` | Additional CSS classes to apply |
 
 ### TabsList
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `class` | `string` | `undefined` | Optional CSS class name |
+| `class` | `string` | `undefined` | Additional CSS classes to apply |
 
 ### TabsTab
 | Prop | Type | Default | Description |
@@ -69,7 +80,7 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
 | `id` | `string` | Required | Unique identifier for the tab |
 | `controls` | `string` | Required | ID of the panel this tab controls |
 | `selected` | `boolean` | `false` | Whether this tab is initially selected |
-| `class` | `string` | `undefined` | Optional CSS class name |
+| `class` | `string` | `undefined` | Additional CSS classes to apply |
 
 ### TabsPanel
 | Prop | Type | Default | Description |
@@ -77,9 +88,11 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
 | `id` | `string` | Required | Unique identifier for the panel |
 | `labelledby` | `string` | Required | ID of the tab that labels this panel |
 | `selected` | `boolean` | `false` | Whether this panel is initially visible |
-| `class` | `string` | `undefined` | Optional CSS class name |
+| `class` | `string` | `undefined` | Additional CSS classes to apply |
 
 ## Accessibility features
+
+The Tabs component prioritizes accessibility through several features:
 
 - Proper ARIA roles (`tablist`, `tab`, `tabpanel`)
 - Keyboard navigation:
@@ -93,64 +106,120 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
 
 ## Styling
 
+The Tabs component comes with a default style that supports both light and dark modes.
+
+<Aside type="caution" title="Accessibility considerations">
+  When customizing styles, ensure you maintain sufficient color contrast ratios and don't remove focus indicators.
+</Aside>
+
 <Tabs>
-  <TabItem label="CSS Custom Properties">
+  <TabItem label="Custom CSS">
     ```css
-    .tabs {
-      --tab-padding: 1rem;
-      --tab-gap: 0.5rem;
-      --tab-border-width: 2px;
-      --tab-radius: 6px;
-      --tab-color-active: light-dark(#f0f0f0, #202020);
-      --tab-bg-active: light-dark(#202020, #dddddd);
-    }
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.tab) {
+        flex-grow: 1;
+        padding-block: 0.75rem;
+        padding-inline: 1rem;
+        border: 2px solid;
+        border-radius: 0.5rem;
+        border-color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+        background-color: transparent;
+        color: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      :global(.tab[aria-selected='true']),
+      :global(.tab:hover),
+      :global(.tab:focus-visible) {
+        color: light-dark(hsl(0 0% 100%), hsl(215 25% 27%));
+        background-color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+      }
+
+      :global(.tab-panel) {
+        display: flex;
+        flex-direction: column;
+        min-block-size: 10rem;
+        padding: 2rem;
+        border: 2px solid;
+        border-color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+        border-end-end-radius: 0.5rem;
+        border-end-start-radius: 0.5rem;
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .tab {
+        /* Same as above */
+      }
+
+      .tab[aria-selected='true'],
+      .tab:hover,
+      .tab:focus-visible {
+        /* Same as above */
+      }
+
+      .tab-panel {
+        /* Same as above */
+      }
+    </style>
     ```
   </TabItem>
-  <TabItem label="CSS Classes">
-    ```css
-    .tab {
-      flex-grow: 1;
-      border: 2px solid;
-      border-radius: 6px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .tab-panel {
-      display: flex;
-      flex-direction: column;
-      min-block-size: 10em;
-      padding: 2rem;
-    }
-
-    .tab-panel[aria-hidden='true'] {
-      display: none;
-    }
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <Tabs class="w-full">
+      <TabsList class="flex gap-2">
+        <TabsTab 
+          class="flex-1 px-4 py-2 font-bold rounded-t border-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+          id="tab1" 
+          controls="panel1" 
+          selected
+        >
+          Tab 1
+        </TabsTab>
+      </TabsList>
+      <TabsPanel 
+        class="p-4 border-2 rounded-b min-h-[10rem]"
+        id="panel1" 
+        labelledby="tab1" 
+        selected
+      >
+        Panel content
+      </TabsPanel>
+    </Tabs>
     ```
   </TabItem>
 </Tabs>
 
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
+
 ## Interactive example
 
-<AccessibleTabs>
-  <TabsList>
-    <TabsTab id="example-tab1" controls="example-panel1" selected>First Tab</TabsTab>
-    <TabsTab id="example-tab2" controls="example-panel2">Second Tab</TabsTab>
-    <TabsTab id="example-tab3" controls="example-panel3">Third Tab</TabsTab>
-  </TabsList>
-  <TabsPanel id="example-panel1" labelledby="example-tab1" selected>
-    <h3>First Panel</h3>
-    <p>This is the content of the first panel. Try using the arrow keys to navigate between tabs!</p>
-  </TabsPanel>
-  <TabsPanel id="example-panel2" labelledby="example-tab2">
-    <h3>Second Panel</h3>
-    <p>Content for the second panel. Notice how the focus management works when tabbing through.</p>
-  </TabsPanel>
-  <TabsPanel id="example-panel3" labelledby="example-tab3">
-    <h3>Third Panel</h3>
-    <p>And here's the third panel. The component handles all the ARIA attributes automatically.</p>
-  </TabsPanel>
-</AccessibleTabs>
+<div class="not-content">
+  <AccessibleTabs>
+    <TabsList>
+      <TabsTab id="example-tab1" controls="example-panel1" selected>First tab</TabsTab>
+      <TabsTab id="example-tab2" controls="example-panel2">Second tab</TabsTab>
+      <TabsTab id="example-tab3" controls="example-panel3">Third tab</TabsTab>
+    </TabsList>
+    <TabsPanel id="example-panel1" labelledby="example-tab1" selected>
+      <h3>First panel</h3>
+      <p>Try using the arrow keys to navigate between tabs!</p>
+    </TabsPanel>
+    <TabsPanel id="example-panel2" labelledby="example-tab2">
+      <h3>Second panel</h3>
+      <p>Notice how the focus management works when tabbing through.</p>
+    </TabsPanel>
+    <TabsPanel id="example-panel3" labelledby="example-tab3">
+      <h3>Third panel</h3>
+      <p>The component handles all the ARIA attributes automatically.</p>
+    </TabsPanel>
+  </AccessibleTabs>
+</div>
 
 <Aside type="note" title="Implementation note">
   The component automatically handles keyboard interactions and focus management. Use unique IDs for tabs and panels to ensure proper relationships.

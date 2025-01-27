@@ -72,30 +72,61 @@ Make the Card component your own with custom styling while maintaining its acces
 <Tabs>
   <TabItem label="Custom CSS">
     ```css
-    .card {
-      border-radius: 0.5rem;
-      overflow: hidden;
-      background: var(--sl-color-gray-7);
-      color: var(--sl-color-gray-1);
-    }
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.card) {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background: light-dark(hsl(204 20% 94%), hsl(215 25% 15%));
+        color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+      }
 
-    .card:hover {
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    }
+      :global(.card:hover) {
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      }
 
-    .card__image {
-      aspect-ratio: 16/9;
-      object-fit: cover;
-    }
+      :global(.card__image) {
+        aspect-ratio: 16/9;
+        object-fit: cover;
+      }
 
-    .card__content {
-      padding: 1rem;
-    }
+      :global(.card__content) {
+        padding: 1rem;
+      }
 
-    .card__title {
-      margin-block-start: 0;
-      font-size: 1.25rem;
-    }
+      :global(.card__title) {
+        margin-block-start: 0;
+        font-size: 1.25rem;
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .card {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background: light-dark(hsl(204 20% 94%), hsl(215 25% 15%));
+        color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+      }
+
+      .card:hover {
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      }
+
+      .card__image {
+        aspect-ratio: 16/9;
+        object-fit: cover;
+      }
+
+      .card__content {
+        padding: 1rem;
+      }
+
+      .card__title {
+        margin-block-start: 0;
+        font-size: 1.25rem;
+      }
+    </style>
     ```
   </TabItem>
   <TabItem label="Tailwind Classes">
@@ -114,6 +145,10 @@ Make the Card component your own with custom styling while maintaining its acces
   </TabItem>
 </Tabs>
 
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
+
 ## Interactive example
 
 See the Card component in action with this example demonstrating different variants and styling options.
@@ -122,7 +157,7 @@ See the Card component in action with this example demonstrating different varia
 
 <div class="not-content">
   <Card
-    img="https://picsum.photos/800/600"
+    img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=80&w=800"
     url="#"
     title="Example card"
   >This is an example of the Card component with an image, title, and custom content that demonstrates how the component handles different types of content while maintaining accessibility and visual appeal.</Card>
@@ -132,7 +167,7 @@ See the Card component in action with this example demonstrating different varia
 
 <div class="not-content">
   <Card
-    img="https://picsum.photos/800/600"
+    img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=80&w=800"
     url="#"
     title="Example card"
   ><span slot="meta"><Badge text="Science" variant="tip" /><Badge text="Technology" variant="danger" /></span><p>This is an example of the Card component with an image, title, and custom content that shows how to use meta tags through the meta slot. The badges in the meta slot can be used to categorize or tag the card content.</p></Card>

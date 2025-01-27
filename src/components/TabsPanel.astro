@@ -1,0 +1,56 @@
+---
+interface Props {
+  /**
+   * Unique identifier for the panel
+   */
+  id: string
+  /**
+   * ID of the tab that labels this panel
+   */
+  labelledby: string
+  /**
+   * Whether this panel is currently selected
+   */
+  selected?: boolean
+  /**
+   * Additional classes to apply to the panel
+   */
+  class?: string
+}
+
+const { id, labelledby, selected = false, class: className } = Astro.props
+---
+
+<div
+  class:list={['tab-panel', className]}
+  role="tabpanel"
+  id={id}
+  aria-labelledby={labelledby}
+  aria-hidden={!selected}
+>
+  <slot />
+</div>
+
+<style>
+  :where(.tab-panel) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    color: inherit;
+    border: 2px solid;
+    border-color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+    border-end-end-radius: 0.5rem;
+    border-end-start-radius: 0.5rem;
+    min-block-size: 10rem;
+    padding: 2rem;
+  }
+
+  :where(.tab-panel[aria-hidden='true']) {
+    display: none;
+  }
+
+  :where(.tab-panel > :not(:first-child)) {
+    margin-block-start: 0.5rem;
+  }
+</style>

@@ -14,7 +14,9 @@ export default defineConfig({
         replacesTitle: true,
       },
       social: {
+        blueSky: 'https://bluesky.social/u/incluud.dev',
         github: 'https://github.com/incluud',
+        openCollective: 'https://opencollective.com/incluud',
       },
       editLink: {
         baseUrl: 'https://github.com/incluud/astro-docs/edit/main/',
@@ -142,10 +144,6 @@ export default defineConfig({
               link: '/components/tabs',
             },
             {
-              label: 'Test',
-              link: '/components/test',
-            },
-            {
               label: 'Tooltip',
               link: '/components/tooltip',
               badge: {
@@ -183,7 +181,7 @@ export default defineConfig({
               link: '/contributing/issues',
             },
             {
-              label: 'Supporting the project',
+              label: '❤️ Supporting the project',
               link: '/contributing/support-us',
             },
           ],
