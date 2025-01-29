@@ -1,104 +1,163 @@
 ---
 title: How to contribute
-description: Learn how you can contribute to Accessible Astro Components and make the web more accessible.
+description: Learn how you can contribute to the Accessible Astro ecosystem and make the web more accessible.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Steps } from '@astrojs/starlight/components';
 
 ## Ways to contribute
 
-There are many ways to contribute to Accessible Astro:
+Contributing to open source can seem daunting at first, but there are many ways to help! Whether you're a developer, designer, writer, or just someone who uses our components and themes, your contributions are valuable to making the web more accessible.
 
 1. **Code contributions**
-   - Fix bugs
-   - Add new features
+   - Fix bugs in components or themes
+   - Add new features or components
    - Improve documentation
    - Write tests
+   - Enhance accessibility
+   - Improve performance
+   - Create new theme variations
 
 2. **Documentation**
    - Fix typos
-   - Add examples
+   - Add examples and use cases
    - Clarify explanations
    - Translate content
+   - Add theme customization guides
+   - Improve code comments
+   - Add component demos
 
 3. **Issue reporting**
-   - Report bugs
-   - Suggest features
-   - Share use cases
-   - Ask questions
+   - Report bugs in components
+   - Report theme compatibility issues
+   - Suggest new features or components
+   - Share theme customizations
+   - Report accessibility issues
+   - Test in different browsers
+   - Test theme responsiveness
 
 4. **Community support**
    - Answer questions
    - Share knowledge
    - Review pull requests
-   - Help others
+   - Help others with theme customization
+   - Share your theme variations
+   - Write blog posts or tutorials
+   - Create video content
 
 ## Getting started
 
+Ready to contribute? Great! Follow these steps to set up your development environment and make your first contribution. Don't worry if you're new to this – we're here to help you succeed.
+
+<Steps>
 1. Fork the repository you want to contribute to:
+   
+   **Components:**
    - [Accessible Astro Components](https://github.com/markteekman/accessible-astro-components)
+   
+   **Themes:**
    - [Accessible Astro Starter](https://github.com/markteekman/accessible-astro-starter)
    - [Accessible Astro Dashboard](https://github.com/markteekman/accessible-astro-dashboard)
+   
+   **Documentation:**
+   - [Accessible Astro Docs](https://github.com/incluud/accessible-astro-docs)
 
 2. Clone your fork:
-```bash
-git clone https://github.com/YOUR-USERNAME/REPO-NAME.git
-```
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/REPO-NAME.git
+   ```
 
 3. Create a new branch:
-```bash
-git checkout -b fix/issue-description
-```
+   ```bash
+   git checkout -b fix/issue-description
+   ```
+
+4. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
+</Steps>
 
 <Aside type="tip" title="Branch naming">
-  Use prefixes like `fix/`, `feature/`, or `docs/` to categorize your changes.
+  Use prefixes like `fix/`, `feature/`, `docs/`, or `theme/` to categorize your changes. For example:
+  - `fix/modal-focus-trap`
+  - `feature/new-component`
+  - `docs/improve-examples`
+  - `theme/add-blog-layout`
 </Aside>
 
 ## Making changes
+
+Once your environment is set up, you can start making changes. We have some guidelines to ensure consistency and quality across all contributions.
 
 1. Follow our [development guidelines](/contributing/development)
 2. Make your changes
 3. Add or update tests if needed
 4. Update documentation if needed
 5. Follow our [style guide](/contributing/style-guide)
+6. Run tests: `npm run test` (components only)
+7. Check types: `npm run typecheck`
+8. For themes: test across different screen sizes and browsers
 
 ## Submitting changes
 
+Ready to submit your changes? We use Pull Requests to review and merge new contributions. This helps us maintain quality and provides a place for discussion.
+
+<Steps>
 1. Commit your changes:
-```bash
-git add .
-git commit -m "fix: description of your changes"
-```
+   ```bash
+   git add .
+   git commit -m "fix: description of your changes"
+   ```
 
 2. Push to your fork:
-```bash
-git push origin fix/issue-description
-```
+   ```bash
+   git push origin fix/issue-description
+   ```
 
 3. Open a pull request:
    - Use a clear title
    - Reference any related issues
    - Describe your changes
-   - Add screenshots if relevant
+   - Add screenshots (especially for theme changes)
+   - Add before/after comparisons if relevant
+   - Fill out the PR template
+</Steps>
 
 <Aside type="note" title="Pull requests">
-  All pull requests should target the `main` branch unless specified otherwise.
+  All pull requests should target the `main` branch unless specified otherwise. Make sure your PR:
+  - Follows the style guide
+  - Includes tests (for components)
+  - Updates documentation
+  - Has a clear description
+  - For themes: includes screenshots and responsive testing results
 </Aside>
 
 ## Code review process
 
+After submitting your PR, here's what happens next. Don't worry if changes are requested – it's a normal part of the process and helps us maintain quality.
+
 1. Maintainers will review your PR
-2. Automated tests will run
+2. Automated tests will run (for components)
 3. Changes might be requested
-4. Once approved, your PR will be merged
+4. Visual review for theme changes
+5. Once approved, your PR will be merged
 
 ## Need help?
 
+We're a friendly community and always happy to help! If you're stuck or have questions, here are several ways to get assistance:
+
 - Check our [development guide](/contributing/development)
 - Read about [reporting issues](/contributing/issues)
-- Join our [GitHub discussions](https://github.com/markteekman/accessible-astro-components/discussions)
+- Join our [Discord community](https://astro.build/chat)
 - Review our [style guide](/contributing/style-guide)
+- Ask in [GitHub discussions](https://github.com/markteekman/accessible-astro-components/discussions)
 
-<Aside type="tip" title="First time?">
-  Look for issues labeled `good first issue` to get started with contributing.
+<Aside type="tip" title="First time contributor?">
+  Look for issues labeled `good first issue` to get started. We're happy to help you make your first contribution! Theme customizations and documentation improvements are great ways to start.
 </Aside>

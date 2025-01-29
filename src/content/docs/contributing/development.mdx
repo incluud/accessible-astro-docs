@@ -1,182 +1,210 @@
 ---
-title: Development
-description: Technical guidelines for developing and contributing to Accessible Astro Components and Themes.
+title: Development setup
+description: Technical guidelines for developing and contributing to the Accessible Astro ecosystem.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Steps, FileTree } from '@astrojs/starlight/components';
 
-## Development setup
+## Development environment
 
-Before you start contributing, make sure you have the right tools and environment set up. This guide will help you get up and running with the project quickly.
+Before you start contributing, make sure you have all the necessary tools and software installed. This will help you get up and running quickly and ensure a smooth development experience.
 
-### Prerequisites
-- Node.js 18.14.1 or higher
-- npm, pnpm, or Yarn
-- Git
+<Steps>
+1. **Prerequisites**
+   - Node.js 18.14.1 or higher
+   - npm (or pnpm/Yarn)
+   - Git
+   - A code editor (we recommend VS Code)
+   - Browser developer tools
+   - Screen reader for testing
 
-### Local development
+2. **Recommended VS Code extensions**
+   - Astro
+   - ESLint
+   - Prettier
+   - TypeScript
+   - MDX
+   - PostCSS Language Support
+</Steps>
 
-Getting the development environment running is straightforward. Follow these steps to start contributing:
+## Project structures
 
-1. Install dependencies:
-```bash
-npm install
-```
+Understanding the project structure is crucial for effective development. Below you'll find the structure for both our component library and themes, which follow Astro's recommended practices while maintaining a clear separation of concerns.
 
-2. Start development server:
-```bash
-npm run dev
-```
+### Components
+<FileTree>
+- accessible-astro-components/
+  - Accordion.astro
+  - AccordionItem.astro
+  - Breadcrumbs.astro
+  - Card.astro
+  - DarkMode.astro
+  - Media.astro
+  - Modal.astro
+  - Notification.astro
+  - Pagination.astro
+  - SkipLinks.astro
+  - Tabs.astro
+  - Video.astro
+  - types
+    - index.d.ts
+  - package.json
+  - tsconfig.json
+</FileTree>
 
-3. Run tests:
-```bash
-npm run test
-```
+### Themes
+<FileTree>
+- accessible-astro-starter/
+  - src/
+    - assets/ **Images, fonts, etc.**
+    - components/ **Theme components**
+      - Header.astro
+      - Footer.astro
+      - Navigation.astro
+      - ...
+    - layouts/ **Page layouts**
+      - DefaultLayout.astro
+      - MarkdownLayout.astro
+      - ...
+    - pages/ **Route pages**
+      - index.astro
+      - blog/
+      - about.astro
+  - public/ **Static assets**
+  - astro.config.mjs
+</FileTree>
 
-<Aside type="tip" title="Hot reload">
-  The development server supports hot reloading - your changes will appear instantly!
-</Aside>
+## Development workflow
 
-## Project structure
+Follow these steps to set up your development environment and start contributing. Whether you're working on components, themes, or documentation, this workflow will help you stay organized and efficient.
 
-Understanding the project structure helps you navigate the codebase more effectively. Here's an overview of our main directories:
+<Steps>
+1. **Setup your repository**
+   ```bash
+   # Clone the repository
+   git clone https://github.com/YOUR-USERNAME/REPO-NAME.git
+   cd REPO-NAME
 
-```bash
-accessible-astro-components/
-├── src/
-│   ├── components/     # Component source files
-│   ├── styles/        # Global styles and variables
-│   └── utils/         # Utility functions
-├── tests/             # Test files
-└── package.json       # Project configuration
-```
+   # Install dependencies
+   npm install
+
+   # Start development server
+   npm run dev
+   ```
+
+2. **Make your changes**
+   - Follow the style guide
+   - Write meaningful commit messages
+   - Add tests where applicable
+   - Update documentation
+
+3. **Test your changes**
+   ```bash
+   # Components
+   npm run typecheck   # Check TypeScript
+   npm run build      # Test production build
+
+   # Themes
+   npm run build      # Test production build
+   npm run preview    # Test built site
+   ```
+
+4. **Submit your changes**
+   ```bash
+   git add .
+   git commit -m "type: description"
+   git push origin branch-name
+   ```
+</Steps>
 
 ## Coding standards
 
-We maintain high coding standards to ensure our components are accessible, performant, and maintainable. Here are our key guidelines:
+We maintain high standards for our code to ensure accessibility, maintainability, and consistency across all projects. These guidelines help us create robust and user-friendly components and themes.
 
 ### TypeScript
 - Use TypeScript for all new code
 - Include proper type definitions
-- Avoid `any` types where possible
+- Document props with JSDoc comments
+- Avoid `any` types
 
-### Components
-- Follow the [WAI-ARIA guidelines](https://www.w3.org/WAI/ARIA/apg/)
+### Accessibility
+- Follow [WAI-ARIA guidelines](https://www.w3.org/WAI/ARIA/apg/)
 - Include proper ARIA attributes
 - Support keyboard navigation
 - Test with screen readers
+- Consider color contrast
+- Support reduced motion
 
 ### CSS
-- Use logical properties
+- Use logical properties (inline/block)
 - Follow mobile-first approach
-- Support dark mode
-- Respect user preferences
+- Support dark mode with light-dark()
+- Use consistent border-radius (0.5rem)
+- Use HSL colors
+- Support prefers-reduced-motion
+- Use :where() for lower specificity
 
-<Aside type="note" title="CSS custom properties">
-  Define component-specific variables using the `--component-` prefix.
+<Aside type="tip" title="CSS custom properties">
+  Use semantic names for variables:
+  ```css
+  --component-spacing: 1rem;
+  --component-radius: 0.5rem;
+  --component-transition: 0.2s ease;
+  ```
 </Aside>
 
 ## Testing
 
-Quality assurance is crucial for our components. We use different types of tests to ensure everything works as expected:
+Quality assurance is a crucial part of our development process. We focus on manual testing and accessibility validation to ensure our components and themes work well for everyone.
 
-### Unit tests
+### Components
+- Manual accessibility testing
+- TypeScript validation
+- Browser testing
+- Screen reader testing
+- Keyboard navigation testing
+- Reduced motion testing
+
+### Themes
+- Cross-browser testing
+- Responsive testing
+- Performance testing
+- Accessibility validation
+- Dark mode testing
+- Screen reader testing
+- Keyboard navigation testing
+
+## Common issues
+
+During development, you might encounter some common issues. Here are some solutions that can help you resolve them quickly and get back to coding.
+
+### Build errors
 ```bash
-npm run test:unit
+# Clear cache and node_modules
+npm run clean
+rm -rf node_modules
+npm install
 ```
 
-### Integration tests
-```bash
-npm run test:integration
-```
-
-### Accessibility tests
-```bash
-npm run test:a11y
-```
-
-## Building
-
-When you're ready to create a production build:
-
-```bash
-npm run build
-```
-
-<Aside type="tip" title="Production build">
-  Always test your changes with a production build before submitting a PR.
-</Aside>
-
-## Common tasks
-
-Here are some frequent development tasks and how to handle them:
-
-### Adding a new component
-
-1. Create component file:
-```bash
-src/components/NewComponent.tsx
-```
-
-2. Add tests:
-```bash
-tests/NewComponent.test.ts
-```
-
-3. Update documentation:
-```bash
-docs/components/new-component.mdx
-```
-
-### Updating dependencies
-
-Regular dependency updates help keep the project secure and up-to-date:
-
-1. Check for updates:
-```bash
-npm outdated
-```
-
-2. Update packages:
-```bash
-npm update
-```
-
-3. Test thoroughly after updates
-
-## Troubleshooting
-
-When you run into issues, here are some common solutions:
-
-### Common issues
-
-1. **Build errors**
-   - Clear the cache: `npm run clean`
-   - Remove node_modules: `rm -rf node_modules`
-   - Fresh install: `npm install`
-
-2. **Test failures**
-   - Check test coverage: `npm run test:coverage`
-   - Run specific tests: `npm run test NewComponent.test.ts`
+### Type errors
+- Check prop types
+- Update type definitions
+- Run typecheck command
 
 <Aside type="caution" title="Breaking changes">
-  If you're making breaking changes, ensure they're well documented and follow semantic versioning.
+  Major changes require:
+  - Documentation updates
+  - Migration guides
+  - Version bump
+  - Changelog entry
 </Aside>
-
-## Performance
-
-Performance is a key aspect of accessibility. Keep these principles in mind:
-
-- Use lazy loading where appropriate
-- Optimize images and assets
-- Keep bundle size minimal
-- Monitor performance metrics
 
 ## Resources
 
-Here are some helpful resources to learn more:
+These resources will help you better understand our technical stack and accessibility requirements. We recommend bookmarking them for future reference.
 
 - [Astro documentation](https://docs.astro.build)
-- [TypeScript handbook](https://www.typescriptlang.org/docs/handbook)
 - [WAI-ARIA practices](https://www.w3.org/WAI/ARIA/apg/)
-- [Web Content Accessibility Guidelines](https://www.w3.org/TR/WCAG22/)
+- [WCAG guidelines](https://www.w3.org/TR/WCAG22/)
+- [TypeScript handbook](https://www.typescriptlang.org/docs/handbook)
+- [Modern CSS guide](https://moderncss.dev)

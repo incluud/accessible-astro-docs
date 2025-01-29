@@ -3,194 +3,209 @@ title: Style guide
 description: Code and documentation standards for Accessible Astro Components and Themes.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Steps, FileTree } from '@astrojs/starlight/components';
 
 ## Code style
 
-Maintaining consistent code style across the project helps make our codebase more readable and maintainable. We follow modern JavaScript and TypeScript conventions while prioritizing accessibility and performance.
+We follow modern JavaScript and TypeScript conventions while prioritizing accessibility and performance. Our code style ensures consistency and maintainability across all projects.
 
 ### TypeScript
 
-We use TypeScript to ensure type safety and better developer experience. Here are our TypeScript conventions:
+Use TypeScript for type safety and better developer experience. Document your interfaces and types with JSDoc comments:
 
 ```typescript
-// Use interfaces for object definitions
+/**
+ * Button Component Props
+ *
+ * @description Props interface for the Button component
+ */
 interface ButtonProps {
+  /** The button's label text */
   label: string;
+  /** Optional click handler */
   onClick?: () => void;
+  /** Visual style variant */
   variant?: 'primary' | 'secondary';
 }
-
-// Use type for unions or complex types
-type Theme = 'light' | 'dark' | 'system';
-
-// Use meaningful variable names
-const isMenuOpen = false; // ✅
-const x = false; // ❌
 ```
 
-### Components
+### Component structure
 
-Our components follow a consistent structure to make them easy to understand and maintain:
+Components should follow this structure:
 
 ```astro
 ---
-// Imports at the top
-import { Button } from '../components/Button'
-
-// Props interface
+/**
+ * Component Name
+ *
+ * @description Brief description of the component's purpose
+ */
 interface Props {
-  title: string;
-  description?: string;
+  /** Prop description */
+  propName: string;
 }
 
-// Destructure props
-const { title, description } = Astro.props
+const { propName } = Astro.props
 ---
 
-<!-- Template -->
-<div class="card">
-  <h2>{title}</h2>
-  {description && <p>{description}</p>}
-  <Button>Click me</Button>
-</div>
+<component-root>
+  <slot />
+</component-root>
 
 <style>
   /* Component styles */
-  .card {
-    /* Use logical properties */
-    margin-block: 1rem;
-    padding-inline: 1rem;
-  }
 </style>
 ```
 
-### CSS
+### CSS guidelines
 
-We prioritize modern CSS practices with a focus on accessibility and maintainability:
+We use modern CSS features with a focus on accessibility:
 
 ```css
 /* Use logical properties */
-.container {
+.component {
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  
+  /* Spacing */
   margin-block: 1rem;
   padding-inline: 1rem;
-  border-start: 1px solid;
-}
-
-/* Use CSS custom properties */
-.button {
-  --button-background: var(--color-primary);
-  --button-color: var(--color-white);
   
-  background: var(--button-background);
-  color: var(--button-color);
-}
-
-/* Mobile-first approach */
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  /* Colors */
+  color: light-dark(hsl(0 0% 10%), hsl(0 0% 90%));
   
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+  /* Transitions */
+  @media (prefers-reduced-motion: no-preference) {
+    transition: transform 0.2s ease;
   }
 }
+
+/* Use :where() for lower specificity */
+:where(.component:hover) {
+  transform: scale(1.02);
+}
 ```
 
-## Documentation style
+## Project structure
 
-Clear and consistent documentation helps both new contributors and users understand our project better. Here are our documentation guidelines:
+Keep files organized and easy to find:
 
-### Headers
-- Use sentence case for headers
-- Only capitalize proper nouns
-- No period at the end
+<FileTree>
+- src/
+  - components/ **Component source files**
+    - ComponentName/
+      - ComponentName.astro
+      - index.ts
+    - index.ts
+  - types/ **TypeScript definitions**
+    - index.d.ts
+  - utils/ **Helper functions**
+    - index.ts
+- playground/ **Development testing**
+- tests/ **Test files**
+</FileTree>
 
-### Code examples
-- Include language identifier
-- Keep examples concise
-- Add comments for clarity
-- Use meaningful variable names
+## Documentation
 
-### Lists
-- Use hyphen (-) for unordered lists
-- Use numbers for ordered lists
-- Capitalize first word
-- End with period if full sentence
+Clear documentation helps others understand and use our code:
 
-### Links
-- Use descriptive link text
-- Avoid "click here" or "read more"
-- Include relevant context
+### Component documentation
 
-<Aside type="tip" title="Link text">
-  Good: "Read our [accessibility guidelines](/accessibility)"
-  Bad: "Click [here](/accessibility) to read guidelines"
-</Aside>
+```typescript
+/**
+ * Button Component
+ *
+ * @description A reusable button component with various styles and states
+ * @example
+ * ```astro
+ * <Button variant="primary">Click me</Button>
+ * ```
+ */
+```
 
-## Git commits
+### Props documentation
+
+```typescript
+interface Props {
+  /** Additional classes to apply */
+  class?: string;
+  /** Visual style variant */
+  variant?: 'primary' | 'secondary';
+  /** Whether the button is disabled */
+  disabled?: boolean;
+}
+```
+
+## Accessibility
+
+Ensure all components are accessible:
+
+<Steps>
+1. **Semantic HTML**
+   - Use proper heading levels
+   - Use semantic elements (`<button>`, `<nav>`, etc.)
+   - Provide proper landmarks
+
+2. **ARIA attributes**
+   - Add `aria-label` when needed
+   - Use `aria-expanded` for toggles
+   - Include `aria-current` for navigation
+
+3. **Keyboard navigation**
+   - Ensure proper focus states
+   - Support arrow key navigation
+   - Implement focus traps when needed
+
+4. **Visual considerations**
+   - Maintain sufficient color contrast
+   - Support reduced motion
+   - Provide visible focus indicators
+</Steps>
+
+## Git workflow
 
 ### Commit messages
-- Use conventional commits
-- Start with type: `feat:`, `fix:`, `docs:`, etc.
-- Keep messages concise but descriptive
-- Reference issues when relevant
+
+Follow conventional commits:
 
 ```bash
-# Good
-feat: add dark mode support
-fix: resolve keyboard navigation in modal
-docs: update installation instructions
+# Format
+type(scope): description
 
-# Bad
-update stuff
-fixed bug
-changes
+# Examples
+feat(button): add loading state
+fix(modal): improve keyboard navigation
+docs(readme): update installation steps
 ```
 
-### Branch names
-- Use kebab-case
-- Include type prefix
-- Be descriptive
+### Branch naming
+
+Use descriptive branch names:
 
 ```bash
-# Good
-feat/add-dark-mode
-fix/modal-keyboard-nav
-docs/update-install-guide
+# Format
+type/description
 
-# Bad
-darkmode
-fix-stuff
-update
+# Examples
+feat/add-button-component
+fix/modal-focus-trap
+docs/improve-examples
 ```
 
-## File organization
-
-### Component files
-```bash
-src/components/
-├── Button/
-│   ├── Button.tsx
-│   ├── Button.css
-│   └── Button.test.ts
-├── Modal/
-│   ├── Modal.tsx
-│   ├── Modal.css
-│   └── Modal.test.ts
-```
-
-### Documentation files
-```bash
-docs/
-├── components/
-│   ├── button.mdx
-│   └── modal.mdx
-├── guides/
-│   ├── getting-started.mdx
-│   └── installation.mdx
-```
-
-<Aside type="note" title="Consistency">
-  Following these guidelines helps maintain consistency across the project and makes the codebase more maintainable.
+<Aside type="tip" title="Code quality">
+  Before submitting:
+  - Run TypeScript checks
+  - Test keyboard navigation
+  - Check accessibility
+  - Verify responsive behavior
+  - Test with screen readers
 </Aside>
+
+## Resources
+
+- [Astro Style Guide](https://docs.astro.build/en/guides/styling/)
+- [TypeScript Guidelines](https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html)
+- [WAI-ARIA Practices](https://www.w3.org/WAI/ARIA/apg/)
+- [Modern CSS Guide](https://moderncss.dev)

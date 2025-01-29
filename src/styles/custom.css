@@ -1,17 +1,3 @@
-body {
-  .page {
-    @media (min-width: 50rem) {
-      details {
-        details {
-          summary span {
-            font-size: 85%;
-          }
-        }
-      }
-    }
-  }
-}
-
 .props-wrapper {
   position: relative;
   min-inline-size: 100%;
