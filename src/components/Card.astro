@@ -1,10 +1,33 @@
 ---
+/**
+ * Card Component
+ *
+ * @description A versatile card component with image, title, and content areas
+ */
 interface Props extends astroHTML.JSX.HTMLAttributes {
+  /**
+   * URL for the card's link
+   */
   url?: string
+  /**
+   * URL for the card's image
+   */
   img?: string
+  /**
+   * Card's title
+   */
   title?: string
+  /**
+   * Footer content
+   */
   footer?: string
+  /**
+   * Additional classes to apply to the card
+   */
   class?: string
+  /**
+   * HTML tag to use for the title
+   */
   tagName?: string
 }
 
@@ -45,39 +68,49 @@ const Tag = tagName
 
 <style>
   :where(.card) {
+    --transition-duration: 0.3s;
+    --transition-easing: cubic-bezier(0.165, 0.84, 0.44, 1);
+
     display: flex;
     flex-direction: column;
-    border: 2px solid;
+    border: 2px solid light-dark(hsl(0 0% 10%), hsl(0 0% 90%));
     border-radius: 0.5rem;
     max-inline-size: 60ch;
     block-size: 100%;
     position: relative;
     overflow: hidden;
-    transition: box-shadow 0.15s ease-in-out;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: box-shadow var(--transition-duration) var(--transition-easing);
+    }
   }
 
-  .card:hover,
-  .card:focus-within {
+  :where(.card:hover),
+  :where(.card:focus-within) {
     box-shadow: 0 0 0 0.25rem;
   }
 
-  .card:focus-within a:focus {
+  :where(.card:focus-within) a:focus {
     text-decoration: none;
     box-shadow: none;
     outline: none;
   }
 
-  .image {
+  :where(.image) {
     block-size: 250px;
   }
 
-  .image img {
+  :where(.image img) {
     block-size: 100%;
     inline-size: 100%;
     object-fit: cover;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: transform var(--transition-duration) var(--transition-easing);
+    }
   }
 
-  .content {
+  :where(.content) {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -97,13 +130,17 @@ const Tag = tagName
     text-underline-offset: 4px;
   }
 
+  :where(.card:has(a:hover, a:focus-visible)) .image img {
+    transform: scale(1.05);
+  }
+
   a::after {
     content: '';
     position: absolute;
     inset: 0;
   }
 
-  .meta {
+  :where(.meta) {
     margin-block-start: 0.5rem;
     order: -1;
   }

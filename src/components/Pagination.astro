@@ -1,15 +1,42 @@
 ---
+/**
+ * Pagination Component
+ *
+ * @description A fully accessible pagination component with first/last and previous/next navigation
+ */
+
 // Pagination Props type helpers
 export type NumericalString = `${number}`
 export type RouteString = string | null | undefined
 
 interface Props {
+  /**
+   * URL for the first page
+   */
   firstPage?: RouteString
+  /**
+   * URL for the previous page
+   */
   previousPage?: RouteString
+  /**
+   * URL for the next page
+   */
   nextPage?: RouteString
+  /**
+   * URL for the last page
+   */
   lastPage?: RouteString
+  /**
+   * Current page number
+   */
   currentPage?: string | number
+  /**
+   * Total number of pages
+   */
   totalPages?: NumericalString | number
+  /**
+   * Function to render the progress text
+   */
   renderProgress?: ({
     currentPage,
     totalPages,
@@ -17,7 +44,13 @@ interface Props {
     currentPage: string | number
     totalPages: string | number
   }) => string
+  /**
+   * Additional classes to apply
+   */
   class?: string
+  /**
+   * Accessible label for the navigation
+   */
   ariaLabel?: string
 }
 
@@ -261,29 +294,39 @@ const progress = renderProgress({ currentPage, totalPages })
 
   :where(.pagination a),
   :where(.pagination .disabled) {
-    display: block;
-    border: 2px solid;
-    border-radius: 0.25rem;
-    inline-size: 2rem;
-    block-size: 2rem;
+    --transition-duration: 0.2s;
+    --transition-easing: cubic-bezier(0.165, 0.84, 0.44, 1);
+
     display: flex;
     place-items: center;
-    transition: box-shadow 0.15s ease-in-out;
+    justify-content: center;
+    border: 2px solid;
+    border-radius: 0.5rem;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: box-shadow var(--transition-duration) var(--transition-easing);
+    }
   }
 
   :where(.pagination a),
   :where(.pagination a:visited) {
-    color: light-dark(hsl(204 8% 14%), hsl(0 0% 100%));
-    border-color: light-dark(hsl(215 25% 27%), hsl(204 8% 90%));
+    color: currentColor;
+    border-color: light-dark(hsl(0 0% 10%), hsl(0 0% 90%));
   }
 
   :where(.pagination a:hover),
   :where(.pagination a:focus-visible) {
-    box-shadow: 0 0 0 0.25rem light-dark(hsl(215 25% 27%), hsl(204 8% 90%));
+    box-shadow: 0 0 0 0.25rem;
+  }
+
+  :where(.pagination a:focus-visible) {
+    outline: none;
   }
 
   :where(.pagination .disabled) {
-    border-color: light-dark(hsl(204 8% 40%), hsl(215 25% 65%));
+    border-color: light-dark(hsl(0 0% 13% / 0.3), hsl(0 0% 87% / 0.3));
     opacity: 0.5;
   }
 </style>

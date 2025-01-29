@@ -1,9 +1,29 @@
 ---
+/**
+ * Breadcrumbs Item Component
+ *
+ * @description An individual breadcrumb item that can be a link or current page indicator
+ */
 interface Props {
+  /**
+   * URL for the breadcrumb link
+   */
   href?: string
+  /**
+   * Text label for the breadcrumb
+   */
   label: string
+  /**
+   * Whether this item represents the current page
+   */
   currentPage?: boolean
+  /**
+   * Whether this item has an icon
+   */
   hasIcon?: boolean
+  /**
+   * Additional classes to apply to the item
+   */
   class?: string
 }
 
@@ -48,7 +68,7 @@ const {
 </li>
 
 <style>
-  .item {
+  :where(.item) {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -68,9 +88,24 @@ const {
     display: none;
   }
 
-  .has-icon :global(svg) {
+  :where(.has-icon) :global(svg) {
     display: flex;
     align-items: center;
+  }
+
+  a {
+    color: currentColor;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  a:hover,
+  a:focus-visible {
+    text-decoration: none;
+  }
+
+  span[aria-current='page'] {
+    font-weight: 500;
   }
 
   .sr-only {

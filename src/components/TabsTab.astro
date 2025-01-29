@@ -1,4 +1,9 @@
 ---
+/**
+ * TabsTab Component
+ *
+ * @description A tab within a Tabs component
+ */
 interface Props {
   /**
    * Unique identifier for the tab
@@ -34,12 +39,15 @@ const { id, controls, selected = false, class: className } = Astro.props
 
 <style>
   :where(.tab) {
+    --transition-duration: 0.2s;
+    --transition-easing: cubic-bezier(0.165, 0.84, 0.44, 1);
+
     flex-grow: 1;
     padding-block: 0.75rem;
     padding-inline: 1rem;
     border: 2px solid;
     border-radius: 0.5rem;
-    border-color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+    border-color: light-dark(hsl(0 0% 10%), hsl(0 0% 90%));
     background-color: transparent;
     color: inherit;
     font-size: 1.125rem;
@@ -48,7 +56,7 @@ const { id, controls, selected = false, class: className } = Astro.props
     cursor: pointer;
 
     @media (prefers-reduced-motion: no-preference) {
-      transition: all 0.15s ease-in-out;
+      transition: all var(--transition-duration) var(--transition-easing);
     }
   }
 
@@ -56,8 +64,8 @@ const { id, controls, selected = false, class: className } = Astro.props
   :where(.tab:hover),
   :where(.tab:focus-visible) {
     color: light-dark(hsl(0 0% 100%), hsl(215 25% 27%));
-    background-color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
-    border-color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+    background-color: light-dark(hsl(0 0% 10%), hsl(0 0% 90%));
+    box-shadow: 0 0 0 0.25rem light-dark(hsl(0 0% 10% / 0.2), hsl(0 0% 90% / 0.2));
   }
 
   @media (min-width: 31.25rem) {

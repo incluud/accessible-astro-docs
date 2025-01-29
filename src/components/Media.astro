@@ -1,11 +1,37 @@
 ---
+/**
+ * Media Component
+ *
+ * @description A responsive media component with support for various aspect ratios and loading strategies
+ */
 interface Props {
+  /**
+   * Additional classes to apply to the media wrapper
+   */
   class?: string
+  /**
+   * Source URL for the media
+   */
   src?: string
+  /**
+   * Alt text for the media
+   */
   alt?: string
+  /**
+   * Aspect ratio of the media
+   */
   ratio?: '1:1' | '4:3' | '16:9' | '21:9' | 'auto'
+  /**
+   * Loading strategy
+   */
   loading?: 'lazy' | 'eager'
+  /**
+   * Decoding strategy
+   */
   decoding?: 'async' | 'sync' | 'auto'
+  /**
+   * Fetch priority
+   */
   fetchpriority?: 'high' | 'low' | 'auto'
 }
 
@@ -41,12 +67,16 @@ const aspectRatios = {
 
 <style>
   :where(.media-wrapper) {
+    position: relative;
     inline-size: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
   }
 
   :where(img) {
     inline-size: 100%;
     block-size: auto;
     object-fit: cover;
+    border-radius: inherit;
   }
 </style>

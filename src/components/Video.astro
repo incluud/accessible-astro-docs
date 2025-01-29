@@ -1,9 +1,29 @@
 ---
+/**
+ * Video Component
+ *
+ * @description A responsive video component with YouTube embed support and privacy enhancements
+ */
 interface Props {
+  /**
+   * Additional classes to apply to the video wrapper
+   */
   class?: string
+  /**
+   * URL of the video (YouTube or direct embed)
+   */
   src: string
+  /**
+   * Accessible title for the video
+   */
   title: string
+  /**
+   * Aspect ratio of the video
+   */
   ratio?: '1:1' | '4:3' | '16:9' | '21:9'
+  /**
+   * Loading strategy for the iframe
+   */
   loading?: 'lazy' | 'eager'
 }
 

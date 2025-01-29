@@ -1,7 +1,21 @@
 ---
+/**
+ * Dark Mode Toggle Component
+ *
+ * @description A fully accessible dark mode toggle with auto/light/dark modes
+ */
 interface Props {
+  /**
+   * Initial color scheme mode
+   */
   initialMode?: 'light' | 'dark' | 'auto'
+  /**
+   * Accessible label for the toggle button
+   */
   label?: string
+  /**
+   * Additional classes to apply to the button
+   */
   class?: string
 }
 
@@ -121,6 +135,9 @@ const { initialMode = 'auto', label = 'Toggle Dark Mode', class: className } = A
 
 <style>
   :where(.darkmode-toggle) {
+    --transition-duration: 0.2s;
+    --transition-easing: cubic-bezier(0.165, 0.84, 0.44, 1);
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -130,27 +147,30 @@ const { initialMode = 'auto', label = 'Toggle Dark Mode', class: className } = A
     padding-inline: 0.5rem;
     background: transparent;
     cursor: pointer;
-    transition: box-shadow 0.15s ease-in-out;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: box-shadow var(--transition-duration) var(--transition-easing);
+    }
   }
 
-  :where(.darkmode-toggle:hover) {
+  :where(.darkmode-toggle:hover),
+  :where(.darkmode-toggle:focus-visible) {
     box-shadow: 0 0 0 0.25rem;
   }
 
   :where(.darkmode-toggle:focus-visible) {
     outline: none;
-    box-shadow: 0 0 0 0.25rem;
   }
 
-  .icon {
+  :where(.icon) {
     display: flex;
     block-size: 1.5rem;
     inline-size: 1.5rem;
   }
 
   /* Target both default and slotted icons */
-  .icon svg,
-  .icon :global(svg) {
+  :where(.icon svg),
+  :where(.icon) :global(svg) {
     block-size: 100%;
     inline-size: 100%;
   }
