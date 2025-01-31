@@ -3,7 +3,7 @@ title: Accessible Astro Starter
 description: A minimal, accessible starter theme for your Astro projects.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Steps, FileTree } from '@astrojs/starlight/components';
 
 ## Introduction
 
@@ -18,11 +18,13 @@ Accessible Astro Starter is a ready-to-use, SEO and accessibility-friendly blogg
 
 - Built on Astro 5.0
 - Tailwind CSS integration
-- Markdown and MDX support
-- Excellent Lighthouse scores
+- Markdown and MDX support with examples included
+- Excellent Lighthouse/PageSpeed scores
 - ESLint with strict accessibility settings
-- Prettier integration
+- Prettier integration with plugins for Astro and Tailwind
 - View Transitions support
+- Dynamic blog with pagination and breadcrumbs
+- Custom 404 error page
 
 ## Accessibility Features
 
@@ -35,41 +37,64 @@ Accessible Astro Starter is a ready-to-use, SEO and accessibility-friendly blogg
 - Focus indicators that work on all backgrounds
 - Reduced motion preferences support
 - Screen reader only text utilities
+- Accessible components like Accordions, Breadcrumbs, Modals, and more
 
 <Aside type="tip" title="Best Practice">
   The theme follows WCAG guidelines and includes ESLint rules to help maintain accessibility standards in your code.
 </Aside>
 
-## Components
-
-The starter includes several pre-built accessible components:
-
-- Header with responsive navigation
-- Footer with customizable content
-- Skip links for keyboard users
-- Dark mode toggle
-- Responsive navigation toggle
-- SEO meta component
-- Dynamic blog pages with pagination
-- Custom 404 error page
-- And many more through the components package
-
 ## Getting Started
 
+<Steps>
 1. Clone the repository:
-```bash
-git clone https://github.com/markteekman/accessible-astro-starter.git
-```
+   ```bash
+   git clone https://github.com/markteekman/accessible-astro-starter.git
+   ```
 
 2. Install dependencies:
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 3. Start development server:
-```bash
-npm run dev
-```
+   ```bash
+   npm run dev
+   ```
+
+4. Open your browser:
+   Visit `http://localhost:4321` to see your site in action.
+</Steps>
+
+## Project Structure
+
+The starter follows a clear and organized structure:
+
+<FileTree>
+- public/
+  - images/
+  - favicon.svg
+- src/
+  - assets/
+    - scss/
+      - base/ _// Core styles and utilities_
+  - components/
+    - core/ _// Layout components_
+    - features/ _// Feature components_
+  - content/
+    - blog/ _// Blog posts_
+  - layouts/
+    - DefaultLayout.astro
+    - MarkdownLayout.astro
+  - pages/
+    - blog/
+      - [...page].astro _// Dynamic blog pages_
+      - [post].astro _// Individual post pages_
+    - 404.astro
+    - index.astro
+- package.json
+- astro.config.mjs
+- tailwind.config.js
+</FileTree>
 
 ## Available Commands
 
@@ -80,20 +105,17 @@ npm run dev
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build |
 
-## Project Structure
+## Components
 
-```plaintext
-/
-├── public/
-├── src/
-│   ├── assets/
-│   │   └── scss/
-│   ├── components/
-│   ├── layouts/
-│   ├── pages/
-│   └── content/
-└── package.json
-```
+The starter includes several pre-built accessible components:
+
+- `Header.astro` - With responsive navigation
+- `Footer.astro` - With customizable content
+- `SkipLinks.astro` - For keyboard users
+- `DarkMode.astro` - Theme toggle with system preference
+- `Navigation.astro` - Keyboard accessible dropdown navigation
+- `ResponsiveToggle.astro` - Mobile navigation toggle
+- `SiteMeta.astro` - SEO meta component
 
 <Aside type="note" title="View Transitions">
   While the theme supports Astro's View Transitions, please review the accessibility considerations in the Astro documentation.
@@ -103,17 +125,20 @@ npm run dev
 
 ### Styling
 
-The theme uses Tailwind CSS with additional SCSS utilities:
+The theme uses Tailwind CSS with additional SCSS utilities. Customize your theme in the following files:
 
-```scss
-// Example custom styles
-@layer base {
-  :root {
-    --color-primary: #4f46e5;
-    --color-secondary: #7c3aed;
-  }
-}
-```
+<FileTree>
+- src/
+  - assets/
+    - scss/
+      - base/
+        - _reset.scss _// CSS reset_
+        - _breakpoints.scss _// Media queries_
+        - _buttons.scss _// Button styles_
+        - _colors.scss _// Color system_
+        - _font.scss _// Typography_
+        - _outline.scss _// Focus styles_
+</FileTree>
 
 ### Components
 
@@ -133,12 +158,26 @@ import Navigation from './Navigation.astro'
 
 ## Contributing
 
-Contributions are welcome! You can help improve this starter by:
+<Steps>
+1. Fork the repository on GitHub
 
-1. Filing an issue
-2. Submitting a pull request
-3. Starting a discussion
-4. Supporting the project
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. Make your changes and commit them:
+   ```bash
+   git commit -m "Add some feature"
+   ```
+
+4. Push to your fork:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+5. Open a Pull Request on GitHub
+</Steps>
 
 <Aside type="tip" title="Getting Help">
   If you find any issues or have questions, please open an issue on GitHub or start a discussion in the repository.
