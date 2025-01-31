@@ -80,7 +80,7 @@ const { class: className } = Astro.props
       })
 
       const targetPanel = component.querySelector<HTMLElement>(
-        `#${nextTab.getAttribute('aria-controls')}`,
+        `#${nextTab.getAttribute('aria-controls')}`
       )
       targetPanel?.setAttribute('aria-hidden', 'false')
     }

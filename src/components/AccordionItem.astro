@@ -1,20 +1,57 @@
 ---
+/**
+ * Accordion Item Component
+ *
+ * @description An individual accordion item that can be expanded/collapsed with smooth animations
+ */
 interface Props {
+  /**
+   * Optional name attribute for the details element
+   */
   name?: string
+  /**
+   * Title text displayed in the accordion header
+   */
   title: string
+  /**
+   * Additional classes to apply to the item
+   */
   class?: string
+  /**
+   * Content to be rendered inside the accordion item
+   */
   children: any
+  /**
+   * HTML tag to use for the title (h2-h6)
+   * @default 'h3'
+   */
   tagName?: string
+  /**
+   * Visual style variant of the accordion
+   * @default 'default'
+   */
   variant?: 'default' | 'chevron'
+  /**
+   * Whether the accordion item is initially open
+   * @default false
+   */
+  open?: boolean
 }
 
-const { name, title, class: classNames, tagName = 'h3', variant = 'default' } = Astro.props
+const {
+  name,
+  title,
+  class: classNames,
+  tagName = 'h3',
+  variant = 'default',
+  open = false,
+} = Astro.props
 
 const Tag = tagName
 ---
 
 <li class:list={['item', classNames]}>
-  <details class="wrapper" name={name} data-variant={variant}>
+  <details class="wrapper" name={name} data-variant={variant} {...open ? { open } : {}}>
     <summary class="title">
       <Tag>
         {
@@ -72,8 +109,8 @@ const Tag = tagName
     --transition-duration: 0.3s;
     --transition-easing: cubic-bezier(0.165, 0.84, 0.44, 1);
 
-    padding-block: 0;
     border-block-start: 2px solid light-dark(hsl(0 0% 13%), hsl(0 0% 87%));
+    padding-block: 0;
   }
 
   .title h2,
@@ -85,8 +122,8 @@ const Tag = tagName
     align-items: center;
     gap: 1rem;
     min-inline-size: 100%;
-    font-size: 1.25rem;
     font-weight: normal;
+    font-size: 1.25rem;
   }
 
   .wrapper {
@@ -97,12 +134,11 @@ const Tag = tagName
 
   .wrapper::details-content {
     opacity: 0;
-    block-size: 0;
-    overflow-y: clip;
-    transition:
-      content-visibility var(--transition-duration) allow-discrete,
+    transition: content-visibility var(--transition-duration) allow-discrete,
       opacity var(--transition-duration) var(--transition-easing),
       block-size var(--transition-duration) var(--transition-easing);
+    block-size: 0;
+    overflow-y: clip;
   }
 
   .wrapper[open]::details-content {
@@ -130,9 +166,9 @@ const Tag = tagName
 
   .title {
     display: flex;
+    cursor: pointer;
     padding-block: 0.75rem;
     list-style: none;
-    cursor: pointer;
   }
 
   .title::marker,
@@ -149,10 +185,10 @@ const Tag = tagName
   }
 
   :where(.icon-plus) {
-    position: relative;
     display: inline-block;
-    block-size: 20px;
+    position: relative;
     aspect-ratio: 1;
+    block-size: 20px;
   }
 
   :where(.icon-plus svg) {
@@ -160,15 +196,15 @@ const Tag = tagName
   }
 
   :where(.icon-plus svg:first-of-type) {
+    transform: translateY(-50%);
     inset-block-start: 50%;
     inset-inline-start: 0;
-    transform: translateY(-50%);
   }
 
   :where(.icon-plus svg:last-of-type) {
+    transform: translateY(-50%);
     inset-block-start: 50%;
     inset-inline-start: 50%;
-    transform: translateY(-50%);
 
     @media (prefers-reduced-motion: no-preference) {
       transition: all var(--transition-duration) var(--transition-easing);
@@ -190,8 +226,8 @@ const Tag = tagName
   }
 
   :where(.wrapper[open]) .icon-plus svg:last-of-type {
-    inset-block-start: 0;
     transform: rotate(90deg);
+    inset-block-start: 0;
   }
 
   :where(.wrapper[open]) .icon-chevron svg {

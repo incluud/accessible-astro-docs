@@ -1,15 +1,15 @@
 ---
-title: Skip Links
-description: A fully accessible skip links component that helps users bypass repetitive content and navigate directly to the main content.
+title: Skip Link
+description: A fully accessible skip link component that helps users bypass repetitive content and navigate directly to the main content.
 ---
 
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
-// import { SkipLinks } from 'accessible-astro-components';
-import SkipLinks from '../../../components/SkipLinks.astro';
+// import { SkipLink } from 'accessible-astro-components';
+import SkipLink from '../../../components/SkipLink.astro';
 
 ## Introduction
 
-The Skip Links component provides a way for keyboard and screen reader users to bypass repetitive navigation elements and jump directly to the main content. It's a crucial accessibility feature that becomes visible only when focused.
+The Skip Link component provides a way for keyboard and screen reader users to bypass repetitive navigation elements and jump directly to the main content. It's a crucial accessibility feature that becomes visible only when focused.
 
 <Aside type="caution" title="Required markup">
   Your page must have either an element with `id="main-content"` or an `<h1>` element for the skip link to work properly.
@@ -17,7 +17,7 @@ The Skip Links component provides a way for keyboard and screen reader users to 
 
 ## When to use
 
-Skip Links are essential for keyboard navigation in these scenarios:
+A Skip Link is essential for keyboard navigation in these scenarios:
 
 - At the top of every page
 - Before navigation menus
@@ -28,14 +28,14 @@ Skip Links are essential for keyboard navigation in these scenarios:
 
 ## Usage
 
-Learn how to implement the Skip Links component in your project:
+Learn how to implement the Skip Link component in your project:
 
 ```astro
 ---
-import { SkipLinks } from 'accessible-astro-components'
+import { SkipLink } from 'accessible-astro-components'
 ---
 
-<SkipLinks />
+<SkipLink />
 
 <!-- Target element -->
 <main id="main-content">
@@ -56,7 +56,7 @@ import { SkipLinks } from 'accessible-astro-components'
 
 ## Accessibility
 
-The Skip Links component prioritizes accessibility through several features:
+The Skip Link component prioritizes accessibility through several features:
 
 - Appears only when focused (visually hidden otherwise)
 - Provides keyboard-only navigation
@@ -68,12 +68,12 @@ The Skip Links component prioritizes accessibility through several features:
 - Console warning if neither target is found
 
 <Aside type="tip" title="Best practice">
-  Place the Skip Links component as the first focusable element on your page, before any navigation or content.
+  Place the Skip Link component as the first focusable element on your page, before any navigation or content.
 </Aside>
 
 ## Styling
 
-Make the Skip Links component your own while maintaining its accessibility features.
+Make the Skip Link component your own while maintaining its accessibility features.
 
 <Aside type="caution" title="Accessibility considerations">
   When customizing styles, ensure you maintain sufficient color contrast ratios and don't remove focus indicators.
@@ -84,7 +84,7 @@ Make the Skip Links component your own while maintaining its accessibility featu
     ```css
     /* Option 1: Using :global() in your style block */
     <style>
-      :global(.skip-links a) {
+      :global(.skip-link a) {
         position: absolute;
         z-index: 9999;
         inset-block-start: -100vh;
@@ -96,8 +96,8 @@ Make the Skip Links component your own while maintaining its accessibility featu
         color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
       }
 
-      :global(.skip-links a:hover),
-      :global(.skip-links a:focus-visible) {
+      :global(.skip-link a:hover),
+      :global(.skip-link a:focus-visible) {
         inset-block-start: 0;
         outline: 2px solid currentColor;
         outline-offset: 4px;
@@ -106,7 +106,7 @@ Make the Skip Links component your own while maintaining its accessibility featu
 
     /* Option 2: Using is:global on the style tag */
     <style is:global>
-      .skip-links a {
+      .skip-link a {
         position: absolute;
         z-index: 9999;
         inset-block-start: -100vh;
@@ -118,8 +118,8 @@ Make the Skip Links component your own while maintaining its accessibility featu
         color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
       }
 
-      .skip-links a:hover,
-      .skip-links a:focus-visible {
+      .skip-link a:hover,
+      .skip-link a:focus-visible {
         inset-block-start: 0;
         outline: 2px solid currentColor;
         outline-offset: 4px;
@@ -129,7 +129,7 @@ Make the Skip Links component your own while maintaining its accessibility featu
   </TabItem>
   <TabItem label="Tailwind Classes">
     ```astro
-    <SkipLinks 
+    <SkipLink 
       class="absolute z-50 -top-full left-0 p-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:top-0 focus:outline-none focus:ring-2 focus:ring-offset-2"
     />
     ```
@@ -142,13 +142,13 @@ Make the Skip Links component your own while maintaining its accessibility featu
 
 ## Interactive example
 
-See the Skip Links component in action:
+See the Skip Link component in action:
 
 <Aside type="note" title="Demo note">
   The styles for this component are changed so it's visible on the page, this is purely for demonstration purposes. Normally, it's hidden and appears on the top left corner of the page when focused.
 </Aside>
 
 <div class="not-content">
-  <SkipLinks />
+  <SkipLink />
 </div>
 

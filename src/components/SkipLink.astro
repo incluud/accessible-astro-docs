@@ -1,6 +1,6 @@
 ---
 /**
- * SkipLinks Component
+ * SkipLink Component
  *
  * @description An accessible skip link that helps keyboard users bypass repetitive navigation
  */
@@ -22,13 +22,13 @@ interface Props {
 const { text = 'Skip to main content', target = '#main-content', class: className } = Astro.props
 ---
 
-<div class:list={['skip-links', className]}>
+<div class:list={['skip-link', className]}>
   <a href={target}>{text}</a>
 </div>
 
 <script is:inline define:vars={{ target }}>
   // variables
-  const skipLink = document.querySelector('.skip-links a')
+  const skipLink = document.querySelector('.skip-link a')
 
   // execution
   skipLink.addEventListener('keydown', (event) => {
@@ -47,33 +47,33 @@ const { text = 'Skip to main content', target = '#main-content', class: classNam
       h1.setAttribute('tabindex', '-1')
       h1.focus()
     } else {
-      console.warn('SkipLinks are not set, either missing an h1 or main content id on the page.')
+      console.warn('SkipLink is not set, either missing an h1 or main content id on the page.')
     }
   })
 </script>
 
 <style>
-  :where(.skip-links a) {
+  :where(.skip-link a) {
     position: absolute;
     z-index: 9999;
+    transition: inset-block-start 0.2s ease-in-out;
     inset-block-start: -100vh;
     inset-inline-start: 0;
-    padding-block: 1rem;
-    padding-inline: 3.25rem;
     border-end-end-radius: 0.5rem;
     background: light-dark(hsl(0 0% 100%), hsl(215 25% 15%));
+    padding-inline: 3.25rem;
+    padding-block: 1rem;
     color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
-    transition: inset-block-start 0.2s ease-in-out;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    :where(.skip-links a) {
+    :where(.skip-link a) {
       transition: none;
     }
   }
 
-  :where(.skip-links a:hover),
-  :where(.skip-links a:focus-visible) {
+  :where(.skip-link a:hover),
+  :where(.skip-link a:focus-visible) {
     inset-block-start: 0;
     outline: 2px solid currentColor;
     outline-offset: 4px;
