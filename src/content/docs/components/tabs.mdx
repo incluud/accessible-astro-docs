@@ -29,10 +29,6 @@ Use the Tabs component when you need to:
 
 The Tabs component consists of four parts: the container, list wrapper, individual tabs, and their corresponding panels.
 
-<Aside type="tip" title="Progressive enhancement">
-  The component uses JavaScript for enhanced functionality but maintains a logical structure even without it.
-</Aside>
-
 ```astro
 ---
 import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
@@ -60,6 +56,10 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
 </Tabs>
 ```
 
+<Aside type="tip" title="Progressive enhancement">
+  The component uses JavaScript for enhanced functionality but maintains a logical structure even without it.
+</Aside>
+
 ## Props
 
 Each component in the Tabs system accepts specific props:
@@ -67,12 +67,12 @@ Each component in the Tabs system accepts specific props:
 ### Tabs
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `class` | `string` | `undefined` | Additional CSS classes to apply |
+| `class` | `string` | `''` | Additional CSS classes to apply |
 
 ### TabsList
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `class` | `string` | `undefined` | Additional CSS classes to apply |
+| `class` | `string` | `''` | Additional CSS classes to apply |
 
 ### TabsTab
 | Prop | Type | Default | Description |
@@ -80,7 +80,7 @@ Each component in the Tabs system accepts specific props:
 | `id` | `string` | Required | Unique identifier for the tab |
 | `controls` | `string` | Required | ID of the panel this tab controls |
 | `selected` | `boolean` | `false` | Whether this tab is initially selected |
-| `class` | `string` | `undefined` | Additional CSS classes to apply |
+| `class` | `string` | `''` | Additional CSS classes to apply |
 
 ### TabsPanel
 | Prop | Type | Default | Description |
@@ -88,7 +88,7 @@ Each component in the Tabs system accepts specific props:
 | `id` | `string` | Required | Unique identifier for the panel |
 | `labelledby` | `string` | Required | ID of the tab that labels this panel |
 | `selected` | `boolean` | `false` | Whether this panel is initially visible |
-| `class` | `string` | `undefined` | Additional CSS classes to apply |
+| `class` | `string` | `''` | Additional CSS classes to apply |
 
 ## Accessibility features
 

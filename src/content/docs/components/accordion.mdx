@@ -27,10 +27,6 @@ Learn how to implement the Accordion component in your project, from basic usage
 
 ### Basic
 
-<Aside type="tip" title="Exclusive behavior">
-  Use the `name` prop to create mutually exclusive accordion groups where only one item can be open at a time.
-</Aside>
-
 ```astro ins={7}
 ---
 import { Accordion, AccordionItem } from 'accessible-astro-components'
@@ -52,9 +48,13 @@ import { Accordion, AccordionItem } from 'accessible-astro-components'
 </Accordion>
 ```
 
+<Aside type="tip" title="Exclusive behavior">
+  Use the `name` prop to create mutually exclusive accordion groups where only one item can be open at a time.
+</Aside>
+
 ### Variants
 
-The AccordionItem component offers flexibility in its visual presentation through two distinct styles, allowing you to choose the one that best fits your design needs.
+The AccordionItem component offers flexibility in its visual presentation through two distinct styles using the `variant` prop, allowing you to choose the one that best fits your design needs.
 
 ```astro
 <Accordion>
