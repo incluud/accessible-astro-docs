@@ -136,7 +136,7 @@ export default defineConfig({
               link: '/components/pagination',
             },
             {
-              label: 'SkipLinks',
+              label: 'SkipLink',
               link: '/components/skip-links',
             },
             {

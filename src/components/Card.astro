@@ -72,12 +72,12 @@ const Tag = tagName
     --transition-easing: cubic-bezier(0.165, 0.84, 0.44, 1);
 
     display: flex;
+    position: relative;
     flex-direction: column;
     border: 2px solid light-dark(hsl(0 0% 10%), hsl(0 0% 90%));
     border-radius: 0.5rem;
     max-inline-size: 60ch;
     block-size: 100%;
-    position: relative;
     overflow: hidden;
 
     @media (prefers-reduced-motion: no-preference) {
@@ -91,9 +91,9 @@ const Tag = tagName
   }
 
   :where(.card:focus-within) a:focus {
-    text-decoration: none;
-    box-shadow: none;
     outline: none;
+    box-shadow: none;
+    text-decoration: none;
   }
 
   :where(.image) {
@@ -101,8 +101,8 @@ const Tag = tagName
   }
 
   :where(.image img) {
-    block-size: 100%;
     inline-size: 100%;
+    block-size: 100%;
     object-fit: cover;
 
     @media (prefers-reduced-motion: no-preference) {
@@ -112,11 +112,11 @@ const Tag = tagName
 
   :where(.content) {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     gap: 0.5rem;
-    flex-grow: 1;
-    padding-block: 1rem;
     padding-inline: 1rem;
+    padding-block: 1rem;
   }
 
   a {
@@ -135,14 +135,14 @@ const Tag = tagName
   }
 
   a::after {
-    content: '';
     position: absolute;
     inset: 0;
+    content: '';
   }
 
   :where(.meta) {
-    margin-block-start: 0.5rem;
     order: -1;
+    margin-block-start: 0.5rem;
   }
 
   .meta :global(span) {
