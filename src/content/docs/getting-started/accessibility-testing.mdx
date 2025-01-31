@@ -18,67 +18,86 @@ The foundation of accessibility starts with proper content structure, color cont
 - Is the language properly set (`<html lang="en">`)?
 - Are skip links present to the main content?
 - Is all content wrapped in proper landmarks (`header`, `main`, `footer`, `nav`, `article`, `section`, `aside`)?
+- Are navigation elements properly labeled (`<nav aria-label="Main">`, `<nav aria-label="Footer">`)?
 - Does the color contrast meet requirements (minimum 4.5:1 for normal text, 3:1 for large text)?
-- Do navigation elements have appropriate `aria-label` attributes?
-- Do interactive elements and links have clear focus indicators?
-- Are links opening in new tabs properly indicated (visually and in text)?
+- Are links distinguished by more than just color (e.g., underline)?
+- Do interactive elements and links have clear focus indicators (not just browser default)?
+- Are links opening in new tabs properly indicated (visually and with sr-only text "opens in new tab")?
 - Is there a logical tab order?
-- Is all content accessible at 400% zoom on 1280×1024 resolution?
-- Is horizontal scrolling prevented at 400% zoom?
-- Is the heading structure semantic (`h1` > `h2` > `h3` etc.)?
+- Is all content accessible at 400% zoom on 1280×1024 resolution without horizontal scrolling?
+- Is the heading structure semantic (`h1` > `h2` > `h3` etc.) with one main `h1` per page?
 - Are appropriate HTML elements used for their intended purpose?
 - Are JavaScript-driven changes properly announced to screen readers?
-- Are page titles informative and properly set?
-- Is the logo properly labeled and linked?
-- Is an accessibility statement present?
+- Are page titles descriptive (e.g., "Page Name - Site Name")?
+- Is the logo properly labeled (e.g., "Site Name Logo") and not linked on homepage?
+- Is an accessibility statement present and easily findable?
+- Are duplicate IDs avoided across the page?
 
 ## Media Content
 
 For images, videos, and animations:
 
 - Do videos have captions and audio descriptions (or transcripts)?
-- Do videos have clear titles (e.g., on `iframe` elements)?
-- Are keyboard shortcuts disabled for embedded videos where necessary?
+- Do videos have clear titles on `iframe` elements?
+- Are keyboard shortcuts disabled for embedded videos where necessary (e.g., YouTube `&disablekb=1`)?
 - Do decorative images have empty `alt` attributes while informative images have descriptive alternatives?
 - Can animations longer than 5 seconds be paused?
+- Is text overlaid on images also available to screen readers?
+- Are SVG elements with `role="img"` properly labeled with `aria-label` or `alt`?
+- Are social media icons properly labeled (e.g., "Visit our Facebook page, opens in new tab")?
 
 ## Keyboard Navigation
 
 Test your site without a mouse or trackpad:
 
+- Can all interactive elements be reached and operated with keyboard?
 - Can the menu be operated with arrow keys?
 - Can submenus be opened with enter/space/down arrow?
 - Can submenus be closed with escape?
 - Is there a focus trap on open submenus?
 - Do submenus have proper ARIA attributes (`aria-expanded`, `aria-haspopup`)?
+- Are menu toggles implemented as `<button>` elements (not links)?
+- Is the search functionality keyboard accessible?
+- Are carousels/sliders keyboard accessible?
+- Does keyboard focus remain visible and not get trapped in any section?
+
+## Forms and Interactive Elements
+
+Essential form and interactive element checks:
+
+- Does each form control have a proper label?
+- Are required fields clearly indicated?
+- Are error messages clear, descriptive, and announced to screen readers?
+- Are error messages linked to their corresponding inputs?
+- Is the submit button clearly visible and properly labeled?
+- Are appropriate `autocomplete` attributes used?
+- Do search fields have proper labels and submit buttons?
+- Are newsletter signup forms properly labeled with clear error messages?
+- Do `dialog` elements work with keyboard and close with escape?
+- Are sliders/carousels keyboard-accessible and properly announced?
+- Are interactive elements using appropriate ARIA attributes?
 
 ## Screen Reader Compatibility
 
 Test with a screen reader and ensure the content makes sense:
 
 - Is the correct information being read?
-- Are "Read more" links contextual (e.g., "Read more about accessibility testing")?
+- Are "Read more" links contextual?
 - Do interactive controls announce their state correctly?
+- Are navigation menus properly structured (using `<ul>` and `<li>`)?
+- Are landmarks properly labeled?
+- Are decorative elements hidden from screen readers?
 
-## Forms
+## Mobile and Responsive Design
 
-Essential form checks:
+Check responsive behavior and mobile accessibility:
 
-- Does each label have a `for` attribute matching its input's `id`?
-- Are error messages announced in an `aria-live` region?
-- Are there skip links to error messages that focus on the relevant input?
-- Are error messages clear and instructive?
-- Are appropriate `autocomplete` attributes used?
-
-## Interactive Controls
-
-For modals, accordions, and other interactive elements:
-
-- Do `dialog` elements work with keyboard and close with escape?
-- Can `dialog` elements be closed by clicking the backdrop?
-- Are `details`/`summary` elements properly marked up?
-- Are sliders/carousels keyboard-accessible and properly announced?
-- Are interactive elements using appropriate ARIA attributes (`aria-expanded`, `aria-controls`, `aria-labelledby`, `aria-pressed`, `aria-label`)?
+- Does the mobile menu work properly with touch and keyboard?
+- Are submenu items accessible on mobile?
+- Is the mobile menu toggle button accessible and properly labeled?
+- Do all interactive elements have touch targets of at least 44×44 pixels?
+- Is content still readable and functional at various zoom levels?
+- Are focus indicators visible and not obscured by other elements?
 
 ## Helpful Tools
 
@@ -109,3 +128,7 @@ Here's a collection of tools that can help you with accessibility testing:
 - **pa11y**: Command-line accessibility testing
 - **Storybook a11y addon**: Accessibility testing for Storybook components
 - **axe-core**: Accessibility testing engine for automated tools
+
+<Aside type="tip" title="Regular Testing">
+  Make accessibility testing a regular part of your development process, not just a final check. Test early and often to catch issues before they become harder to fix.
+</Aside>
