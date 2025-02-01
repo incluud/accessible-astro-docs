@@ -44,17 +44,18 @@ import { Pagination } from 'accessible-astro-components'
   totalPages="12"
   ariaLabel="Blog navigation"
 />
+
+<Pagination
+  currentPage="5"
+  totalPages="12"
+  renderProgress={({ currentPage, totalPages }) => 
+    `${currentPage} of ${totalPages} pages`
+  }
+/>
 ```
 
 <Aside type="note" title="Custom progress text">
-  You can customize the progress text using the `renderProgress` prop:
-  ```astro
-  <Pagination
-    renderProgress={({ currentPage, totalPages }) => 
-      `${currentPage} of ${totalPages} pages`
-    }
-  />
-  ```
+  You can customize the progress text using the `renderProgress` prop.
 </Aside>
 
 ## Props

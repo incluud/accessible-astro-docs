@@ -22,10 +22,6 @@ The Card component provides a versatile container for displaying related content
 
 ## Usage
 
-<Aside type="tip" title="Flexible content">
-  The Card component accepts any content through its default slot, allowing for flexible layouts while maintaining accessibility.
-</Aside>
-
 ```astro
 ---
 import { Card } from 'accessible-astro-components'
@@ -39,6 +35,10 @@ import { Card } from 'accessible-astro-components'
   <p>This is the card content that can include any HTML.</p>
 </Card>
 ```
+
+<Aside type="tip" title="Flexible content">
+  The Card component accepts any content through its default slot, allowing for flexible layouts while maintaining accessibility.
+</Aside>
 
 ## Props
 
@@ -56,7 +56,7 @@ import { Card } from 'accessible-astro-components'
 
 - Uses semantic HTML structure
 - Proper heading hierarchy with configurable levels
-- Images include proper alt text support
+- Image alt attributes are properly empty for decorative images
 - Links are properly structured for keyboard navigation
 - Focus states are clearly visible
 - Color contrast meets WCAG guidelines

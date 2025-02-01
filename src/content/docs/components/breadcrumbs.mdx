@@ -28,10 +28,6 @@ Learn how to implement the Breadcrumbs component in your project, from basic usa
 
 ### Basic
 
-<Aside type="tip" title="Current page">
-  Use the `currentPage` prop to indicate the current page in the breadcrumb trail. This will render it as a `<span>` instead of a link and add the appropriate ARIA attributes.
-</Aside>
-
 ```astro
 ---
 import { Breadcrumbs, BreadcrumbsItem } from 'accessible-astro-components'
@@ -43,6 +39,10 @@ import { Breadcrumbs, BreadcrumbsItem } from 'accessible-astro-components'
   <BreadcrumbsItem label="Current Page" currentPage={true} />
 </Breadcrumbs>
 ```
+
+<Aside type="tip" title="Current page">
+  Use the `currentPage` prop to indicate the current page in the breadcrumb trail. This will render it as a `<span>` instead of a link and add the appropriate ARIA attributes.
+</Aside>
 
 ### Variants
 
