@@ -55,8 +55,9 @@ Your support helps us cover basic costs and continue building accessible solutio
 ## 🌱 Together we make a difference
 
 We want to express our heartfelt gratitude to everyone who contributes to making the web more accessible:
+
 <a href="https://github.com/incluud/accessible-astro-docs/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=incluud/accessible-astro-docs" style="margin-block: 1rem 0;" />
+<img src="https://contrib.rocks/image?repo=incluud/accessible-astro-docs" />
 </a>
 
 - **The Astro Team** for creating an amazing static site generator and the wonderful Starlight theme
