@@ -55,12 +55,9 @@ Your support helps us cover basic costs and continue building accessible solutio
 ## 🌱 Together we make a difference
 
 We want to express our heartfelt gratitude to everyone who contributes to making the web more accessible:
-
 <a href="https://github.com/incluud/accessible-astro-docs/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=incluud/accessible-astro-docs" />
+<img src="https://contrib.rocks/image?repo=incluud/accessible-astro-docs" style="margin-block: 1rem 0;" />
 </a>
-
-&nbsp;
 
 - **The Astro Team** for creating an amazing static site generator and the wonderful Starlight theme
 - **Our Contributors** who dedicate their time and expertise to improve these tools
@@ -71,3 +68,7 @@ We want to express our heartfelt gratitude to everyone who contributes to making
 Together, we're not just building documentation or components – we're creating a more inclusive and accessible web for everyone. Every contribution, whether it's code, documentation, bug reports, or feedback, helps move us closer to this goal. ✨
 
 Remember: Accessibility is not a feature, it's a fundamental right. Thank you for being part of this journey!
+
+## 📖 The story behind Accessible Astro
+
+Accessible Astro started as a personal project by [Mark Teekman](https://github.com/markteekman) in early 2022, born from a passion for web accessibility and the Astro framework. What began as a single starter template grew into a family of accessible solutions, leading to the creation of [Incluud](https://github.com/incluud), an initiative with [Peter Padberg](https://github.com/peterpadberg) to make the web more inclusive. Today, these projects continue to grow and evolve with the help of our amazing community, staying true to their original purpose: making web accessibility easier for developers and better for everyone.
