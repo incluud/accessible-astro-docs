@@ -6,10 +6,12 @@
 
 Welcome to the official documentation website for the Accessible Astro Projects! This comprehensive resource is built with [Starlight](https://starlight.astro.build), Astro's powerful documentation framework, to provide clear and accessible documentation for our suite of accessibility-focused tools. Whether you're a developer looking to build more inclusive web applications or someone interested in learning about web accessibility, this documentation covers:
 
-- [Accessible Astro Starter](https://github.com/markteekman/accessible-astro-starter): A fully accessible boilerplate for kickstarting Astro projects, with Tailwind CSS support.
-- [Accessible Astro Components](https://github.com/markteekman/accessible-astro-components/): A library of reusable, accessible components designed for Astro, build in TypeScript.
-- [Accessible Astro Dashboard](https://github.com/markteekman/accessible-astro-dashboard/): A user-friendly dashboard interface with a login screen, built with accessibility in mind.
+- [Accessible Astro Starter](https://github.com/incluud/accessible-astro-starter): A fully accessible boilerplate for kickstarting Astro projects, with Tailwind CSS support.
+- [Accessible Astro Components](https://github.com/incluud/accessible-astro-components/): A library of reusable, accessible components designed for Astro, build in TypeScript.
+- [Accessible Astro Dashboard](https://github.com/incluud/accessible-astro-dashboard/): A user-friendly dashboard interface with a login screen, built with accessibility in mind.
 - [Accessible Astro Docs](https://github.com/incluud/accessible-astro-docs): Comprehensive documentation for all Accessible Astro projects, built with Astro's Starlight theme.
+
+Check out our [roadmap](https://github.com/orgs/incluud/projects/4/views/1) to see what's coming next!
 
 <br>
 
@@ -73,4 +75,4 @@ Remember: Accessibility is not a feature, it's a fundamental right. Thank you fo
 
 ## The story behind Accessible Astro
 
-Accessible Astro started as a personal project by [Mark Teekman](https://github.com/markteekman) in early 2022, born from a passion for web accessibility and the Astro framework. What began as a single starter template grew into a family of accessible solutions, leading to the creation of [Incluud](https://github.com/incluud), an initiative with [Peter Padberg](https://github.com/peterpadberg) to make the web more inclusive. Today, these projects continue to grow and evolve with the help of our amazing community, staying true to their original purpose: making web accessibility easier for developers and better for everyone.
+Accessible Astro started as a personal project by [Mark Teekman](https://github.com/markteekman) in 2021 when Astro was in its early stages, born from a passion for web accessibility and the Astro framework. What began as a single starter template grew into a family of accessible solutions, leading to the creation of [Incluud](https://github.com/incluud), an initiative with [Peter Padberg](https://github.com/peterpadberg) to make the web more inclusive. Today, these projects continue to grow and evolve with the help of our amazing community, staying true to their original purpose: making web accessibility easier for developers and better for everyone.
