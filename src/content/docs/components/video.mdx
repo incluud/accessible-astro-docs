@@ -42,28 +42,30 @@ import { Video } from 'accessible-astro-components'
 ---
 
 <Video 
-  src="https://www.youtube.com/watch?v=aqz-KE-bpKQ"
-  title="Big Buck Bunny"
+  src="https://www.youtube.com/watch?v=j8K-ESJF814"
+  title="One year of Starlight: Astro's community-built documentation theme"
   ratio="16:9"
 />
 ```
 
-### YouTube Specific
+### YouTube specific
 
-<Aside type="note" title="YouTube Keyboard Handling">
-  When embedding YouTube videos, the component automatically adds `disablekb=1` to prevent YouTube's default keyboard shortcuts from interfering with your website's accessibility. If you've already included this parameter, the component will detect it and avoid duplication.
+<Aside type="note" title="YouTube keyboard handling">
+  When embedding YouTube videos, the component automatically adds `&disablekb=1` to prevent YouTube's default keyboard shortcuts from interfering with your website's accessibility. If you've already included this parameter, the component will detect it and avoid duplication.
 </Aside>
 
 ```astro
 <Video 
-  src="https://www.youtube.com/watch?v=aqz-KE-bpKQ"
-  title="Big Buck Bunny Official Short Film"
+  src="https://www.youtube.com/watch?v=tk1RWcasgxs&disablekb=1"
+  title="Astro Together keynote in 6 minutes"
   ratio="21:9"
   loading="eager"
 />
 ```
 
 ## Props
+
+Configure the Video component using these available props to customize its behavior and appearance.
 
 <div class="props-wrapper">
 | Prop | Type | Default | Description |
@@ -77,7 +79,7 @@ import { Video } from 'accessible-astro-components'
 
 ## Accessibility
 
-The Video component prioritizes accessibility through several features:
+Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper ARIA attributes. The Video component is built with accessibility in mind:
 
 - Required title attribute for screen readers
 - Prevention of YouTube keyboard traps
@@ -146,22 +148,22 @@ Customize the Video component while maintaining its accessibility features.
 
 See the Video component in action with these practical examples.
 
-### Default YouTube Embed
+### Default YouTube embed
 
 <Video 
-  src="https://www.youtube.com/watch?v=j8K-ESJF814&t=3s"
+  src="https://www.youtube.com/watch?v=j8K-ESJF814"
   title="One year of Starlight: Astro's community-built documentation theme"
   ratio="16:9"
 />
 
-### Widescreen Format
+### Widescreen format
 
 <Aside type="caution" title="Clipping in thumbnails">
   Changing the aspect ratio can cause clipping in thumbnails.
 </Aside>
 
 <Video 
-  src="https://www.youtube.com/watch?v=tk1RWcasgxs&t=2s"
+  src="https://www.youtube.com/watch?v=tk1RWcasgxs"
   title="Astro Together keynote in 6 minutes"
   ratio="21:9"
 />

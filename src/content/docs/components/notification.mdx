@@ -37,7 +37,7 @@ Each type of notification has a specific purpose:
 
 ## Usage
 
-Learn how to implement the Notification component in your project:
+Learn how to implement the Notification component in your project, from basic usage to advanced configurations.
 
 ```astro ins={13}
 ---
@@ -58,10 +58,12 @@ import { Icon } from 'astro-icon/components'
 ```
 
 <Aside type="note" title="Icon integration">
-  The examples use Astro Icon for the notification icons, but you can use any icon system or custom icons.
+  The examples use [Astro Icon](https://github.com/natemoo-re/astro-icon) for the notification icons, but you can use any icon system or custom icons.
 </Aside>
 
 ## Props
+
+Configure the Notification component using these available props to customize its behavior and appearance.
 
 <div class="props-wrapper">
 | Prop | Type | Default | Description |
@@ -75,15 +77,13 @@ import { Icon } from 'astro-icon/components'
 
 ## Accessibility
 
-The Notification component prioritizes accessibility through several features:
+Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper ARIA attributes. The Notification component is built with accessibility in mind:
 
 - Semantic `<aside>` element for complementary content
 - Proper ARIA roles for dynamic content
 - High contrast colors meeting WCAG guidelines
 - Contextual information through clear labeling
 - Screen reader announcements for dynamic notifications
-- Color combinations tested for color blindness
-- Support for reduced motion preferences
 
 ## Styling
 

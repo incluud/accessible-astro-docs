@@ -3,18 +3,22 @@ title: Accessible Astro Dashboard
 description: A fully accessible dashboard theme built with Astro and accessibility in mind.
 ---
 
-import { Aside, Steps, FileTree } from '@astrojs/starlight/components';
+import { Aside, Badge, FileTree, Steps } from '@astrojs/starlight/components';
 
 ## Introduction
 
-Accessible Astro Dashboard is a comprehensive admin dashboard theme that includes a login system, dashboard overview, and various admin pages. It's built with accessibility in mind and includes numerous utility classes and design system primitives.
+The [Accessible Astro Dashboard](https://github.com/incluud/accessible-astro-dashboard) is a comprehensive admin dashboard theme that includes a login system, dashboard overview, and various admin pages. It's built with accessibility in mind and includes numerous utility classes and design system primitives.
 
 <div class="flex gap-2 mb-8">
-  <a href="https://github.com/markteekman/accessible-astro-dashboard" class="sl-flex">GitHub Repository</a>
+  <a href="https://github.com/incluud/accessible-astro-dashboard" class="sl-flex">GitHub Repository</a>
   <a href="https://accessible-astro-dashboard.netlify.app" class="sl-flex">Live Demo</a>
 </div>
 
-## Key Features
+<Aside type="caution" title="Hackaton project">
+  This project was created as a submission for the [Astro Hackathon 2022](https://hackathon-1-0-projects.vercel.app/theme/accessible-astro-dashboard). As such there are some features that are not yet implemented. We are planning on updating the project to a production-ready state in the future.
+</Aside>
+
+## Key features
 
 - Login system with authentication example
 - Dashboard overview with customizable widgets
@@ -24,11 +28,11 @@ Accessible Astro Dashboard is a comprehensive admin dashboard theme that include
 - Dark mode with system preference detection
 - Responsive design with mobile navigation
 - Design system utilities and primitives
-- Tailwind CSS integration
+- Tailwind CSS integration <Badge text="Not implemented yet" variant="caution" />
 - Excellent Lighthouse scores
-- ESLint with strict accessibility settings
+- ESLint with strict accessibility settings <Badge text="Not implemented yet" variant="caution" />
 
-## Accessibility Features
+## Accessibility features
 
 - Semantic HTML landmarks
 - Skip links navigation
@@ -36,11 +40,10 @@ Accessible Astro Dashboard is a comprehensive admin dashboard theme that include
 - Screen reader friendly components
 - Focus management and trap for modals
 - Proper ARIA attributes and landmarks
-- High contrast mode support
-- Reduced motion preferences
+- High contrast mode support <Badge text="Not implemented yet" variant="caution" />
+- Reduced motion preferences <Badge text="Not implemented yet" variant="caution" />
 - Clear focus indicators
 - Screen reader only text utilities
-- Accessible form validation
 - Proper heading hierarchy
 
 <Aside type="tip" title="Authentication">
@@ -49,7 +52,7 @@ Accessible Astro Dashboard is a comprehensive admin dashboard theme that include
   - Password: `Astronaut570`
 </Aside>
 
-## Getting Started
+## Getting started
 
 <Steps>
 1. Clone the repository:
@@ -71,58 +74,55 @@ Accessible Astro Dashboard is a comprehensive admin dashboard theme that include
    Visit `http://localhost:4321` and log in with the demo credentials.
 </Steps>
 
-## Project Structure
+<Aside type="tip" title="GitHub Template">
+  The dashboard is also available as a GitHub template. You can use it to create a new project by clicking the "Use this template" button in the repository.
+</Aside>
+
+## Project structure
 
 The dashboard follows a clear and organized structure:
 
 <FileTree>
 - public/
-  - images/
-  - favicon.svg
+  - ... // Other assets
 - src/
   - assets/
+    - img/ // Contains the logo
     - scss/
       - base/ _// Core styles and utilities_
-      - components/ _// Component styles_
   - components/
-    - core/ _// Layout components_
-    - dashboard/ _// Dashboard widgets_
-    - forms/ _// Form components_
+    - DashboardWidget.astro
+    - EmptyState.astro
+    - LoginForm.astro
+    - Navigation.astro
+    - ResponsiveToggle.astro
   - layouts/
-    - DashboardLayout.astro _// Main dashboard layout_
     - DefaultLayout.astro _// Default page layout_
+    - LoginLayout.astro _// Login page layout_
   - pages/
-    - dashboard/
-      - media.astro
-      - messages.astro
-      - products.astro
-      - settings.astro
-      - users.astro
-    - index.astro _// Login page_
+    - 404.astro
+    - index.astro
+    - login.astro // Login page
+    - media.astro
+    - messages.astro
+    - products.astro
+    - settings.astro
+    - users.astro
 - package.json
 - astro.config.mjs
-- tailwind.config.js
 </FileTree>
 
 ## Components
 
 The dashboard includes several specialized components:
 
-### Core Components
+- `DashboardWidget.astro` - Customizable dashboard widgets
+- `EmptyState.astro` - Placeholder for empty data states
 - `LoginForm.astro` - Accessible login form with validation
 - `Navigation.astro` - Collapsible sidebar navigation
 - `ResponsiveToggle.astro` - Mobile navigation toggle
-- `SkipLinks.astro` - For keyboard users
-- `DarkMode.astro` - Theme toggle with system preference
 
-### Dashboard Components
-- `DashboardWidget.astro` - Customizable dashboard widgets
-- `EmptyState.astro` - Placeholder for empty data states
-- `MediaGallery.astro` - Media gallery with pagination
-- `DataTable.astro` - Accessible data tables
-- `SearchForm.astro` - Search functionality
-
-## Design System
+## Customization
 
 The theme includes a comprehensive design system:
 
@@ -133,15 +133,13 @@ The theme includes a comprehensive design system:
       - base/
         - _reset.scss _// CSS reset_
         - _grid.scss _// Grid system_
-        - _colors.scss _// Color system_
-        - _typography.scss _// Font styles_
-        - _spacing.scss _// Space scale_
+        - _color.scss _// Color system_
+        - _font.scss _// Font styles_
+        - _space.scss _// Space scale_
         - _elevation.scss _// Box shadows_
-        - _radius.scss _// Border radius_
-        - _motion.scss _// Animations_
 </FileTree>
 
-### Example Usage
+### Example usage
 
 ```astro
 <div class="grid">
@@ -154,7 +152,7 @@ The theme includes a comprehensive design system:
 </div>
 ```
 
-<Aside type="note" title="SSR Support">
+<Aside type="note" title="SSR support">
   While the demo uses SSG for simplicity, it's recommended to use Astro's SSR capabilities for proper authentication in production.
 </Aside>
 
@@ -165,7 +163,7 @@ The theme includes a comprehensive design system:
 
 2. Create a new branch:
    ```bash
-   git checkout -b feature/your-feature-name
+   git checkout -b feat/your-feature-name
    ```
 
 3. Make your changes and commit them:
@@ -175,12 +173,12 @@ The theme includes a comprehensive design system:
 
 4. Push to your fork:
    ```bash
-   git push origin feature/your-feature-name
+   git push origin feat/your-feature-name
    ```
 
 5. Open a Pull Request on GitHub
 </Steps>
 
-<Aside type="tip" title="Best Practice">
+<Aside type="tip" title="Best practice">
   When customizing the dashboard, maintain the accessibility features and test with screen readers and keyboard navigation.
 </Aside>

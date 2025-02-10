@@ -7,14 +7,14 @@ import { Aside, Steps, FileTree } from '@astrojs/starlight/components';
 
 ## Introduction
 
-Accessible Astro Starter is a ready-to-use, SEO and accessibility-friendly blogging theme. It provides a solid foundation with numerous accessible components, Tailwind CSS integration, and example pages including a dynamic blog, 404 page, and MDX support.
+The [Accessible Astro Starter](https://github.com/incluud/accessible-astro-starter) is a ready-to-use, SEO and accessibility-friendly blogging theme. It provides a solid foundation with numerous accessible components, Tailwind CSS integration, and example pages including a dynamic blog, 404 page, and MDX support.
 
 <div class="flex gap-2 mb-8">
-  <a href="https://github.com/markteekman/accessible-astro-starter" class="sl-flex">GitHub Repository</a>
+  <a href="https://github.com/incluud/accessible-astro-starter" class="sl-flex">GitHub Repository</a>
   <a href="https://accessible-astro.netlify.app/" class="sl-flex">Live Demo</a>
 </div>
 
-## Key Features
+## Key features
 
 - Built on Astro 5.0
 - Tailwind CSS integration
@@ -26,7 +26,7 @@ Accessible Astro Starter is a ready-to-use, SEO and accessibility-friendly blogg
 - Dynamic blog with pagination and breadcrumbs
 - Custom 404 error page
 
-## Accessibility Features
+## Accessibility features
 
 - Semantic HTML landmarks (`header`, `main`, `footer`, `nav`, etc.)
 - Proper heading hierarchy
@@ -39,11 +39,11 @@ Accessible Astro Starter is a ready-to-use, SEO and accessibility-friendly blogg
 - Screen reader only text utilities
 - Accessible components like Accordions, Breadcrumbs, Modals, and more
 
-<Aside type="tip" title="Best Practice">
+<Aside type="tip" title="Best practice">
   The theme follows WCAG guidelines and includes ESLint rules to help maintain accessibility standards in your code.
 </Aside>
 
-## Getting Started
+## Getting started
 
 <Steps>
 1. Clone the repository:
@@ -65,23 +65,34 @@ Accessible Astro Starter is a ready-to-use, SEO and accessibility-friendly blogg
    Visit `http://localhost:4321` to see your site in action.
 </Steps>
 
-## Project Structure
+<Aside type="tip" title="GitHub template">
+  The starter is also available as a GitHub template. You can use it to create a new project by clicking the "Use this template" button in the repository.
+</Aside>
+
+## Project structure
 
 The starter follows a clear and organized structure:
 
 <FileTree>
 - public/
-  - images/
-  - favicon.svg
+  - fonts/
+  - ... // Other assets
 - src/
   - assets/
+    - img/ // Contains the logo
     - scss/
       - base/ _// Core styles and utilities_
   - components/
-    - core/ _// Layout components_
-    - features/ _// Feature components_
-  - content/
-    - blog/ _// Blog posts_
+    - CallToAction.astro
+    - ContentMedia.astro 
+    - Counter.astro
+    - Feature.astro
+    - Footer.astro
+    - Header.astro
+    - Hero.astro
+    - Navigation.astro
+    - ResponsiveToggle.astro
+    - SiteMeta.astro
   - layouts/
     - DefaultLayout.astro
     - MarkdownLayout.astro
@@ -90,13 +101,16 @@ The starter follows a clear and organized structure:
       - [...page].astro _// Dynamic blog pages_
       - [post].astro _// Individual post pages_
     - 404.astro
+    - accessible-astro-components.astro
     - index.astro
+    - markdown-page.md
+    - mdx-page.mdx
 - package.json
 - astro.config.mjs
 - tailwind.config.js
 </FileTree>
 
-## Available Commands
+## Available commands
 
 | Command | Action |
 |---------|--------|
@@ -109,16 +123,21 @@ The starter follows a clear and organized structure:
 
 The starter includes several pre-built accessible components:
 
-- `Header.astro` - With responsive navigation
-- `Footer.astro` - With customizable content
-- `SkipLinks.astro` - For keyboard users
+- `CallToAction.astro` - Styled block with a button
+- `ContentMedia.astro` - Content with media layout
+- `Counter.astro` - Icon and number counter
 - `DarkMode.astro` - Theme toggle with system preference
+- `Feature.astro` - Feature highlight component
+- `Footer.astro` - With customizable content
+- `Header.astro` - With responsive navigation
+- `Hero.astro` - Hero section component
 - `Navigation.astro` - Keyboard accessible dropdown navigation
 - `ResponsiveToggle.astro` - Mobile navigation toggle
 - `SiteMeta.astro` - SEO meta component
+- `SkipLinks.astro` - For keyboard users
 
-<Aside type="note" title="View Transitions">
-  While the theme supports Astro's View Transitions, please review the accessibility considerations in the Astro documentation.
+<Aside type="note" title="View transitions">
+  This theme supports Astro's View Transitions. Please review the [Astro documentation](https://docs.astro.build/en/guides/view-transitions/) for more information.
 </Aside>
 
 ## Customization
@@ -163,7 +182,7 @@ import Navigation from './Navigation.astro'
 
 2. Create a new branch:
    ```bash
-   git checkout -b feature/your-feature-name
+   git checkout -b feat/your-feature-name
    ```
 
 3. Make your changes and commit them:
@@ -173,12 +192,12 @@ import Navigation from './Navigation.astro'
 
 4. Push to your fork:
    ```bash
-   git push origin feature/your-feature-name
+   git push origin feat/your-feature-name
    ```
 
 5. Open a Pull Request on GitHub
 </Steps>
 
-<Aside type="tip" title="Getting Help">
-  If you find any issues or have questions, please open an issue on GitHub or start a discussion in the repository.
+<Aside type="tip" title="Getting help">
+  If you find any issues or have questions, please open an issue on GitHub or start a discussion in the repository. You can also reach out to the Astro community on Discord.
 </Aside>

@@ -14,12 +14,16 @@ export default defineConfig({
         replacesTitle: true,
       },
       social: {
+        'x.com': 'https://x.com/incluud',
         blueSky: 'https://bluesky.social/u/incluud.dev',
         github: 'https://github.com/incluud',
         openCollective: 'https://opencollective.com/incluud',
       },
       editLink: {
         baseUrl: 'https://github.com/incluud/astro-docs/edit/main/',
+      },
+      components: {
+        Head: './src/components/Head.astro',
       },
       sidebar: [
         {
@@ -137,7 +141,7 @@ export default defineConfig({
             },
             {
               label: 'SkipLink',
-              link: '/components/skip-links',
+              link: '/components/skip-link',
             },
             {
               label: 'Tabs',
@@ -183,6 +187,15 @@ export default defineConfig({
             {
               label: '❤️ Supporting the project',
               link: '/contributing/support-us',
+            },
+          ],
+        },
+        {
+          label: 'Resources',
+          items: [
+            {
+              label: 'Site showcases',
+              link: '/resources/showcases',
             },
           ],
         },

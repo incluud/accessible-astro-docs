@@ -49,9 +49,9 @@ import { Media } from 'accessible-astro-components'
   Use the `loading` and `fetchpriority` props to optimize the loading behavior of above-the-fold images.
 </Aside>
 
-### With Custom Loading
+### With custom loading
 
-```astro
+```astro {5,6}
 <Media 
   src="/hero-image.jpg"
   alt="Hero section image"
@@ -62,6 +62,8 @@ import { Media } from 'accessible-astro-components'
 ```
 
 ## Props
+
+Configure the Media component using these available props to customize its behavior and appearance.
 
 <div class="props-wrapper">
 | Prop | Type | Default | Description |
@@ -77,7 +79,7 @@ import { Media } from 'accessible-astro-components'
 
 ## Accessibility
 
-Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper image handling:
+Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper image handling. The Media component is built with accessibility in mind:
 
 - Required `alt` text support
 - Maintains aspect ratio without layout shift
@@ -170,7 +172,7 @@ Make the Media component your own with custom styling while maintaining its acce
 
 See the Media component in action with these practical examples demonstrating different aspect ratios and use cases.
 
-### Default Style
+### Default style
 
 <div class="not-content">
   <Media 
@@ -179,7 +181,7 @@ See the Media component in action with these practical examples demonstrating di
   />
 </div>
 
-### Square Aspect Ratio
+### Square aspect ratio
 
 <div class="not-content">
   <Media 
@@ -189,7 +191,7 @@ See the Media component in action with these practical examples demonstrating di
   />
 </div>
 
-### Widescreen Format
+### Widescreen format
 
 <div class="not-content">
   <Media 

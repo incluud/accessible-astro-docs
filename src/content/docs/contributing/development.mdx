@@ -13,8 +13,8 @@ Before you start contributing, make sure you have all the necessary tools and so
 1. **Prerequisites**
    - Node.js 18.14.1 or higher
    - npm (or pnpm/Yarn)
-   - Git
-   - A code editor (we recommend VS Code)
+   - Git or GitHub Desktop for example
+   - A code editor (we recommend VS Code or Cursor)
    - Browser developer tools
    - Screen reader for testing
 
@@ -24,7 +24,6 @@ Before you start contributing, make sure you have all the necessary tools and so
    - Prettier
    - TypeScript
    - MDX
-   - PostCSS Language Support
 </Steps>
 
 ## Project structures
@@ -53,25 +52,74 @@ Understanding the project structure is crucial for effective development. Below 
 </FileTree>
 
 ### Themes
+
+#### Accessible Astro Starter
 <FileTree>
-- accessible-astro-starter/
-  - src/
-    - assets/ **Images, fonts, etc.**
-    - components/ **Theme components**
-      - Header.astro
-      - Footer.astro
-      - Navigation.astro
-      - ...
-    - layouts/ **Page layouts**
-      - DefaultLayout.astro
-      - MarkdownLayout.astro
-      - ...
-    - pages/ **Route pages**
-      - index.astro
-      - blog/
-      - about.astro
-  - public/ **Static assets**
-  - astro.config.mjs
+- public/
+  - fonts/
+  - ... // Other assets
+- src/
+  - assets/
+    - img/ // Contains the logo
+    - scss/
+      - base/ // Core styles and utilities
+  - components/
+    - CallToAction.astro
+    - ContentMedia.astro 
+    - Counter.astro
+    - Feature.astro
+    - Footer.astro
+    - Header.astro
+    - Hero.astro
+    - Navigation.astro
+    - ResponsiveToggle.astro
+    - SiteMeta.astro
+  - layouts/
+    - DefaultLayout.astro
+    - MarkdownLayout.astro
+  - pages/
+    - blog/
+      - [...page].astro // Dynamic blog pages
+      - [post].astro // Individual post pages
+    - 404.astro
+    - accessible-astro-components.astro
+    - index.astro
+    - markdown-page.md
+    - mdx-page.mdx
+- package.json
+- astro.config.mjs
+- tailwind.config.js
+</FileTree>
+
+#### Accessible Astro Dashboard
+<FileTree>
+- public/
+  - ... // Other assets
+- src/
+  - assets/
+    - img/ // Contains the logo
+    - scss/
+      - base/ // Core styles and utilities
+  - components/
+    - DashboardWidget.astro
+    - EmptyState.astro
+    - LoginForm.astro
+    - Navigation.astro
+    - ResponsiveToggle.astro
+  - layouts/
+    - DefaultLayout.astro // Default page layout
+    - LoginLayout.astro // Login page layout
+  - pages/
+    - 404.astro
+    - index.astro
+    - login.astro // Login page
+    - media.astro
+    - messages.astro
+    - products.astro
+    - settings.astro
+    - users.astro
+- package.json
+- astro.config.mjs
 </FileTree>
 
 ## Development workflow
@@ -101,7 +149,7 @@ Follow these steps to set up your development environment and start contributing
 3. **Test your changes**
    ```bash
    # Components
-   npm run typecheck   # Check TypeScript
+   npm run typecheck  # Check TypeScript
    npm run build      # Test production build
 
    # Themes
@@ -135,21 +183,24 @@ We maintain high standards for our code to ensure accessibility, maintainability
 - Consider color contrast
 - Support reduced motion
 
+<Aside type="note" title="Accessibility testing">
+  Remember, the first rule of ARIA is "Don't use ARIA". Use it when you need to, but don't overuse it. Try to use native HTML elements and attributes first.
+</Aside>
+
 ### CSS
 - Use logical properties (inline/block)
 - Follow mobile-first approach
-- Support dark mode with light-dark()
-- Use consistent border-radius (0.5rem)
+- Support dark mode with `light-dark()`
+- Use consistent border-radius (`0.5rem`)
 - Use HSL colors
 - Support prefers-reduced-motion
-- Use :where() for lower specificity
+- Use `:where()` for lower specificity
 
 <Aside type="tip" title="CSS custom properties">
   Use semantic names for variables:
   ```css
-  --component-spacing: 1rem;
-  --component-radius: 0.5rem;
-  --component-transition: 0.2s ease;
+  --transition-duration: 0.2s;
+  --transition-easing: cubic-bezier(0.165, 0.84, 0.44, 1);
   ```
 </Aside>
 

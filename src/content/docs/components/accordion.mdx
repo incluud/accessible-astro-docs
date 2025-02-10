@@ -10,7 +10,7 @@ import AccordionItem from '../../../components/AccordionItem.astro';
 
 ## Introduction
 
-The Accordion component provides an expandable/collapsible section of content that follows the WAI-ARIA best practices. It uses native HTML `<details>` and `<summary>` elements for built-in accessibility and functionality.
+The Accordion component provides an expandable/collapsible section of content that follows the WAI-ARIA best practices. It uses the native HTML `<details>` and `<summary>` elements for built-in accessibility and functionality.
 
 ## When to use
 
@@ -27,7 +27,7 @@ Learn how to implement the Accordion component in your project, from basic usage
 
 ### Basic
 
-```astro ins={7}
+```astro {7, 13}
 ---
 import { Accordion, AccordionItem } from 'accessible-astro-components'
 ---
@@ -36,6 +36,7 @@ import { Accordion, AccordionItem } from 'accessible-astro-components'
   <AccordionItem 
     name="astro"
     title="What is Astro?"
+    open
   >
     <p>Astro is an all-in-one web framework for building fast, content-focused websites.</p>
   </AccordionItem>
@@ -49,14 +50,18 @@ import { Accordion, AccordionItem } from 'accessible-astro-components'
 ```
 
 <Aside type="tip" title="Exclusive behavior">
-  Use the `name` prop to create mutually exclusive accordion groups where only one item can be open at a time.
+  Use the `name` prop to create mutually exclusive accordion groups where only one item can be open at a time. Leave it empty to allow multiple items to be open at the same time.
+</Aside>
+
+<Aside type="tip" title="Initial state">
+  Use the `open` prop to set an accordion item's initial state. This is particularly useful for FAQ sections where you want to highlight the most common question.
 </Aside>
 
 ### Variants
 
 The AccordionItem component offers flexibility in its visual presentation through two distinct styles using the `variant` prop, allowing you to choose the one that best fits your design needs.
 
-```astro
+```astro ins={10}
 <Accordion>
   {/* Default variant with plus/minus icon */}
   <AccordionItem title="Default Style">
@@ -95,13 +100,12 @@ Configure the Accordion and AccordionItem components using these available props
 | `class` | `string` | `''` | Additional CSS classes to apply to the item |
 | `variant` | `'default' \| 'chevron'` | `'default'` | The visual style variant of the accordion item |
 | `tagName` | `string` | `'h3'` | HTML tag to use for the title element |
+| `open` | `boolean` | `false` | Whether the accordion item is initially open |
 </div>
 
 ## Accessibility
 
-Accessibility isn't an afterthought - it's built into the core of this component through native HTML elements and careful consideration of user interactions.
-
-The Accordion component is built with accessibility in mind:
+Accessibility isn't an afterthought - it's built into the core of this component through native HTML elements and careful consideration of user interactions. The Accordion component is built with accessibility in mind:
 
 - Uses native HTML `<details>` and `<summary>` elements for built-in accessibility
 - Proper heading structure with configurable heading tags (`h2`-`h6`)
@@ -177,30 +181,30 @@ Make the Accordion component your own with custom styling while maintaining its 
 
 See the Accordion component in action with these practical examples demonstrating different variants and styling options.
 
-### Default Style
+### Default style
 
 <div class="not-content">
   <Accordion>
-    <AccordionItem title="What is an Accordion?" open>
+    <AccordionItem title="What is an Accordion?" name="exclusive" open>
       <p>An accordion is a vertically stacked set of interactive headings that each reveal a section of content.</p>
       <a href="#">Learn more about accordions</a>
     </AccordionItem>
-    <AccordionItem title="When to use Accordions">
+    <AccordionItem title="When to use Accordions" name="exclusive">
       <p>Use accordions to organize related content into collapsible sections, making it easier for users to digest information.</p>
     </AccordionItem>
-    <AccordionItem title="Accessibility Benefits">
+    <AccordionItem title="Accessibility Benefits" name="exclusive">
       <p>Accordions built with native HTML elements provide excellent keyboard navigation and screen reader support out of the box.</p>
     </AccordionItem>
-    <AccordionItem title="Best Practices">
+    <AccordionItem title="Best Practices" name="exclusive">
       <p>Keep accordion headers clear and concise. Ensure the content within each panel is relevant to its header.</p>
     </AccordionItem>
-    <AccordionItem title="Browser Support">
+    <AccordionItem title="Browser Support" name="exclusive">
       <p>The details and summary elements used in this accordion have excellent browser support across modern browsers.</p>
     </AccordionItem>
   </Accordion>
 </div>
 
-### Chevron Style
+### Chevron style
 
 <div class="not-content">
   <Accordion>

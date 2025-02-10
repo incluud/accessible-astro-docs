@@ -28,7 +28,9 @@ Use the Pagination component when you need to split content across multiple page
 
 ## Usage
 
-Learn how to implement the Pagination component in your project:
+Learn how to implement the Pagination component in your project, from basic usage to advanced configurations.
+
+### Basic
 
 ```astro
 ---
@@ -44,6 +46,14 @@ import { Pagination } from 'accessible-astro-components'
   totalPages="12"
   ariaLabel="Blog navigation"
 />
+```
+
+### Custom progress text
+
+```astro
+---
+import { Pagination } from 'accessible-astro-components'
+---
 
 <Pagination
   currentPage="5"
@@ -55,10 +65,41 @@ import { Pagination } from 'accessible-astro-components'
 ```
 
 <Aside type="note" title="Custom progress text">
-  You can customize the progress text using the `renderProgress` prop.
+  You can customize the progress text using the `renderProgress` prop. It's a function that receives the current page and total pages as arguments and returns a string.
+</Aside>
+
+### Custom labels
+
+```astro
+---
+import { Pagination } from 'accessible-astro-components'
+---
+
+<Pagination
+  currentPage="5"
+  totalPages="12"
+  renderPageLabel={({ type, page }) => {
+    switch (type) {
+      case 'first':
+        return `Navigate to first page (page 1)`
+      case 'previous':
+        return `Navigate to previous page (page ${page})`
+      case 'next':
+        return `Navigate to next page (page ${page})`
+      case 'last':
+        return `Navigate to last page (page ${page})`
+    }
+  }}
+/>
+```
+
+<Aside type="tip" title="Accessible labels">
+  The `renderPageLabel` prop allows you to customize the accessible labels for each navigation control while maintaining both context ("next", "previous") and specific page numbers for optimal screen reader experience.
 </Aside>
 
 ## Props
+
+Configure the Pagination component using these available props to customize its behavior and appearance.
 
 <div class="props-wrapper">
 | Prop | Type | Default | Description |
@@ -69,18 +110,19 @@ import { Pagination } from 'accessible-astro-components'
 | `lastPage` | `string \| null \| undefined` | `'#'` | URL for the last page, falsy value disables the control |
 | `currentPage` | `string \| number` | `'1'` | Current page number |
 | `totalPages` | `string \| number` | `'12'` | Total number of pages |
-| `renderProgress` | `Function` | See description | Custom function to render the progress text |
+| `renderProgress` | `Function` | See example | Custom function to render the progress text |
+| `renderPageLabel` | `Function` | See example | Custom function to generate accessible labels for navigation controls |
 | `ariaLabel` | `string` | `'Pagination'` | Accessible label for the navigation |
 | `class` | `string` | `''` | Additional CSS classes to apply |
 </div>
 
 ## Accessibility
 
-The Pagination component prioritizes accessibility through several features:
+Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper ARIA attributes. The Pagination component is built with accessibility in mind:
 
 - Semantic `<nav>` element with descriptive `aria-label`
 - Clear visual indication of disabled controls
-- Descriptive ARIA labels for navigation buttons
+- Descriptive ARIA labels combining both context and page numbers (e.g., "Go to next page (page 6)")
 - Keyboard navigation support
 - High contrast icons and text
 - Clear focus indicators

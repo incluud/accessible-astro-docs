@@ -22,6 +22,10 @@ The Card component provides a versatile container for displaying related content
 
 ## Usage
 
+Learn how to implement the Card component in your project, from basic usage to advanced configurations.
+
+### Basic
+
 ```astro
 ---
 import { Card } from 'accessible-astro-components'
@@ -36,11 +40,34 @@ import { Card } from 'accessible-astro-components'
 </Card>
 ```
 
+### With meta info
+
+```astro
+---
+import { Card } from 'accessible-astro-components'
+---
+
+<Card
+  img="path/to/image.jpg"
+  url="/blog/post"
+  title="Card Title"
+  footer="Card footer content"
+>
+  <span slot="meta">
+    <Badge text="Science" variant="tip" />
+    <Badge text="Technology" variant="danger" />
+  </span>
+  <p>This is the card content that can include any HTML.</p>
+</Card>
+```
+
 <Aside type="tip" title="Flexible content">
-  The Card component accepts any content through its default slot, allowing for flexible layouts while maintaining accessibility.
+  The Card component accepts any content through its default slot, allowing for flexible layouts while maintaining accessibility. You can use the `meta` slot to add additional information to the card.
 </Aside>
 
 ## Props
+
+Configure the Card component using these available props to customize its behavior and appearance.
 
 <div class="props-wrapper">
 | Prop | Type | Default | Description |
@@ -50,13 +77,16 @@ import { Card } from 'accessible-astro-components'
 | `title` | `string` | `''` | Title text for the card |
 | `class` | `string` | `''` | Additional CSS classes to apply to the card |
 | `tagName` | `string` | `'h3'` | HTML tag name for the title |
+| `footer` | `string` | `''` | Footer content for the card |
 </div>
 
-## Accessibility features
+## Accessibility
 
-- Uses semantic HTML structure
+Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper image handling. The Card component is built with accessibility in mind:
+
+- Uses semantic HTML structure with `<article>` element
 - Proper heading hierarchy with configurable levels
-- Image alt attributes are properly empty for decorative images
+- Images are intentionally decorative (`alt=""`) since meaningful content is conveyed through the title and description
 - Links are properly structured for keyboard navigation
 - Focus states are clearly visible
 - Color contrast meets WCAG guidelines

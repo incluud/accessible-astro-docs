@@ -1,5 +1,5 @@
 ---
-title: Skip Link
+title: SkipLink
 description: A fully accessible skip link component that helps users bypass repetitive content and navigate directly to the main content.
 ---
 
@@ -9,7 +9,7 @@ import SkipLink from '../../../components/SkipLink.astro';
 
 ## Introduction
 
-The Skip Link component provides a way for keyboard and screen reader users to bypass repetitive navigation elements and jump directly to the main content. It's a crucial accessibility feature that becomes visible only when focused.
+The SkipLink component provides a way for keyboard and screen reader users to bypass repetitive navigation elements and jump directly to the main content. It's a crucial accessibility feature that becomes visible only when focused.
 
 <Aside type="caution" title="Required markup">
   Your page must have either an element with `id="main-content"` or an `<h1>` element for the skip link to work properly.
@@ -17,7 +17,7 @@ The Skip Link component provides a way for keyboard and screen reader users to b
 
 ## When to use
 
-A Skip Link is essential for keyboard navigation in these scenarios:
+A SkipLink is essential for keyboard navigation in these scenarios:
 
 - At the top of every page
 - Before navigation menus
@@ -28,7 +28,7 @@ A Skip Link is essential for keyboard navigation in these scenarios:
 
 ## Usage
 
-Learn how to implement the Skip Link component in your project:
+Learn how to implement the SkipLink component in your project:
 
 ```astro
 ---
@@ -45,7 +45,7 @@ import { SkipLink } from 'accessible-astro-components'
 ```
 
 <Aside type="tip" title="Best practice">
-  Place the Skip Links component as the first focusable element on your page, before any navigation or content.
+  Place the SkipLink component as the first focusable element on your page, before any navigation or content. Preferably in the `head` section of your document.
 </Aside>
 
 ## Props
@@ -60,7 +60,7 @@ import { SkipLink } from 'accessible-astro-components'
 
 ## Accessibility
 
-The Skip Link component prioritizes accessibility through several features:
+Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper ARIA attributes. The SkipLink component is built with accessibility in mind:
 
 - Appears only when focused (visually hidden otherwise)
 - Provides keyboard-only navigation
@@ -73,7 +73,7 @@ The Skip Link component prioritizes accessibility through several features:
 
 ## Styling
 
-Make the Skip Link component your own while maintaining its accessibility features.
+Make the SkipLink component your own while maintaining its accessibility features.
 
 <Aside type="caution" title="Accessibility considerations">
   When customizing styles, ensure you maintain sufficient color contrast ratios and don't remove focus indicators.
@@ -142,7 +142,7 @@ Make the Skip Link component your own while maintaining its accessibility featur
 
 ## Interactive example
 
-See the Skip Link component in action:
+See the SkipLink component in action:
 
 <Aside type="note" title="Demo note">
   The styles for this component are changed so it's visible on the page, this is purely for demonstration purposes. Normally, it's hidden and appears on the top left corner of the page when focused.

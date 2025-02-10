@@ -22,6 +22,7 @@ The Dark mode component provides a toggle for switching between light and dark c
 
 ## Usage
 
+Learn how to implement the DarkMode component in your project, from basic usage to advanced configurations.
 
 ```astro
 ---
@@ -42,7 +43,13 @@ import { DarkMode } from 'accessible-astro-components'
   Use the `initialMode` prop to set the default color scheme. Options are 'light', 'dark', or 'auto' (uses system preference).
 </Aside>
 
+<Aside title="Class .darkmode">
+  The component sets a class of `darkmode` on the `html` element when dark mode is active. You can use this class to apply styles to your website.
+</Aside>
+
 ## Props
+
+Configure the DarkMode component using these available props to customize its behavior and appearance.
 
 <div class="props-wrapper"> 
 | Prop | Type | Default | Description |
@@ -52,13 +59,12 @@ import { DarkMode } from 'accessible-astro-components'
 | `class` | `string` | `''` | Additional CSS classes to apply |
 </div>
 
-## Accessibility features
+## Accessibility
+
+Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper image handling. The DarkMode component is built with accessibility in mind:
 
 - Uses semantic button element
 - Proper ARIA attributes (`aria-pressed`, `aria-label`)
-- Keyboard navigation support
-- Respects user's motion preferences
-- High contrast icons
 - Maintains focus states
 - Persists across page loads using `localStorage`
 
@@ -140,21 +146,21 @@ Make the DarkMode component your own with custom styling while maintaining its a
 
 See the DarkMode component in action with these practical examples demonstrating different variants and styling options.
 
-<Aside type="note" title="View transitions">
-  The component automatically handles Astro's view transitions using the `transition:persist` directive and `astro:after-swap` event listener.
+<Aside type="caution" title="Example component">
+  The toggle here doesn't change the color scheme (just for itself) since Starlight has it's own dark mode toggle and doesn't use the `darkmode` class.
 </Aside>
 
-### Default Style
+### Default style
 
 <div class="not-content">
   <DarkMode />
 </div>
 
-### With Custom Icons
+### With custom icons
 
 <div class="not-content">
   <DarkMode>
-    <Icon name="ion:sunny" slot="light" />
-    <Icon name="ion:moon" slot="dark" />
+    <Icon name="ion:bulb" slot="light" />
+    <Icon name="ion:bulb-outline" slot="dark" />
   </DarkMode>
 </div>
