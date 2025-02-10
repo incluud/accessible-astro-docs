@@ -52,6 +52,32 @@ interface Props {
    * Accessible label for the navigation
    */
   ariaLabel?: string
+  /**
+   * Accessible label for the first page button
+   */
+  firstPageLabel?: string
+  /**
+   * Accessible label for the previous page button
+   */
+  previousPageLabel?: string
+  /**
+   * Accessible label for the next page button
+   */
+  nextPageLabel?: string
+  /**
+   * Accessible label for the last page button
+   */
+  lastPageLabel?: string
+  /**
+   * Function to generate the aria-label for page links
+   */
+  renderPageLabel?: ({
+    type,
+    page,
+  }: {
+    type: 'first' | 'previous' | 'next' | 'last'
+    page: string | number
+  }) => string
 }
 
 const {
@@ -64,6 +90,24 @@ const {
   renderProgress = ({ currentPage, totalPages }) => `Page ${currentPage} of ${totalPages}`,
   class: className,
   ariaLabel = 'Pagination',
+  firstPageLabel = 'Go to the first page',
+  previousPageLabel = 'Go to the previous page',
+  nextPageLabel = 'Go to the next page',
+  lastPageLabel = 'Go to the last page',
+  renderPageLabel = ({ type, page }) => {
+    switch (type) {
+      case 'first':
+        return `Go to first page (page 1)`
+      case 'previous':
+        return `Go to previous page (page ${page})`
+      case 'next':
+        return `Go to next page (page ${page})`
+      case 'last':
+        return `Go to last page (page ${page})`
+      default:
+        return `Go to page ${page}`
+    }
+  },
 } = Astro.props
 
 const progress = renderProgress({ currentPage, totalPages })
@@ -74,7 +118,7 @@ const progress = renderProgress({ currentPage, totalPages })
     <li>
       {
         firstPage ? (
-          <a href={firstPage} aria-label="Go to the first page">
+          <a href={firstPage} aria-label={renderPageLabel({ type: 'first', page: 1 })}>
             <svg
               aria-hidden="true"
               width="32"
@@ -131,7 +175,13 @@ const progress = renderProgress({ currentPage, totalPages })
     <li>
       {
         previousPage ? (
-          <a href={previousPage} aria-label={`Go back to ${previousPage}`}>
+          <a
+            href={previousPage}
+            aria-label={renderPageLabel({
+              type: 'previous',
+              page: Number(currentPage) - 1,
+            })}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
@@ -177,7 +227,13 @@ const progress = renderProgress({ currentPage, totalPages })
     <li>
       {
         nextPage ? (
-          <a href={nextPage} aria-label={`Go to ${nextPage}`}>
+          <a
+            href={nextPage}
+            aria-label={renderPageLabel({
+              type: 'next',
+              page: Number(currentPage) + 1,
+            })}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
@@ -220,7 +276,13 @@ const progress = renderProgress({ currentPage, totalPages })
     <li>
       {
         lastPage ? (
-          <a href={lastPage} aria-label="Go to the last page">
+          <a
+            href={lastPage}
+            aria-label={renderPageLabel({
+              type: 'last',
+              page: totalPages,
+            })}
+          >
             <svg
               aria-hidden="true"
               width="32"

@@ -77,7 +77,7 @@ const { class: className, triggerId, title, closeText = 'Close', closeIcon = tru
   const getKeyboardFocusableElements = (element: HTMLElement) => {
     return [
       ...element.querySelectorAll<FocusableElement>(
-        'a, button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
+        'a, button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])',
       ),
     ].filter((el) => !el.hasAttribute('disabled'))
   }
@@ -117,7 +117,7 @@ const { class: className, triggerId, title, closeText = 'Close', closeIcon = tru
       () => {
         closeModal()
       },
-      { signal: keydownController.signal }
+      { signal: keydownController.signal },
     )
 
     modalInner!.addEventListener(
@@ -125,7 +125,7 @@ const { class: className, triggerId, title, closeText = 'Close', closeIcon = tru
       (event) => {
         event.stopPropagation()
       },
-      { signal: keydownController.signal }
+      { signal: keydownController.signal },
     )
   }
 
@@ -239,16 +239,16 @@ const { class: className, triggerId, title, closeText = 'Close', closeIcon = tru
   }
 
   :where(.modal-content) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
     background-color: light-dark(hsl(204 20% 94%), hsl(215 25% 15%));
     padding: 2rem;
   }
 
   :where(.modal-content h3) {
     font-size: 1.5rem;
-  }
-
-  :where(.modal-content > *:not(:first-child)) {
-    margin-block-start: 0.75rem;
   }
 
   :where(.modal-close) {
@@ -269,11 +269,6 @@ const { class: className, triggerId, title, closeText = 'Close', closeIcon = tru
     @media (prefers-reduced-motion: no-preference) {
       transition: box-shadow var(--transition-duration) var(--transition-easing);
     }
-  }
-
-  :where(.modal-close button:hover),
-  :where(.modal-close button:focus-visible) {
-    box-shadow: 0 0 0 0.25rem;
   }
 
   :where(.modal-close button:focus-visible) {
