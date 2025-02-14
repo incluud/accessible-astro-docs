@@ -3,7 +3,8 @@ title: Site showcases
 description: A collection of websites built with Accessible Astro Components and Themes.
 ---
 
-import { Aside, CardGrid, Card } from '@astrojs/starlight/components';
+import { Aside, CardGrid } from '@astrojs/starlight/components';
+import { Card } from 'accessible-astro-components';
 
 <Aside type="tip" title="Showcase your site">
   If you've built a website using Accessible Astro Components and Themes, we'd love to showcase it here! [Open a PR](https://github.com/incluud/accessible-astro-docs/pulls) to add your site to the list.
@@ -14,8 +15,10 @@ import { Aside, CardGrid, Card } from '@astrojs/starlight/components';
 
 These are some of the websites that were built with Accessible Astro Components and Themes:
 
-<CardGrid>
-  <Card title="Example site 1" icon="globe">
-    This is an example site built with Accessible Astro Components and Themes.
-  </Card>
-</CardGrid>
+<div class="not-content">
+  <CardGrid>
+    <Card title="Incluud.dev" url="https://incluud.dev" img="https://incluud.dev/shared/social-preview-image.png" />
+    <Card title="Mark Teekman" url="https://markteekman.nl" img="https://markteekman.nl/social-preview-image.png" />
+    <Card title="Haico Paulussen" url="https://haicopaulussen.nl" img="https://haicopaulussen.nl/social-preview-image.png" />
+  </CardGrid>
+</div>

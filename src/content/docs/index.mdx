@@ -1,9 +1,9 @@
 ---
-title: Accessible Astro Docs
+title: Accessible Astro
 description: Documentation for the Accessible Astro ecosystem of themes and components.
 template: splash
 hero:
-  tagline: Everything you need to build accessible websites with Astro
+  tagline: Everything you need to build accessible, performant, and beautiful websites with Astro - the modern web framework for content-focused sites.
   image:
     file: ../../assets/incluud.svg
     alt: Incluud logo
@@ -19,46 +19,16 @@ hero:
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import Projects from '../../components/Projects.astro';
 import Mission from '../../components/Mission.astro';
+import WhoAreWe from '../../components/WhoAreWe.astro';
+import Support from '../../components/Support.astro';
 import Footer from '../../components/Footer.astro';
 
-## ❤️ Support us
-
-We're two developers who spend our free time doing what we love—making the web more accessible for everyone! We're constantly working on new projects and improvements, driven by our passion for inclusive web development. You can support us by continuing to use our projects and giving us feedback.
-
-We also accept donations, currently through either [Buy Me a Coffee](https://www.buymeacoffee.com/markteekman) or [Open Collective](https://opencollective.com/incluud).
-
-## 🚀 Our projects
-
-<CardGrid stagger>
-  <Card
-    title="Accessible Astro Starter"
-    icon="rocket"
-  >
-    A fully accessible starter template with everything you need to build your
-    next Astro project.
-  </Card>
-  <Card
-    title="Accessible Components"
-    icon="puzzle"
-  >
-    A collection of accessible components ready to enhance your Astro website.
-  </Card>
-  <Card
-    title="Accessible Dashboard"
-    icon="setting"
-  >
-    A complete dashboard solution with authentication and accessibility
-    built-in.
-  </Card>
-  <Card
-    title="Utilizing Browser APIs"
-    icon="seti:html"
-  >
-    We use browser APIs to reduce the amount of JavaScript we ship to the client.
-  </Card>
-</CardGrid>
-
 <Mission />
+<Support />
+<Projects />
+<WhoAreWe />
 <Footer />
+
 <div class="dot-pattern" aria-hidden="true"></div>

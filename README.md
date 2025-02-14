@@ -6,10 +6,9 @@
 
 Welcome to the official documentation website for the Accessible Astro Projects! This comprehensive resource is built with [Starlight](https://starlight.astro.build), Astro's powerful documentation framework, to provide clear and accessible documentation for our suite of accessibility-focused tools. Whether you're a developer looking to build more inclusive web applications or someone interested in learning about web accessibility, this documentation covers:
 
-- [Accessible Astro Starter](https://github.com/incluud/accessible-astro-starter): A fully accessible boilerplate for kickstarting Astro projects, with Tailwind CSS support.
-- [Accessible Astro Components](https://github.com/incluud/accessible-astro-components/): A library of reusable, accessible components designed for Astro, build in TypeScript.
-- [Accessible Astro Dashboard](https://github.com/incluud/accessible-astro-dashboard/): A user-friendly dashboard interface with a login screen, built with accessibility in mind.
-- [Accessible Astro Docs](https://github.com/incluud/accessible-astro-docs): Comprehensive documentation for all Accessible Astro projects, built with Astro's Starlight theme.
+- [Accessible Astro Starter](https://github.com/incluud/accessible-astro-starter): Fully accessible starter for kickstarting Astro projects, with Tailwind.
+- [Accessible Astro Components](https://github.com/incluud/accessible-astro-components/): Library of reusable, accessible components build for Astro.
+- [Accessible Astro Dashboard](https://github.com/incluud/accessible-astro-dashboard/): User-friendly dashboard interface with a login screen and widgets.
 
 Check out our [roadmap](https://github.com/orgs/incluud/projects/4/views/1) to see what's coming next!
 

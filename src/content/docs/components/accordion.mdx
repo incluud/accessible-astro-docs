@@ -4,9 +4,7 @@ description: A fully accessible accordion component for expanding and collapsing
 ---
 
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
-// import { Accordion, AccordionItem } from 'accessible-astro-components';
-import Accordion from '../../../components/Accordion.astro';
-import AccordionItem from '../../../components/AccordionItem.astro';
+import { Accordion, AccordionItem } from 'accessible-astro-components';
 
 ## Introduction
 
@@ -182,6 +180,10 @@ Make the Accordion component your own with custom styling while maintaining its 
 See the Accordion component in action with these practical examples demonstrating different variants and styling options.
 
 ### Default style
+
+<Aside type="tip" title="Exclusive behavior">
+  This example demonstrates the exclusive behavior of the accordion component. Only one item can be open at a time.
+</Aside>
 
 <div class="not-content">
   <Accordion>
