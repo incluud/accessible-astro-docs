@@ -1,0 +1,47 @@
+---
+import ProjectCard from './ProjectCard.astro'
+import { getRepository } from '../utils/github'
+
+const repos = await Promise.all([
+  getRepository('markteekman', 'accessible-astro-starter'),
+  getRepository('markteekman', 'accessible-astro-components'),
+  getRepository('incluud', 'accessible-astro-dashboard'),
+])
+---
+
+<section class="projects">
+  <div class="container">
+    <h2>Our projects</h2>
+    <div class="project-grid">
+      {
+        repos.map((repo) => (
+          <Fragment key={repo.name}>
+            <ProjectCard href={repo.html_url} title={repo.name} repo={repo} />
+          </Fragment>
+        ))
+      }
+      <ProjectCard isPreview title="Coming soon...">
+        We are working on more accessible Astro projects, stay tuned for updates!
+      </ProjectCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects {
+    padding: 4rem 1rem;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: 2rem;
+    margin-block-start: 2rem;
+  }
+
+  h2 {
+    margin-block-end: 4rem;
+    font-size: var(--sl-text-5xl) !important;
+    text-align: center;
+  }
+</style>

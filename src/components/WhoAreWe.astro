@@ -1,0 +1,83 @@
+---
+import ContentMedia from './ContentMedia.astro'
+import { Icon } from 'astro-icon/components'
+---
+
+<section id="who-we-are">
+  <div class="container">
+    <h2>Who we are</h2>
+  </div>
+  <ContentMedia imgSrc="/mark-profile.png">
+    <h3>Mark Teekman</h3>
+    <p>
+      Senior Front-end Developer with a strong focus on Web Accessibility, currently working at
+      Acato Digital Agency. Mark mastered and continuously maintain core web skills: HTML, CSS and
+      JavaScript. This fundamental knowledge allows him to work with various JavaScript frameworks,
+      currently favoring Vue.js and Astro.js. Mark uses SCSS or Tailwind CSS for styling and loves
+      building accessible and clean looking user interfaces.
+    </p>
+    <div class="socials">
+      <a href="https://markteekman.nl">
+        <Icon name="mdi:link" size="1.5rem" />
+        Mark's website
+      </a>
+      <a href="https://github.com/markteekman">
+        <Icon name="mdi:github" size="1.5rem" />
+        Mark's GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/markteekman/">
+        <Icon name="mdi:linkedin" size="1.5rem" />
+        Mark's LinkedIn
+      </a>
+    </div>
+  </ContentMedia>
+  <ContentMedia imgSrc="/peter-profile.png" reverseImg={true}>
+    <h3>Peter Padberg</h3>
+    <p>
+      Skilled back-end developer specializing in Laravel and serves as a team lead at Exapps. With
+      his extensive experience in PHP development and team management, he helps guide projects and
+      developers to successful outcomes. Peter is a big fan of Astro.js and is always looking for
+      ways to improve the framework.
+    </p>
+    <div class="socials">
+      <a href="https://github.com/peterpadberg">
+        <Icon name="mdi:github" size="1.5rem" />
+        Peter's GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/peterpadberg/">
+        <Icon name="mdi:linkedin" size="1.5rem" />
+        Peter's LinkedIn
+      </a>
+    </div>
+  </ContentMedia>
+</section>
+
+<style>
+  section {
+    padding-block: 5rem;
+  }
+
+  h2 {
+    font-size: var(--sl-text-5xl) !important;
+    text-align: center;
+    margin-block: 2rem;
+  }
+
+  .socials {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-block-start: 0.5rem;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+
+      [data-icon] {
+        margin-block-start: 0.25rem;
+      }
+    }
+  }
+</style>
