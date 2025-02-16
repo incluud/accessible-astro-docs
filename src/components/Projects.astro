@@ -3,9 +3,10 @@ import ProjectCard from './ProjectCard.astro'
 import { getRepository } from '../utils/github'
 
 const repos = await Promise.all([
-  getRepository('markteekman', 'accessible-astro-starter'),
-  getRepository('markteekman', 'accessible-astro-components'),
+  getRepository('incluud', 'accessible-astro-starter'),
+  getRepository('incluud', 'accessible-astro-components'),
   getRepository('incluud', 'accessible-astro-dashboard'),
+  getRepository('incluud', 'accessible-astro-docs'),
 ])
 ---
 
