@@ -2,7 +2,7 @@
 
 [![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/small.svg)](https://starlight.astro.build)
 
-![accessible-astro-components](https://github.com/user-attachments/assets/d262da09-fd2f-4495-b603-f0fe848035f0)
+![accessible-astro-docs](https://github.com/user-attachments/assets/37c49368-c0b4-47fd-b4c6-67abf658522d)
 
 Welcome to the official documentation website for the Accessible Astro Projects! This comprehensive resource is built with [Starlight](https://starlight.astro.build), Astro's powerful documentation framework, to provide clear and accessible documentation for our suite of accessibility-focused tools. Whether you're a developer looking to build more inclusive web applications or someone interested in learning about web accessibility, this documentation covers:
 
