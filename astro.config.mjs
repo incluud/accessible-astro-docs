@@ -3,6 +3,11 @@ import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
 import icon from 'astro-icon'
 
+import sentry from '@sentry/astro'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [
@@ -203,5 +208,13 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
     }),
     icon(),
+    sentry({
+      dsn: process.env.SENTRY_DSN,
+      environment: process.env.SENTRY_ENVIRONMENT,
+      sourceMapsUploadOptions: {
+        project: process.env.SENTRY_PROJECT,
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+      },
+    }),
   ],
 })
