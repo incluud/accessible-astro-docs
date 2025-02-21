@@ -20,7 +20,7 @@ export default defineConfig({
       },
       social: {
         'x.com': 'https://x.com/incluud',
-        blueSky: 'https://bluesky.social/u/incluud.dev',
+        blueSky: 'https://bsky.app/profile/incluud.dev',
         github: 'https://github.com/incluud',
         openCollective: 'https://opencollective.com/incluud',
       },
