@@ -2,6 +2,7 @@
 import type { GitHubRepo } from '../utils/github'
 import { Badge } from '@astrojs/starlight/components'
 import { Icon } from 'astro-icon/components'
+import GitHubStats from './GitHubStats.vue'
 
 interface Props {
   repo?: GitHubRepo
@@ -20,6 +21,9 @@ function formatRepoName(name: string): string {
 
 const { href, title, description, repo, isPreview = false } = Astro.props
 const formattedTitle = repo?.name ? formatRepoName(repo.name) : title
+
+// Extract owner from repo URL if available
+const owner = repo?.html_url ? new URL(repo.html_url).pathname.split('/')[1] : 'incluud'
 ---
 
 {
@@ -44,19 +48,13 @@ const formattedTitle = repo?.name ? formatRepoName(repo.name) : title
           <p>{description || repo?.description}</p>
         </div>
         {repo && (
-          <div
-            class="project-card__stats"
-            aria-label={`Repository statistics: ${repo.stargazers_count} stars, ${repo.forks_count} forks`}
-          >
-            <div class="project-card__stat">
-              <Icon name="mdi:star" size="24" />
-              <span>{repo.stargazers_count}</span>
-            </div>
-            <div class="project-card__stat">
-              <Icon name="mdi:source-fork" size="24" />
-              <span>{repo.forks_count}</span>
-            </div>
-          </div>
+          <GitHubStats
+            owner={owner}
+            repo={repo.name}
+            initialStars={repo.stargazers_count}
+            initialForks={repo.forks_count}
+            client:load
+          />
         )}
       </div>
       <slot />
@@ -118,20 +116,6 @@ const formattedTitle = repo?.name ? formatRepoName(repo.name) : title
     display: flex;
     gap: 0.5rem;
     margin-block-start: 0.75rem;
-  }
-
-  .project-card__stats {
-    display: flex;
-    gap: 1rem;
-    margin-block-start: 1.5rem;
-  }
-
-  .project-card__stat {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    color: var(--sl-color-gray-2);
-    margin-block-start: 0 !important;
   }
 
   .preview {
