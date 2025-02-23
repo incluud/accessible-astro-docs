@@ -23,7 +23,8 @@ The [Accessible Astro Starter](https://github.com/incluud/accessible-astro-start
 - ESLint with strict accessibility settings
 - Prettier integration with plugins for Astro and Tailwind
 - View Transitions support
-- Dynamic blog with pagination and breadcrumbs
+- Dynamic blog with pagination and breadcrumbs using AJAX fetch
+- Portfolio page with projects using Astro Content Collections
 - Custom 404 error page
 
 ## Accessibility features
@@ -93,6 +94,15 @@ The starter follows a clear and organized structure:
     - Navigation.astro
     - ResponsiveToggle.astro
     - SiteMeta.astro
+  - content/
+    - projects/
+      - project-01.md
+      - project-02.md
+      - project-03.md
+      - project-04.md
+      - project-05.md
+      - project-06.md
+      - project-07.md
   - layouts/
     - DefaultLayout.astro
     - MarkdownLayout.astro
@@ -100,6 +110,9 @@ The starter follows a clear and organized structure:
     - blog/
       - [...page].astro _// Dynamic blog pages_
       - [post].astro _// Individual post pages_
+    - portfolio/
+      - [...page].astro
+      - [project].astro
     - 404.astro
     - accessible-astro-components.astro
     - index.astro
