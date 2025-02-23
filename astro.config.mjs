@@ -6,10 +6,18 @@ import icon from 'astro-icon'
 import sentry from '@sentry/astro'
 import dotenv from 'dotenv'
 
+import vue from '@astrojs/vue'
+
 dotenv.config()
 
 // https://astro.build/config
 export default defineConfig({
+  vite: {
+    // Make environment variables available to client-side code
+    define: {
+      'import.meta.env.GITHUB_TOKEN': JSON.stringify(process.env.GITHUB_TOKEN),
+    },
+  },
   integrations: [
     starlight({
       title: 'Accessible Astro Documentation',
@@ -216,5 +224,6 @@ export default defineConfig({
         authToken: process.env.SENTRY_AUTH_TOKEN,
       },
     }),
+    vue(),
   ],
 })
