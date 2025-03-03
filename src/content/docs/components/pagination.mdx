@@ -25,6 +25,23 @@ Use the Pagination component when you need to split content across multiple page
   The component automatically disables navigation controls when no valid URL is provided, ensuring a good user experience even at page boundaries.
 </Aside>
 
+## Quick example
+
+<div class="not-content">
+  <p>Try using Tab key to navigate through the pagination controls:</p>
+  <div style="margin-top: 1rem;">
+    <Pagination 
+      firstPage="#" 
+      previousPage="#" 
+      nextPage="#" 
+      lastPage="#" 
+      currentPage={3} 
+      totalPages={5}
+    />
+  </div>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">Notice how each control has a clear focus state and descriptive ARIA labels.</p>
+</div>
+
 ## Usage
 
 Learn how to implement the Pagination component in your project, from basic usage to advanced configurations.

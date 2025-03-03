@@ -30,6 +30,29 @@ Each type of notification has a specific purpose:
 - **Error**: To indicate critical problems or failed actions
 - **Default**: For general messages that don't fit other categories
 
+## Quick example
+
+<div class="not-content">
+  <Notification type="info" role="status">
+    <Icon name="ion:information-circle-outline" size="1.5rem" />
+    <p><strong>Info:</strong> Try different notification types below!</p>
+  </Notification>
+  
+  <div style="margin-top: 1rem;">
+    <Notification type="success" role="status">
+      <Icon name="ion:checkbox-outline" size="1.5rem" />
+      <p><strong>Success:</strong> Your action was completed successfully.</p>
+    </Notification>
+  </div>
+  
+  <div style="margin-top: 1rem;">
+    <Notification type="warning" role="status">
+      <Icon name="ion:warning-outline" size="1.5rem" />
+      <p><strong>Warning:</strong> Please review before proceeding.</p>
+    </Notification>
+  </div>
+</div>
+
 <Aside type="tip" title="Dynamic notifications">
   When adding notifications dynamically (after user interaction), use `role="status"` and `aria-live="polite"` to inform screen reader users.
 </Aside>

@@ -19,6 +19,30 @@ The Card component provides a versatile container for displaying related content
 - Team member profiles
 - Any grouped content that benefits from visual containment
 
+## Quick example
+
+<div class="not-content">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+    <Card
+      url="#"
+      img="https://images.unsplash.com/photo-1636819488524-1f019c4e1c44?w=800&auto=format&fit=crop"
+      title="Accessible Card"
+      footer="Try hovering and focusing on this card"
+    >
+      <p>This card component maintains proper heading structure and includes keyboard focus styles.</p>
+    </Card>
+    
+    <Card
+      url="#"
+      img="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop"
+      title="Versatile Design"
+      footer="Click to navigate (opens in same tab)"
+    >
+      <p>Cards can be used for various content types and adapt to different layouts.</p>
+    </Card>
+  </div>
+</div>
+
 ## Usage
 
 Learn how to implement the Card component in your project, from basic usage to advanced configurations.
