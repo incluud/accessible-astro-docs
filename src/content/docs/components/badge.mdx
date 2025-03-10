@@ -39,11 +39,11 @@ Use the Badge component when you need to:
   </div>
   
   <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-    <Badge size="small" isPill>Small</Badge>
-    <Badge size="medium" isPill>Medium</Badge>
-    <Badge size="large" isPill>Large</Badge>
-    <Badge isCircular srLabel="1 notification">1</Badge>
-    <Badge type="info" isButton isCircular animateOnHover srLabel="Go to notifications">
+    <Badge size="sm" isPill>Small</Badge>
+    <Badge size="md" isPill>Medium</Badge>
+    <Badge size="lg" isPill>Large</Badge>
+    <Badge isCircular label="1 notification">1</Badge>
+    <Badge type="info" isButton isCircular animateOnHover label="Go to notifications">
       <Icon name="ion:notifications" size="1rem" />
     </Badge>
   </div>
@@ -72,9 +72,9 @@ import { Badge } from 'accessible-astro-components'
 ### Sizes
 
 ```astro
-<Badge size="small">Small</Badge>
-<Badge size="medium">Medium</Badge>
-<Badge size="large">Large</Badge>
+<Badge size="sm">Small</Badge>
+<Badge size="md">Medium</Badge>
+<Badge size="lg">Large</Badge>
 ```
 
 ### Shapes
@@ -102,14 +102,14 @@ import { Icon } from 'astro-icon/components'
   type="info" 
   isButton 
   animateOnHover
-  srLabel="5 new notifications"
+  label="5 new notifications"
 >
   <Icon name="ion:notifications" />
 </Badge>
 ```
 
 <Aside type="caution" title="Icon or number only badges">
-  When using badges with only icons or numbers, always provide the `srLabel` prop to ensure screen reader users understand the badge's purpose. This is especially important for notification counts and status indicators.
+  When using badges with only icons or numbers, always provide the `label` prop to ensure screen reader users understand the badge's purpose. This is especially important for notification counts and status indicators.
 </Aside>
 
 ### With animations
@@ -120,7 +120,7 @@ import { Icon } from 'astro-icon/components'
   isButton 
   animateOnHover 
   animationType="rotate"
-  srLabel="Refresh content"
+  label="Refresh content"
 >
   <Icon name="ion:refresh" />
 </Badge>
@@ -139,7 +139,7 @@ import { Icon } from 'astro-icon/components'
 <Badge 
   isCircular 
   type="error"
-  srLabel="New messages: 5"
+  label="New messages: 5"
 >
   5
 </Badge>
@@ -147,7 +147,7 @@ import { Icon } from 'astro-icon/components'
 <Badge
   type="info"
   isButton
-  srLabel="Show 8 notifications"
+  label="Show 8 notifications"
 >
   <Icon name="ion:notifications" />
   8
@@ -161,7 +161,7 @@ Configure the Badge component using these available props to customize its behav
 <div class="props-wrapper">
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Size of the badge |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the badge |
 | `type` | `'info' \| 'success' \| 'warning' \| 'error' \| 'default'` | `'default'` | Type/color variant of the badge |
 | `isButton` | `boolean` | `false` | Whether to render as a button element |
 | `animateOnHover` | `boolean` | `false` | Whether to animate the icon on hover (only works with isButton) |
@@ -170,7 +170,7 @@ Configure the Badge component using these available props to customize its behav
 | `isCircular` | `boolean` | `false` | Whether to display the badge as a circle |
 | `isPill` | `boolean` | `false` | Whether to display the badge with fully rounded corners |
 | `pulse` | `boolean` | `false` | Whether to apply a pulsating animation |
-| `srLabel` | `string` | `''` | Additional context for screen readers (visually hidden) |
+| `label` | `string` | `''` | Additional context for screen readers (visually hidden) |
 | `class` | `string` | `''` | Additional CSS classes to apply |
 </div>
 
@@ -184,14 +184,14 @@ Accessibility isn't an afterthought - it's built into the core of this component
 - Automatic light/dark mode adaptation
 - Respects user's reduced-motion preferences
 - Maintains focus states for interactive badges
-- Provides screen reader context with the `srLabel` prop
+- Provides screen reader context with the `label` prop
 
 <Aside type="tip" title="Screen reader labels">
-  The `srLabel` prop is essential for badges that display numbers or icons without text. It provides additional context that's only announced to screen readers while maintaining the visual design. For example, a badge showing "5" could have an srLabel of "5 new messages" for better accessibility.
+  The `label` prop is essential for badges that display numbers or icons without text. It provides additional context that's only announced to screen readers while maintaining the visual design. For example, a badge showing "5" could have a label of "5 new messages" for better accessibility.
 </Aside>
 
 <Aside type="caution" title="Interactive badges">
-  When using badges as buttons, ensure they have clear purpose and adequate touch target size for mobile users, preverabely using the `large` size. A good use case for a button badge could be to for example remove filters from a list.
+  When using badges as buttons, ensure they have clear purpose and adequate touch target size for mobile users, preverabely using the `lg` size. A good use case for a button badge could be to for example remove filters from a list.
 </Aside>
 
 ## Styling
@@ -286,7 +286,7 @@ See the Badge component in action with these practical examples demonstrating di
       <Badge 
         type="error" 
         isCircular 
-        size="small"
+        size="sm"
         style="position: absolute; top: -5px; right: -5px;"
       >
         3
@@ -301,7 +301,7 @@ See the Badge component in action with these practical examples demonstrating di
       <Badge 
         type="info" 
         isCircular 
-        size="small"
+        size="sm"
         style="position: absolute; top: -5px; right: -5px;"
       >
         5
@@ -316,7 +316,7 @@ See the Badge component in action with these practical examples demonstrating di
       <Badge 
         type="success" 
         isCircular 
-        size="small"
+        size="sm"
         style="position: absolute; top: -5px; right: -5px;"
       >
         2
@@ -334,8 +334,8 @@ See the Badge component in action with these practical examples demonstrating di
       isButton 
       animateOnHover 
       animationType="rotate"
-      animationIntensity="20"
-      srLabel="Refresh content"
+      animationIntensity={20}
+      label="Refresh content"
     >
       <Icon name="ion:refresh" size="1rem" />
       Refresh
@@ -346,7 +346,7 @@ See the Badge component in action with these practical examples demonstrating di
       isButton 
       animateOnHover 
       animationType="bounce"
-      srLabel="Approve item"
+      label="Approve item"
     >
       <Icon name="ion:checkmark" size="1rem" />
       Approve
@@ -369,14 +369,14 @@ See the Badge component in action with these practical examples demonstrating di
       type="info" 
       isButton 
       animateOnHover
-      srLabel="Show information"
+      label="Show information"
     >
       <Icon name="ion:information-circle" size="1rem" />
     </Badge>
     
     <Badge 
       type="success" 
-      srLabel="Task completed"
+      label="Task completed"
     >
       <Icon name="ion:checkmark-circle" size="1rem" />
     </Badge>
@@ -385,7 +385,7 @@ See the Badge component in action with these practical examples demonstrating di
       type="error" 
       isButton
       isCircular
-      srLabel="Delete item"
+      label="Delete item"
     >
       <Icon name="ion:trash" size="1rem" />
     </Badge>
