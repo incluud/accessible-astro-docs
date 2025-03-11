@@ -32,7 +32,7 @@ Use the Avatar component when you need to:
   <div style="display: flex; flex-direction: column; gap: 1.5rem;">
     <div style="display: flex; align-items: center; gap: 1rem;">
       <Avatar 
-        img="https://images.unsplash.com/photo-1602620502036-e52519d58d92?auto=format&w=400&q=100"
+        img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=100"
         size="md"
         label="User profile"
       />
@@ -57,7 +57,7 @@ Use the Avatar component when you need to:
     </AvatarGroup>
   </div>
   
-  <p style="margin-top: 0.5rem; font-size: 0.9rem;">The Avatar component handles different content types and automatically provides accessible fallbacks.</p>
+  <p style="margin-top: 1.5rem; font-size: 0.9rem;">The Avatar component handles different content types and provides options for accessible fallbacks.</p>
 </div>
 
 ## Usage
@@ -309,22 +309,22 @@ See the Avatar component in action with these practical examples demonstrating d
 ### Image avatars with text
 
 <div class="not-content">
-  <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+  <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
     <Avatar 
-      img="https://images.unsplash.com/photo-1602620502036-e52519d58d92?auto=format&w=400&q=100"
-      title="Mario"
-      subtitle="Plumber"
+      img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=100"
+      title="John Doe"
+      subtitle="Astro Developer"
       size="lg"
     />
     <Avatar 
-      img="https://images.unsplash.com/photo-1602620502036-e52519d58d92?auto=format&w=400&q=100"
-      title="Mario"
-      subtitle="Plumber"
+      img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=100"
+      title="Jane Smith"
+      subtitle="Astro Designer"
     />
     <Avatar 
-      img="https://images.unsplash.com/photo-1602620502036-e52519d58d92?auto=format&w=400&q=100"
-      title="Mario"
-      subtitle="Plumber"
+      img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=100"
+      title="William Johnson"
+      subtitle="Astro Manager"
       size="sm"
     />
   </div>
@@ -355,7 +355,7 @@ See the Avatar component in action with these practical examples demonstrating d
     <Avatar 
       shape="square"
       size="5rem"
-      img="https://images.unsplash.com/photo-1602620502036-e52519d58d92?auto=format&w=400&q=100"
+      img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=100"
       label="Square avatar with image"
     />
     <Avatar 
@@ -370,7 +370,7 @@ See the Avatar component in action with these practical examples demonstrating d
 
 <div class="not-content">
   <div style="margin-bottom: 1.5rem;">
-    <h4>Condensed group</h4>
+    <h4 style="margin-bottom: 1rem;">Condensed group</h4>
     <AvatarGroup overlapAmount="-1rem">
       <Avatar size="sm" initials="JD" type="default" label="John Doe" />
       <Avatar size="sm" initials="JS" type="info" label="Jane Smith" />
@@ -381,7 +381,7 @@ See the Avatar component in action with these practical examples demonstrating d
   </div>
   
   <div>
-    <h4>Grid layout</h4>
+    <h4 style="margin-bottom: 1rem;">Grid layout</h4>
     <AvatarGroup display="grid" gridItemsSize="150px" gridGap="1rem">
       <Avatar title="Jane" subtitle="Designer" initials="JD" label="Jane Designer" />
       <Avatar title="John" subtitle="Developer" initials="JD" label="John Developer" />
