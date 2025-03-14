@@ -133,3 +133,7 @@ table td {
 .not-content h6 {
   overflow-wrap: break-word;
 }
+
+.avatar .subtitle {
+  margin-block-start: -0.35rem;
+}
