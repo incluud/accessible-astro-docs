@@ -123,3 +123,17 @@ table td {
   inset-block-start: 0;
   margin-block: 1rem;
 }
+
+.not-content p,
+.not-content h1,
+.not-content h2,
+.not-content h3,
+.not-content h4,
+.not-content h5,
+.not-content h6 {
+  overflow-wrap: break-word;
+}
+
+.avatar .subtitle {
+  margin-block-start: -0.35rem;
+}

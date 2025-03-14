@@ -1,10 +1,392 @@
 ---
 title: Avatar
-description: A fully accessible avatar component for displaying user or entity images using native HTML elements.
+description: A fully accessible avatar component for displaying user or entity images with support for fallbacks, initials, and various customization options.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Avatar, AvatarGroup } from 'accessible-astro-components';
 
-<Aside type="tip" title="Upcoming">
-  <p>This component is coming in a next release. To stay updated with what might be coming next you can check out our [Accessible Astro Roadmap](https://github.com/orgs/incluud/projects/4/views/1).</p>
+## Introduction
+
+The Avatar component provides a versatile way to display user or entity representations. It supports images, initials, and fallback icons with customizable sizes, shapes, and color schemes. The component is designed to be accessible and adapts to both light and dark modes automatically.
+
+<Aside type="note" title="AvatarGroup">
+  The Avatar component can be used individually or within an AvatarGroup component to display multiple avatars in either a condensed overlapping layout or a grid layout.
 </Aside>
+
+## When to use
+
+Use the Avatar component when you need to:
+
+- Display user profile pictures
+- Show team members or contributors
+- Represent entities in a visual way
+- Create user directories or listings
+- Show authors of content
+- Indicate participants in discussions
+- Display account information
+
+## Quick example
+
+<div class="not-content">
+  <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <Avatar 
+        img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=100"
+        size="md"
+        label="User profile"
+      />
+      <Avatar 
+        initials="JD" 
+        type="info"
+        size="md"
+        label="John Doe"
+      />
+      <Avatar 
+        size="md"
+        label="Default user"
+      />
+    </div>
+    
+    <AvatarGroup overlapAmount="-1rem">
+      <Avatar size="sm" initials="JD" type="default" label="John Doe" />
+      <Avatar size="sm" initials="JS" type="info" label="Jane Smith" />
+      <Avatar size="sm" initials="RJ" type="success" label="Robert Johnson" />
+      <Avatar size="sm" initials="AL" type="warning" label="Amy Lee" />
+      <Avatar size="sm" initials="MT" type="error" label="Mark Thompson" />
+    </AvatarGroup>
+  </div>
+  
+  <p style="margin-top: 1.5rem; font-size: 0.9rem;">The Avatar component handles different content types and provides options for accessible fallbacks.</p>
+</div>
+
+## Usage
+
+Learn how to implement the Avatar component in your project, from basic usage to advanced configurations.
+
+### Basic
+
+```astro
+---
+import { Avatar } from 'accessible-astro-components'
+---
+
+<!-- With image -->
+<Avatar 
+  img="https://example.com/profile.jpg"
+  label="User profile"
+/>
+
+<!-- With initials -->
+<Avatar 
+  initials="JD"
+  label="John Doe"
+/>
+
+<!-- Default fallback icon -->
+<Avatar 
+  label="Unknown user"
+/>
+```
+
+### Sizes
+
+```astro
+<Avatar 
+  initials="SM"
+  size="sm"
+  label="Small avatar"
+/>
+
+<Avatar 
+  initials="MD"
+  size="md"
+  label="Medium avatar"
+/>
+
+<Avatar 
+  initials="LG"
+  size="lg"
+  label="Large avatar"
+/>
+
+<!-- Custom size -->
+<Avatar 
+  initials="CS"
+  size="10rem"
+  label="Custom size avatar"
+/>
+```
+
+### Types and shapes
+
+```astro
+<!-- Different types (color schemes) -->
+<Avatar initials="DF" type="default" label="Default type" />
+<Avatar initials="IN" type="info" label="Info type" />
+<Avatar initials="SU" type="success" label="Success type" />
+<Avatar initials="WA" type="warning" label="Warning type" />
+<Avatar initials="ER" type="error" label="Error type" />
+
+<!-- Square shape -->
+<Avatar 
+  initials="SQ"
+  shape="square"
+  label="Square avatar"
+/>
+```
+
+### With text content
+
+```astro
+<Avatar 
+  img="https://example.com/profile.jpg"
+  title="Jane Smith"
+  subtitle="Product Designer"
+/>
+
+<Avatar 
+  initials="JS"
+  title="Jane Smith"
+  subtitle="Product Designer"
+/>
+```
+
+<Aside type="tip" title="Accessibility">
+  When using the Avatar component without a `title`, always provide a `label` prop for screen readers. When a `title` is provided, the `label` prop becomes optional.
+</Aside>
+
+### Avatar groups
+
+```astro
+---
+import { Avatar, AvatarGroup } from 'accessible-astro-components'
+---
+
+<!-- Condensed group (overlapping) -->
+<AvatarGroup overlapAmount="-1rem">
+  <Avatar initials="JD" label="John Doe" />
+  <Avatar initials="JS" label="Jane Smith" />
+  <Avatar initials="RJ" label="Robert Johnson" />
+</AvatarGroup>
+
+<!-- Grid layout -->
+<AvatarGroup 
+  display="grid" 
+  gridItemsSize="200px"
+  gridGap="1rem"
+>
+  <Avatar 
+    img="https://example.com/user1.jpg"
+    title="John Doe"
+    subtitle="Developer"
+  />
+  <Avatar 
+    img="https://example.com/user2.jpg"
+    title="Jane Smith"
+    subtitle="Designer"
+  />
+  <Avatar 
+    initials="RJ"
+    title="Robert Johnson"
+    subtitle="Manager"
+  />
+</AvatarGroup>
+```
+
+## Props
+
+### Avatar Props
+
+Configure the Avatar component using these available props to customize its behavior and appearance.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `img` | `string` | - | Image source URL for the avatar |
+| `initials` | `string` | - | Initials to display when no image is available |
+| `type` | `'default' \| 'info' \| 'success' \| 'warning' \| 'error'` | `'default'` | Type/color variant of the avatar |
+| `shape` | `'round' \| 'square'` | `'round'` | Shape of the avatar |
+| `size` | `'sm' \| 'md' \| 'lg' \| string` | `'md'` | Size of the avatar (predefined or custom value) |
+| `title` | `string` | - | Primary text to display next to the avatar |
+| `subtitle` | `string` | - | Secondary text to display next to the avatar |
+| `label` | `string` | - | Accessible label for screen readers (required when no title is provided) |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
+
+### AvatarGroup Props
+
+Configure the AvatarGroup component to control how multiple avatars are displayed.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `display` | `'condensed' \| 'grid'` | `'condensed'` | Display mode for the avatar group |
+| `gridItemsSize` | `string` | `'250px'` | Size of the grid items (used for grid display mode) |
+| `gridGap` | `string` | `'1rem'` | Gap between grid items (used for grid display mode) |
+| `overlapAmount` | `string` | `'-1rem'` | Overlap amount for condensed mode (negative margin) |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
+
+## Accessibility
+
+Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper ARIA attributes. The Avatar component is built with accessibility in mind:
+
+- Requires an accessible label via `label` prop or `title` prop
+- Uses empty `alt` attributes for decorative images
+- Provides fallback content when images fail to load
+- High contrast color combinations
+- Automatic light/dark mode adaptation
+- Semantic HTML structure
+
+<Aside type="caution" title="Image avatars">
+  When using images in avatars, the component sets an empty `alt` attribute since the image is considered decorative. The accessible name comes from either the `label` prop or the `title` prop.
+</Aside>
+
+## Styling
+
+Make the Avatar component your own with custom styling while maintaining its accessibility features.
+
+<Aside type="caution" title="Accessibility considerations">
+  When applying custom styles, ensure you maintain sufficient color contrast ratios for text content and initials.
+</Aside>
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```css
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.avatar .initials-container) {
+        border-width: 3px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      }
+
+      :global(.avatar .title) {
+        font-weight: 700;
+      }
+
+      :global(.avatar .subtitle) {
+        font-style: italic;
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .avatar .initials-container {
+        border-width: 3px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      }
+
+      .avatar .title {
+        font-weight: 700;
+      }
+
+      .avatar .subtitle {
+        font-style: italic;
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <Avatar 
+      class="shadow-md hover:shadow-lg transition-shadow duration-300"
+      initials="JD"
+      label="John Doe"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
+
+## Interactive examples
+
+See the Avatar component in action with these practical examples demonstrating different variants and styling options.
+
+### Image avatars with text
+
+<div class="not-content">
+  <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
+    <Avatar 
+      img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=100"
+      title="John Doe"
+      subtitle="Astro Developer"
+      size="lg"
+    />
+    <Avatar 
+      img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=100"
+      title="Jane Smith"
+      subtitle="Astro Designer"
+    />
+    <Avatar 
+      img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=100"
+      title="William Johnson"
+      subtitle="Astro Manager"
+      size="sm"
+    />
+  </div>
+</div>
+
+### Initials with different types
+
+<div class="not-content">
+  <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+    <Avatar initials="DF" type="default" label="Default type" />
+    <Avatar initials="IN" type="info" label="Info type" />
+    <Avatar initials="SU" type="success" label="Success type" />
+    <Avatar initials="WA" type="warning" label="Warning type" />
+    <Avatar initials="ER" type="error" label="Error type" />
+  </div>
+</div>
+
+### Square avatars
+
+<div class="not-content">
+  <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+    <Avatar 
+      shape="square"
+      size="5rem"
+      initials="MT"
+      label="Square avatar with initials"
+    />
+    <Avatar 
+      shape="square"
+      size="5rem"
+      img="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=100"
+      label="Square avatar with image"
+    />
+    <Avatar 
+      shape="square"
+      size="5rem"
+      label="Square avatar with fallback icon"
+    />
+  </div>
+</div>
+
+### Avatar groups
+
+<div class="not-content">
+  <div style="margin-bottom: 1.5rem;">
+    <h4 style="margin-bottom: 1rem;">Condensed group</h4>
+    <AvatarGroup overlapAmount="-1rem">
+      <Avatar size="sm" initials="JD" type="default" label="John Doe" />
+      <Avatar size="sm" initials="JS" type="info" label="Jane Smith" />
+      <Avatar size="sm" initials="RJ" type="success" label="Robert Johnson" />
+      <Avatar size="sm" initials="AL" type="warning" label="Amy Lee" />
+      <Avatar size="sm" initials="MT" type="error" label="Mark Thompson" />
+    </AvatarGroup>
+  </div>
+  
+  <div>
+    <h4 style="margin-bottom: 1rem;">Grid layout</h4>
+    <AvatarGroup display="grid" gridItemsSize="150px" gridGap="1rem">
+      <Avatar title="Jane" subtitle="Designer" initials="JD" label="Jane Designer" />
+      <Avatar title="John" subtitle="Developer" initials="JD" label="John Developer" />
+      <Avatar title="Sarah" subtitle="Manager" initials="SM" label="Sarah Manager" />
+      <Avatar title="Mike" subtitle="Tester" initials="MT" label="Mike Tester" />
+    </AvatarGroup>
+  </div>
+</div>
