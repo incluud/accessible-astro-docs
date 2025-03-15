@@ -1,10 +1,394 @@
 ---
 title: Badge
-description: A fully accessible badge component for displaying status information using native HTML elements.
+description: A fully accessible badge component for displaying status information, labels, and counts with customizable styles and animations.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Badge } from 'accessible-astro-components';
+import { Icon } from 'astro-icon/components';
 
-<Aside type="tip" title="Upcoming">
-  <p>This component is coming in a next release. To stay updated with what might be coming next you can check out our [Accessible Astro Roadmap](https://github.com/orgs/incluud/projects/4/views/1).</p>
+## Introduction
+
+The Badge component provides a compact way to display status information, labels, or counts. It supports different types, sizes, and shapes with optional animations to highlight interactivity. Built with accessibility in mind, it adapts to both light and dark modes automatically.
+
+<Aside type="note" title="Versatility">
+  The Badge component can be rendered as either a `<span>` (default) or a `<button>` element, making it suitable for both informational and interactive use cases.
 </Aside>
+
+## When to use
+
+Use the Badge component when you need to:
+
+- Display status information
+- Show notification counts
+- Indicate categories or tags
+- Label content types
+- Highlight new features
+- Show user roles or permissions
+- Indicate validation states
+
+## Quick example
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+    <Badge type="default">Default</Badge>
+    <Badge type="info">Info</Badge>
+    <Badge type="success">Success</Badge>
+    <Badge type="warning">Warning</Badge>
+    <Badge type="error">Error</Badge>
+  </div>
+  
+  <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+    <Badge size="sm" isPill>Small</Badge>
+    <Badge size="md" isPill>Medium</Badge>
+    <Badge size="lg" isPill>Large</Badge>
+    <Badge isCircular label="1 notification">1</Badge>
+    <Badge type="info" isButton isCircular animateOnHover label="Go to notifications">
+      <Icon name="ion:notifications" size="1rem" />
+    </Badge>
+  </div>
+  
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">Try hovering over the notification icon button to see the animation effect!</p>
+</div>
+
+## Usage
+
+Learn how to implement the Badge component in your project, from basic usage to advanced configurations.
+
+### Basic
+
+```astro
+---
+import { Badge } from 'accessible-astro-components'
+---
+
+<Badge>Default</Badge>
+<Badge type="info">Info</Badge>
+<Badge type="success">Success</Badge>
+<Badge type="warning">Warning</Badge>
+<Badge type="error">Error</Badge>
+```
+
+### Sizes
+
+```astro
+<Badge size="sm">Small</Badge>
+<Badge size="md">Medium</Badge>
+<Badge size="lg">Large</Badge>
+```
+
+### Shapes
+
+```astro
+<Badge isPill>Pill Badge</Badge>
+<Badge isCircular>1</Badge>
+```
+
+<Aside type="tip" title="Circular badges">
+  Circular badges work best with single characters or numbers, making them perfect for notification counts.
+</Aside>
+
+### Interactive badges
+
+```astro
+---
+import { Badge } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+---
+
+<Badge isButton>Click me</Badge>
+
+<Badge 
+  type="info" 
+  isButton 
+  animateOnHover
+  label="5 new notifications"
+>
+  <Icon name="ion:notifications" />
+</Badge>
+```
+
+<Aside type="caution" title="Icon or number only badges">
+  When using badges with only icons or numbers, always provide the `label` prop to ensure screen reader users understand the badge's purpose. This is especially important for notification counts and status indicators.
+</Aside>
+
+### With animations
+
+```astro
+<Badge 
+  type="info" 
+  isButton 
+  animateOnHover 
+  animationType="rotate"
+  label="Refresh content"
+>
+  <Icon name="ion:refresh" />
+</Badge>
+
+<Badge 
+  type="warning"
+  pulse
+>
+  New
+</Badge>
+```
+
+### With screen reader labels
+
+```astro
+<Badge 
+  isCircular 
+  type="error"
+  label="New messages: 5"
+>
+  5
+</Badge>
+
+<Badge
+  type="info"
+  isButton
+  label="Show 8 notifications"
+>
+  <Icon name="ion:notifications" />
+  8
+</Badge>
+```
+
+## Props
+
+Configure the Badge component using these available props to customize its behavior and appearance.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the badge |
+| `type` | `'info' \| 'success' \| 'warning' \| 'error' \| 'default'` | `'default'` | Type/color variant of the badge |
+| `isButton` | `boolean` | `false` | Whether to render as a button element |
+| `animateOnHover` | `boolean` | `false` | Whether to animate the icon on hover (only works with isButton) |
+| `animationType` | `'rotate' \| 'boop' \| 'bounce' \| 'none'` | `'boop'` | Type of animation to apply on hover |
+| `animationIntensity` | `number` | `5` | Animation intensity (1-10) |
+| `isCircular` | `boolean` | `false` | Whether to display the badge as a circle |
+| `isPill` | `boolean` | `false` | Whether to display the badge with fully rounded corners |
+| `pulse` | `boolean` | `false` | Whether to apply a pulsating animation |
+| `label` | `string` | `''` | Additional context for screen readers (visually hidden) |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
+
+## Accessibility
+
+Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper ARIA attributes. The Badge component is built with accessibility in mind:
+
+- Uses semantic HTML elements (`<span>` or `<button>`)
+- Proper button behavior when `isButton` is true
+- High contrast color combinations
+- Automatic light/dark mode adaptation
+- Respects user's reduced-motion preferences
+- Maintains focus states for interactive badges
+- Provides screen reader context with the `label` prop
+
+<Aside type="tip" title="Screen reader labels">
+  The `label` prop is essential for badges that display numbers or icons without text. It provides additional context that's only announced to screen readers while maintaining the visual design. For example, a badge showing "5" could have a label of "5 new messages" for better accessibility.
+</Aside>
+
+<Aside type="caution" title="Interactive badges">
+  When using badges as buttons, ensure they have clear purpose and adequate touch target size for mobile users, preverabely using the `lg` size. A good use case for a button badge could be to for example remove filters from a list.
+</Aside>
+
+## Styling
+
+Make the Badge component your own with custom styling while maintaining its accessibility features.
+
+<Aside type="caution" title="Accessibility considerations">
+  When applying custom styles, ensure you maintain sufficient color contrast ratios and don't remove focus indicators for interactive badges.
+</Aside>
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```css
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.badge) {
+        font-weight: 600;
+        letter-spacing: 0.025em;
+      }
+
+      :global(.badge.type-info) {
+        border-color: light-dark(hsl(210 100% 50%), hsl(210 100% 60%));
+        background-color: light-dark(hsl(210 100% 95%), hsl(210 100% 20%));
+      }
+
+      :global(button.badge:focus-visible) {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .badge {
+        font-weight: 600;
+        letter-spacing: 0.025em;
+      }
+
+      .badge.type-info {
+        border-color: light-dark(hsl(210 100% 50%), hsl(210 100% 60%));
+        background-color: light-dark(hsl(210 100% 95%), hsl(210 100% 20%));
+      }
+
+      button.badge:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <Badge 
+      class="font-semibold tracking-wide"
+      type="info"
+    >
+      Custom Badge
+    </Badge>
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
+
+## Interactive examples
+
+See the Badge component in action with these practical examples demonstrating different variants and styling options.
+
+### Status badges
+
+<div class="not-content">
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+    <Badge type="success" isPill>Active</Badge>
+    <Badge type="warning" isPill>Pending</Badge>
+    <Badge type="error" isPill>Failed</Badge>
+    <Badge type="info" isPill>Processing</Badge>
+    <Badge type="default" isPill>Draft</Badge>
+  </div>
+</div>
+
+### Notification badges
+
+<div class="not-content">
+  <div style="display: flex; gap: 1.5rem; margin-top: 1rem;">
+    <div style="position: relative; display: inline-flex;">
+      <button style="background: none; border: none; cursor: pointer;">
+        <Icon name="ion:mail" size="1.5rem" />
+        <span class="sr-only">3 unread messages</span>
+      </button>
+      <Badge 
+        type="error" 
+        isCircular 
+        size="sm"
+        style="position: absolute; top: -5px; right: -5px;"
+      >
+        3
+      </Badge>
+    </div>
+    
+    <div style="position: relative; display: inline-flex;">
+      <button style="background: none; border: none; cursor: pointer;">
+        <Icon name="ion:notifications" size="1.5rem" />
+        <span class="sr-only">5 new notifications</span>
+      </button>
+      <Badge 
+        type="info" 
+        isCircular 
+        size="sm"
+        style="position: absolute; top: -5px; right: -5px;"
+      >
+        5
+      </Badge>
+    </div>
+    
+    <div style="position: relative; display: inline-flex;">
+      <button style="background: none; border: none; cursor: pointer;">
+        <Icon name="ion:chatbubble" size="1.5rem" />
+        <span class="sr-only">2 new comments</span>
+      </button>
+      <Badge 
+        type="success" 
+        isCircular 
+        size="sm"
+        style="position: absolute; top: -5px; right: -5px;"
+      >
+        2
+      </Badge>
+    </div>
+  </div>
+</div>
+
+### Interactive badges with animations
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+    <Badge 
+      type="info" 
+      isButton 
+      animateOnHover 
+      animationType="rotate"
+      animationIntensity={20}
+      label="Refresh content"
+    >
+      <Icon name="ion:refresh" size="1rem" />
+      Refresh
+    </Badge>
+    
+    <Badge 
+      type="success" 
+      isButton 
+      animateOnHover 
+      animationType="bounce"
+      label="Approve item"
+    >
+      <Icon name="ion:checkmark" size="1rem" />
+      Approve
+    </Badge>
+    
+    <Badge 
+      type="warning" 
+      pulse
+    >
+      New feature (pulse)
+    </Badge>
+  </div>
+</div>
+
+### Accessible icon-only badges
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+    <Badge 
+      type="info" 
+      isButton 
+      animateOnHover
+      label="Show information"
+    >
+      <Icon name="ion:information-circle" size="1rem" />
+    </Badge>
+    
+    <Badge 
+      type="success" 
+      label="Task completed"
+    >
+      <Icon name="ion:checkmark-circle" size="1rem" />
+    </Badge>
+    
+    <Badge 
+      type="error" 
+      isButton
+      isCircular
+      label="Delete item"
+    >
+      <Icon name="ion:trash" size="1rem" />
+    </Badge>
+  </div>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">These badges provide proper context to screen readers while maintaining a clean visual design. For optimal accessibility and usability, it's recommended to display text alongside icons whenever possible.</p>
+</div>

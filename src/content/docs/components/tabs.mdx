@@ -21,6 +21,30 @@ Use the Tabs component when you need to:
 - Show settings panels
 - Structure dashboard sections
 
+## Quick example
+
+<div class="not-content">
+  <AccessibleTabs>
+    <TabsList>
+      <TabsTab id="quick-tab1" controls="quick-panel1" selected>First tab</TabsTab>
+      <TabsTab id="quick-tab2" controls="quick-panel2">Second tab</TabsTab>
+      <TabsTab id="quick-tab3" controls="quick-panel3">Third tab</TabsTab>
+    </TabsList>
+    <TabsPanel id="quick-panel1" labelledby="quick-tab1" selected>
+      <h3>First panel</h3>
+      <p>Try using the arrow keys to navigate between tabs!</p>
+    </TabsPanel>
+    <TabsPanel id="quick-panel2" labelledby="quick-tab2">
+      <h3>Second panel</h3>
+      <p>Notice how the focus management works when tabbing through.</p>
+    </TabsPanel>
+    <TabsPanel id="quick-panel3" labelledby="quick-tab3">
+      <h3>Third panel</h3>
+      <p>The component handles all the ARIA attributes automatically.</p>
+    </TabsPanel>
+  </AccessibleTabs>
+</div>
+
 ## Usage
 
 The Tabs component consists of four parts: the container, list wrapper, individual tabs, and their corresponding panels.

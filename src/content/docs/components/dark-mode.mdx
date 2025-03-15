@@ -19,6 +19,23 @@ The Dark mode component provides a toggle for switching between light and dark c
 - Respecting user system preferences
 - Battery saving on OLED displays
 
+## Quick example
+
+<div class="not-content">
+  <p>Click the toggle below to switch between light and dark mode:</p>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
+    <DarkMode>
+      <Icon name="ion:sunny" slot="light" />
+      <Icon name="ion:moon" slot="dark" />
+    </DarkMode>
+    <span>Try using keyboard navigation (Tab + Enter/Space) to toggle!</span>
+  </div>
+</div>
+
+<Aside type="caution" title="Example component">
+  The toggle here doesn't change the color scheme (just for itself) since Starlight has its own dark mode toggle and doesn't use the `darkmode` class.
+</Aside>
+
 ## Usage
 
 Learn how to implement the DarkMode component in your project, from basic usage to advanced configurations.
@@ -146,7 +163,7 @@ Make the DarkMode component your own with custom styling while maintaining its a
 See the DarkMode component in action with these practical examples demonstrating different variants and styling options.
 
 <Aside type="caution" title="Example component">
-  The toggle here doesn't change the color scheme (just for itself) since Starlight has it's own dark mode toggle and doesn't use the `darkmode` class.
+  The toggle here doesn't change the color scheme (just for itself) since Starlight has its own dark mode toggle and doesn't use the `darkmode` class.
 </Aside>
 
 ### Default style

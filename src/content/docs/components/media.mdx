@@ -26,6 +26,31 @@ The Media component is perfect for situations where you need responsive images w
 - Above-the-fold content
 - Image-heavy layouts
 
+## Quick example
+
+<div class="not-content">
+  <div style="max-width: 500px;">
+    <Media 
+      src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=800"
+      alt="Example responsive image with 16:9 aspect ratio"
+      ratio="16:9"
+    />
+    <p style="margin-top: 0.5rem; font-size: 0.9rem;">This image maintains its aspect ratio across all screen sizes and loads with optimal performance.</p>
+    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+      <Media 
+        src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=800"
+        alt="Square format image"
+        ratio="1:1"
+      />
+      <Media 
+        src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=800"
+        alt="4:3 format image"
+        ratio="4:3"
+      />
+    </div>
+  </div>
+</div>
+
 ## Usage
 
 Learn how to implement the Media component in your project, from basic usage to advanced configurations.
@@ -175,7 +200,7 @@ See the Media component in action with these practical examples demonstrating di
 
 <div class="not-content">
   <Media 
-    src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=80&w=800"
+    src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=800"
     alt="Example image with default settings"
   />
 </div>
@@ -184,7 +209,7 @@ See the Media component in action with these practical examples demonstrating di
 
 <div class="not-content">
   <Media 
-    src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=80&w=800"
+    src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=800"
     alt="Example image with 1:1 aspect ratio"
     ratio="1:1"
   />
@@ -194,7 +219,7 @@ See the Media component in action with these practical examples demonstrating di
 
 <div class="not-content">
   <Media 
-    src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=80&w=800"
+    src="https://images.unsplash.com/photo-1620428268482-cf1851a36764?auto=format&fit=crop&q=100&w=800"
     alt="Example image in 16:9 format"
     ratio="16:9"
   />

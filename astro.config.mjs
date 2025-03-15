@@ -96,21 +96,29 @@ export default defineConfig({
               label: 'Avatar',
               link: '/components/avatar',
               badge: {
-                text: 'next',
-                variant: 'tip',
+                text: 'new!',
+                variant: 'success',
               },
             },
             {
               label: 'Badge',
               link: '/components/badge',
               badge: {
-                text: 'next',
-                variant: 'tip',
+                text: 'new!',
+                variant: 'success',
               },
             },
             {
               label: 'Breadcrumbs',
               link: '/components/breadcrumbs',
+            },
+            {
+              label: 'Button',
+              link: '/components/button',
+              badge: {
+                text: 'next',
+                variant: 'tip',
+              },
             },
             {
               label: 'Card',
@@ -132,8 +140,8 @@ export default defineConfig({
               label: 'Forms',
               link: '/components/forms',
               badge: {
-                text: 'soon',
-                variant: 'caution',
+                text: 'next',
+                variant: 'tip',
               },
             },
             {
@@ -171,10 +179,6 @@ export default defineConfig({
             {
               label: 'Video',
               link: '/components/video',
-              badge: {
-                text: 'new!',
-                variant: 'success',
-              },
             },
           ],
         },

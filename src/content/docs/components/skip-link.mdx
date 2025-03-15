@@ -25,6 +25,16 @@ A SkipLink is essential for keyboard navigation in these scenarios:
 - Complex navigation structures
 - Any site that prioritizes keyboard accessibility
 
+## Quick example
+
+<div class="not-content">
+  <p>Press <kbd>Tab</kbd> once to see the skip link appear:</p>
+  <div style="position: relative; border: 1px dashed #ccc; padding: 2rem; margin-top: 1rem;">
+    <SkipLink />
+    <p>The skip link is only visible when focused, making it unobtrusive for mouse users while remaining accessible to keyboard users. In a real page, it would allow users to bypass navigation and jump directly to the main content.</p>
+  </div>
+</div>
+
 ## Usage
 
 Learn how to implement the SkipLink component in your project:
@@ -44,7 +54,7 @@ import { SkipLink } from 'accessible-astro-components'
 ```
 
 <Aside type="tip" title="Best practice">
-  Place the SkipLink component as the first focusable element on your page, before any navigation or content. Preferably in the `head` section of your document.
+  Place the SkipLink component as the first focusable element on your page, before any navigation or content. Preferably in the `header` section of your document.
 </Aside>
 
 ## Props
