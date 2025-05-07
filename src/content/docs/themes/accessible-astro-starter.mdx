@@ -3,11 +3,11 @@ title: Accessible Astro Starter
 description: A minimal, accessible starter theme for your Astro projects.
 ---
 
-import { Aside, Steps, FileTree } from '@astrojs/starlight/components';
+import { Aside, Steps, FileTree, Tabs, TabItem } from '@astrojs/starlight/components';
 
 ## Introduction
 
-The [Accessible Astro Starter](https://github.com/incluud/accessible-astro-starter) is a ready-to-use, SEO and accessibility-friendly blogging theme. It provides a solid foundation with numerous accessible components, Tailwind CSS integration, and example pages including a dynamic blog, 404 page, and MDX support.
+The [Accessible Astro Starter](https://github.com/incluud/accessible-astro-starter) is a ready-to-use, SEO and accessibility-friendly blogging theme. It provides a solid foundation with numerous accessible components, Tailwind CSS integration, and example pages including a dynamic blog, 404 page, and MDX support. Version 4.0.0 introduces a complete design system overhaul with OKLCH colors, Atkinson Hyperlegible font, and significant accessibility improvements.
 
 <div class="flex gap-2 mb-8">
   <a href="https://github.com/incluud/accessible-astro-starter" class="sl-flex">GitHub Repository</a>
@@ -16,16 +16,19 @@ The [Accessible Astro Starter](https://github.com/incluud/accessible-astro-start
 
 ## Key features
 
-- Built on Astro 5.0
-- Tailwind CSS integration
+- Built on Astro 5.7.5
+- Tailwind CSS 4.0 integration
+- Modern OKLCH color system with light/dark mode
+- Atkinson Hyperlegible font for improved readability
 - Markdown and MDX support with examples included
 - Excellent Lighthouse/PageSpeed scores
 - ESLint with strict accessibility settings
 - Prettier integration with plugins for Astro and Tailwind
 - View Transitions support
 - Dynamic blog with pagination and breadcrumbs using AJAX fetch
-- Portfolio page with projects using Astro Content Collections
+- Enhanced portfolio page with rich media support
 - Custom 404 error page
+- TypeScript interfaces and proper prop typing
 
 ## Accessibility features
 
@@ -39,6 +42,8 @@ The [Accessible Astro Starter](https://github.com/incluud/accessible-astro-start
 - Reduced motion preferences support
 - Screen reader only text utilities
 - Accessible components like Accordions, Breadcrumbs, Modals, and more
+- Color Contrast Checker component for accessibility testing
+- Modern CSS with logical properties
 
 <Aside type="tip" title="Best practice">
   The theme follows WCAG guidelines and includes ESLint rules to help maintain accessibility standards in your code.
@@ -134,10 +139,11 @@ The starter follows a clear and organized structure:
 
 ## Components
 
-The starter includes several pre-built accessible components:
+The starter includes several pre-built accessible components, with several new additions in version 4.0.0:
 
+#### Core Components
 - `CallToAction.astro` - Styled block with a button
-- `ContentMedia.astro` - Content with media layout
+- `ContentMedia.astro` - Content with media layout  
 - `Counter.astro` - Icon and number counter
 - `DarkMode.astro` - Theme toggle with system preference
 - `Feature.astro` - Feature highlight component
@@ -149,9 +155,32 @@ The starter includes several pre-built accessible components:
 - `SiteMeta.astro` - SEO meta component
 - `SkipLinks.astro` - For keyboard users
 
+#### New in 4.0.0
+- `ColorContrast.astro` - Accessibility testing component for color contrast
+- `PageHeader.astro` - Consistent page titles component
+- `Logo.astro` - Standardized branding component
+- `ExternalLink.astro` - Link with proper external attributes
+- `BlockQuote.astro` - Content citation component
+- `BreakoutImage.astro` - Full-width image component
+- `SocialShares.astro` - Blog post sharing component
+
 <Aside type="note" title="View transitions">
   This theme supports Astro's View Transitions. Please review the [Astro documentation](https://docs.astro.build/en/guides/view-transitions/) for more information.
 </Aside>
+
+Extend or modify existing components in the `src/components` directory:
+
+```astro
+---
+// src/components/Header.astro
+import Navigation from './Navigation.astro'
+---
+
+<header>
+  <Navigation />
+  <!-- Add your custom header content -->
+</header>
+```
 
 ## Customization
 
@@ -170,23 +199,89 @@ The theme uses Tailwind CSS with additional SCSS utilities. Customize your theme
         - _colors.scss _// Color system_
         - _font.scss _// Typography_
         - _outline.scss _// Focus styles_
+        - _root.scss _// Custom properties_
 </FileTree>
 
-### Components
+### OKLCH Color System
 
-Extend or modify existing components in the `src/components` directory:
+Version 4.0.0 introduces a powerful OKLCH-based color system that makes it incredibly easy to create accessible color schemes. The best part? You only need to define your three brand colors, and the entire color palette is automatically generated!
 
-```astro
----
-// src/components/Header.astro
-import Navigation from './Navigation.astro'
----
+<Tabs>
+  <TabItem label="Simple Brand Color Setup">
+  ```scss
+  :root {
+    // Just set these three brand colors in hex or any format
+    --brand-primary: #d648ff;   // Your primary brand color
+    --brand-secondary: #00d1b7; // Your secondary brand color  
+    --brand-neutral: #b9bec4;   // Your neutral brand color
+    
+    // The rest of the color palette is automatically generated!
+  }
+  ```
+  </TabItem>
+  <TabItem label="How it works">
+  ```scss
+  :root {
+    // Your brand colors (these are the only ones you need to customize)
+    --brand-primary: #d648ff;
+    --brand-secondary: #00d1b7;
+    --brand-neutral: #b9bec4;
 
-<header>
-  <Navigation />
-  <!-- Add your custom header content -->
-</header>
-```
+    // Automatic generation of primary palette with 5 variations
+    --color-primary-100: oklch(from var(--brand-primary) 90% c h); // Lightest
+    --color-primary-200: oklch(from var(--brand-primary) 80% c h);
+    --color-primary-300: oklch(from var(--brand-primary) 70% c h);
+    --color-primary-400: oklch(from var(--brand-primary) 60% c h);
+    --color-primary-500: oklch(from var(--brand-primary) 50% c h); // Darkest
+    
+    // Secondary color palette is generated the same way
+    --color-secondary-100: oklch(from var(--brand-secondary) 90% c h);
+    // ... and so on
+    
+    // Neutral palette for text, backgrounds, etc.
+    --color-neutral-100: oklch(from var(--brand-neutral) 100% 0 0); // White
+    --color-neutral-200: oklch(from var(--brand-neutral) 95% c h);
+    // ... through to:
+    --color-neutral-900: oklch(from var(--brand-neutral) 15% c h); // Near black
+    
+    // Automatic light/dark mode handling
+    --foreground-color: light-dark(var(--color-neutral-800), var(--color-neutral-100));
+    --background-color: light-dark(var(--color-neutral-100), var(--color-neutral-900));
+    --link-color: light-dark(var(--color-primary-400), var(--color-secondary-100));
+    // ... and more
+  }
+  
+  // Dark mode is handled automatically
+  .darkmode {
+    color-scheme: dark;
+  }
+  ```
+  </TabItem>
+  <TabItem label="Example customization">
+  ```scss
+  // In your _root.scss or a new SCSS file
+  
+  :root {
+    // Just update these three values to transform your entire theme
+    --brand-primary: #4a6cf7;    // Blue
+    --brand-secondary: #f7724a;  // Orange
+    --brand-neutral: #94a3b8;    // Slate
+    
+    // All of your theme colors will automatically adjust!
+  }
+  ```
+  </TabItem>
+</Tabs>
+
+The magic of this system is how it leverages OKLCH color transformations to create consistent, harmonious color palettes with proper contrast for accessibility. OKLCH (Lightness, Chroma, Hue) is a perceptually uniform color space that makes it easier to create accessible color combinations.
+
+<Aside type="tip" title="Easy theming">
+  By changing just three brand colors, you can completely transform your site's theme while maintaining accessibility. The system automatically handles light/dark mode, contrast, and creates a full color palette with multiple shades.
+</Aside>
+
+<Aside type="caution" title="Verify accessibility">
+  While OKLCH helps create better color palettes, always verify your customized colors with the Color Contrast Checker component included in the starter. Accessibility is not automatically guaranteed when customizing colors, especially for text and interactive elements that need to meet WCAG contrast requirements.
+</Aside>
 
 ## Contributing
 
