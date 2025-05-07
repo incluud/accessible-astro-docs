@@ -8,7 +8,7 @@ import { Card } from 'accessible-astro-components';
 
 ## Introduction
 
-The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization.
+The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization. The component includes built-in support for Astro's Image component, enabling optimized image loading and better performance out of the box.
 
 ## When to use
 
@@ -42,6 +42,10 @@ The Card component provides a versatile container for displaying related content
     </Card>
   </div>
 </div>
+
+<Aside type="tip" title="Image optimization">
+  The Card component supports Astro's built-in Image component for automatic image optimization, responsive images, and improved Core Web Vitals. See the "With Astro Image component" example for implementation details.
+</Aside>
 
 ## Usage
 
@@ -84,6 +88,35 @@ import { Card } from 'accessible-astro-components'
 </Card>
 ```
 
+### With Astro Image component
+
+```astro
+---
+import { Card } from 'accessible-astro-components'
+import localImage from '../assets/local-image.jpg'
+---
+
+<!-- Using local image -->
+<Card
+  imageComponent={localImage}
+  url="/blog/post"
+  title="Card with Local Image"
+>
+  <p>This card uses Astro's Image component with a local image.</p>
+</Card>
+
+<!-- Using remote image with dynamic import -->
+<Card
+  imageComponent={(await import('https://example.com/remote-image.jpg')).default}
+  width={800}
+  height={600}
+  url="/blog/post"
+  title="Card with Remote Image"
+>
+  <p>This card uses Astro's Image component with a remote image.</p>
+</Card>
+```
+
 <Aside type="tip" title="Flexible content">
   The Card component accepts any content through its default slot, allowing for flexible layouts while maintaining accessibility. You can use the `meta` slot to add additional information to the card.
 </Aside>
@@ -95,9 +128,14 @@ Configure the Card component using these available props to customize its behavi
 <div class="props-wrapper">
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `url` | `string` | `''` | URL for the card's link wrapper |
-| `img` | `string` | `''` | Path to the card's image |
-| `title` | `string` | `''` | Title text for the card |
+| `url` | `string` | `'#'` | URL for the card's link wrapper |
+| `img` | `string` | `'https://fakeimg.pl/640x360'` | Path to the card's image |
+| `imageComponent` | `ImageMetadata \| Promise<{ default: ImageMetadata }>` | `undefined` | Optional Astro Image component (supports both ImageMetadata and dynamic import) |
+| `imageAlt` | `string` | `''` | Alt text for the image |
+| `width` | `number` | `640` | Width of the image (required for remote images) |
+| `height` | `number` | `360` | Height of the image (required for remote images) |
+| `inferSize` | `boolean` | `false` | Whether to infer the image size (for remote images) |
+| `title` | `string` | `'Default title'` | Title text for the card |
 | `class` | `string` | `''` | Additional CSS classes to apply to the card |
 | `tagName` | `string` | `'h3'` | HTML tag name for the title |
 | `footer` | `string` | `''` | Footer content for the card |
@@ -108,10 +146,13 @@ Configure the Card component using these available props to customize its behavi
 Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper image handling. The Card component is built with accessibility in mind:
 
 - Uses semantic HTML structure with `<article>` element
-- Proper heading hierarchy with configurable levels
-- Images are intentionally decorative (`alt=""`) since meaningful content is conveyed through the title and description
-- Links are properly structured for keyboard navigation
-- Focus states are clearly visible
+- Proper heading hierarchy with configurable levels (via `tagName` prop)
+- Images have appropriate alt text support (via `imageAlt` prop)
+  - Empty alt text (`alt=""`) is appropriate when the image is decorative and the key content is conveyed through title and description
+  - Add meaningful alt text for informative images that aren't described elsewhere in the card
+- Links are properly structured for keyboard navigation with clear focus states
+- Images have appropriate width and height attributes to prevent layout shifts
+- Works with Astro's Image component for optimal loading and performance
 - Color contrast meets WCAG guidelines
 
 ## Styling

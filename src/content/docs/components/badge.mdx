@@ -165,7 +165,7 @@ Configure the Badge component using these available props to customize its behav
 | `type` | `'info' \| 'success' \| 'warning' \| 'error' \| 'default'` | `'default'` | Type/color variant of the badge |
 | `isButton` | `boolean` | `false` | Whether to render as a button element |
 | `animateOnHover` | `boolean` | `false` | Whether to animate the icon on hover (only works with isButton) |
-| `animationType` | `'rotate' \| 'boop' \| 'bounce' \| 'none'` | `'boop'` | Type of animation to apply on hover |
+| `animationType` | `'rotate' \| 'boop' \| 'bouncing' \| 'none'` | `'boop'` | Type of animation to apply on hover |
 | `animationIntensity` | `number` | `5` | Animation intensity (1-10) |
 | `isCircular` | `boolean` | `false` | Whether to display the badge as a circle |
 | `isPill` | `boolean` | `false` | Whether to display the badge with fully rounded corners |
@@ -345,7 +345,7 @@ See the Badge component in action with these practical examples demonstrating di
       type="success" 
       isButton 
       animateOnHover 
-      animationType="bounce"
+      animationType="bouncing"
       label="Approve item"
     >
       <Icon name="ion:checkmark" size="1rem" />

@@ -26,10 +26,18 @@ export default defineConfig({
         dark: './src/assets/logo-dark.svg',
         replacesTitle: true,
       },
-      social: {
-        github: 'https://github.com/incluud',
-        openCollective: 'https://opencollective.com/incluud',
-      },
+      social: [
+        {
+          href: 'https://github.com/incluud',
+          icon: 'seti:github',
+          label: 'GitHub',
+        },
+        {
+          href: 'https://opencollective.com/incluud',
+          icon: 'openCollective',
+          label: 'Open Collective',
+        },
+      ],
       editLink: {
         baseUrl: 'https://github.com/incluud/astro-docs/edit/main/',
       },
@@ -93,18 +101,10 @@ export default defineConfig({
             {
               label: 'Avatar',
               link: '/components/avatar',
-              badge: {
-                text: 'new!',
-                variant: 'success',
-              },
             },
             {
               label: 'Badge',
               link: '/components/badge',
-              badge: {
-                text: 'new!',
-                variant: 'success',
-              },
             },
             {
               label: 'Breadcrumbs',
