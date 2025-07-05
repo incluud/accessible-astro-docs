@@ -28,6 +28,16 @@ export default defineConfig({
       },
       social: [
         {
+          href: 'https://x.com/incluud',
+          icon: 'x.com',
+          label: 'Twitter',
+        },
+        {
+          href: 'https://bsky.app/profile/incluud.dev',
+          icon: 'blueSky',
+          label: 'BlueSky',
+        },
+        {
           href: 'https://github.com/incluud',
           icon: 'seti:github',
           label: 'GitHub',
