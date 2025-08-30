@@ -1,0 +1,490 @@
+---
+title: Button
+description: A fully accessible button component with multiple variants, sizes, and delightful animations to enhance user interactions.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Button } from 'accessible-astro-components';
+import { Icon } from 'astro-icon/components';
+
+## Introduction
+
+The Button component provides a versatile and accessible way to trigger actions throughout your application. It supports multiple variants, sizes, types, and animations while maintaining excellent accessibility standards. Built with semantic HTML and proper ARIA attributes, it adapts seamlessly to both light and dark modes.
+
+<Aside type="note" title="Semantic HTML">
+  The Button component always renders as a proper `<button>` element with correct type attributes, ensuring proper form behavior and accessibility.
+</Aside>
+
+## When to use
+
+Use the Button component when you need to:
+
+- Trigger actions (submit forms, navigate, open modals)
+- Provide primary and secondary call-to-action elements
+- Create interactive elements with proper keyboard support
+- Display loading or processing states
+- Group related actions with consistent styling
+- Add engaging hover animations to enhance user experience
+- Ensure accessibility compliance in interactive elements
+
+## Quick example
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
+    <Button>Default</Button>
+    <Button type="primary">Primary</Button>
+    <Button type="secondary">Secondary</Button>
+    <Button type="info">Info</Button>
+    <Button type="success">Success</Button>
+    <Button type="warning">Warning</Button>
+    <Button type="error">Error</Button>
+  </div>
+  
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
+    <Button size="sm">Small</Button>
+    <Button size="md">Medium</Button>
+    <Button size="lg">Large</Button>
+  </div>
+  
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+    <Button variant="outlined" type="error">Outlined</Button>
+    <Button type="info" animateOnHover animationType="boop">
+      <Icon name="ion:rocket" size="1rem" />
+      Hover me!
+    </Button>
+    <Button type="success" pulse>Pulsing</Button>
+  </div>
+  
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">Try hovering over the rocket button to see the animation effect!</p>
+</div>
+
+## Usage
+
+Learn how to implement the Button component in your project, from basic usage to advanced configurations with animations.
+
+### Basic buttons
+
+```astro
+---
+import { Button } from 'accessible-astro-components'
+---
+
+<Button>Default Button</Button>
+<Button type="primary">Primary Action</Button>
+<Button type="secondary">Secondary Action</Button>
+```
+
+### Button variants
+
+```astro
+<!-- Filled buttons (default) -->
+<Button type="primary">Filled Primary</Button>
+<Button type="success">Filled Success</Button>
+
+<!-- Outlined buttons -->
+<Button variant="outlined" type="primary">Outlined Primary</Button>
+<Button variant="outlined" type="error">Outlined Error</Button>
+```
+
+### Button sizes
+
+```astro
+<Button size="sm">Small Button</Button>
+<Button size="md">Medium Button</Button>
+<Button size="lg">Large Button</Button>
+```
+
+### Button types and states
+
+```astro
+<!-- Different semantic types -->
+<Button type="info">Information</Button>
+<Button type="success">Success</Button>
+<Button type="warning">Warning</Button>
+<Button type="error">Danger</Button>
+
+<!-- Button states -->
+<Button disabled>Disabled Button</Button>
+<Button htmlType="submit">Submit Form</Button>
+<Button htmlType="reset">Reset Form</Button>
+```
+
+### Buttons with icons
+
+```astro
+---
+import { Button } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+---
+
+<!-- Icon with text -->
+<Button type="primary">
+  <Icon name="ion:save" size="1rem" />
+  Save Changes
+</Button>
+
+<!-- Icon only (provide aria-label) -->
+<Button 
+  type="info" 
+  ariaLabel="Search"
+  isCircular
+>
+  <Icon name="ion:search" size="1rem" />
+</Button>
+```
+
+<Aside type="caution" title="Icon-only buttons">
+  When using icon-only buttons, always provide the `ariaLabel` prop to ensure screen reader users understand the button's purpose.
+</Aside>
+
+### Animated buttons
+
+```astro
+<!-- Hover animations -->
+<Button 
+  type="primary" 
+  animateOnHover
+  animationType="boop"
+>
+  <Icon name="ion:heart" size="1rem" />
+  Like
+</Button>
+
+<Button 
+  type="info" 
+  animateOnHover
+  animationType="rotate"
+  animationIntensity={8}
+>
+  <Icon name="ion:refresh" size="1rem" />
+  Refresh
+</Button>
+
+<!-- Pulsing button to draw attention -->
+<Button 
+  type="success" 
+  pulse
+>
+  New Feature!
+</Button>
+```
+
+### Form buttons
+
+```astro
+<form>
+  <Button htmlType="submit" type="primary">
+    Submit Form
+  </Button>
+  
+  <Button htmlType="reset" variant="outlined">
+    Reset
+  </Button>
+  
+  <Button htmlType="button" onclick="handleCancel()">
+    Cancel
+  </Button>
+</form>
+```
+
+## Props
+
+Configure the Button component using these available props to customize its behavior and appearance.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `htmlType` | `'button' \| 'submit' \| 'reset'` | `'button'` | The HTML button type attribute |
+| `variant` | `'filled' \| 'outlined'` | `'filled'` | The visual variant of the button |
+| `type` | `'default' \| 'primary' \| 'secondary' \| 'info' \| 'success' \| 'warning' \| 'error'` | `'default'` | The type affecting color scheme |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | The size of the button |
+| `disabled` | `boolean` | `false` | Whether the button is disabled |
+| `animateOnHover` | `boolean` | `false` | Whether to animate icons on hover |
+| `animationType` | `'rotate' \| 'boop' \| 'bouncing' \| 'none'` | `'boop'` | Type of animation to apply on hover |
+| `animationIntensity` | `number` | `5` | Animation intensity (1-10) |
+| `pulse` | `boolean` | `false` | Whether to apply a pulsating animation |
+| `ariaLabel` | `string` | `undefined` | Accessible label for screen readers |
+| `ariaDescribedby` | `string` | `undefined` | ID of element describing the button |
+| `id` | `string` | `undefined` | The id attribute |
+| `class` | `string` | `undefined` | Additional CSS classes to apply |
+</div>
+
+<Aside type="tip" title="Animation intensity">
+  Animation intensity values are clamped between 1-10, where 1 is subtle and 10 is more dramatic. The default value of 5 provides a balanced animation that works well in most contexts.
+</Aside>
+
+## Accessibility
+
+Accessibility is built into the core of this component through semantic HTML elements and proper ARIA attributes. The Button component ensures excellent accessibility:
+
+- Uses semantic `<button>` element with proper type attributes
+- Supports all standard button behaviors (click, enter, space)
+- Maintains proper focus states with clear visual indicators
+- High contrast color combinations for all variants
+- Automatic light/dark mode adaptation
+- Respects user's reduced-motion preferences for animations
+- Proper disabled state handling
+- Support for ARIA attributes (`aria-label`, `aria-describedby`)
+- Text underline animations provide additional interaction feedback
+
+<Aside type="tip" title="Focus management">
+  The component includes a subtle underline animation on hover and focus, providing clear feedback about the interactive state without relying solely on color changes.
+</Aside>
+
+<Aside type="note" title="Animation preferences">
+  All animations respect the user's `prefers-reduced-motion` setting, automatically disabling motion for users who have requested reduced motion in their system preferences.
+</Aside>
+
+## Styling
+
+Make the Button component your own with custom styling while maintaining its accessibility features.
+
+<Aside type="caution" title="Accessibility considerations">
+  When applying custom styles, ensure you maintain sufficient color contrast ratios (4.5:1 for normal text, 3:1 for large text) and don't remove focus indicators.
+</Aside>
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```css
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.button) {
+        font-weight: 600;
+        letter-spacing: 0.025em;
+        border-radius: 0.75rem;
+      }
+
+      :global(.button.type-primary) {
+        border-color: light-dark(hsl(220 100% 50%), hsl(220 100% 60%));
+        background-color: light-dark(hsl(220 100% 50%), hsl(220 100% 60%));
+        color: white;
+      }
+
+      :global(.button:hover) {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px hsl(0 0% 0% / 0.15);
+      }
+
+      :global(.button:focus-visible) {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
+
+      /* Custom animation keyframes */
+      @media (prefers-reduced-motion: no-preference) {
+        :global(.button.animation-pulse) {
+          animation: custom-pulse 2s infinite;
+        }
+      }
+
+      @keyframes custom-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .button {
+        font-weight: 600;
+        letter-spacing: 0.025em;
+        border-radius: 0.75rem;
+      }
+
+      .button.type-primary {
+        border-color: light-dark(hsl(220 100% 50%), hsl(220 100% 60%));
+        background-color: light-dark(hsl(220 100% 50%), hsl(220 100% 60%));
+        color: white;
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <Button 
+      class="font-semibold tracking-wide rounded-lg shadow-lg"
+      type="primary"
+    >
+      Custom Styled Button
+    </Button>
+    
+    <!-- With responsive sizing -->
+    <Button 
+      class="px-6 py-3 md:px-8 md:py-4 text-sm md:text-base"
+      size="lg"
+    >
+      Responsive Button
+    </Button>
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
+
+## Interactive examples
+
+See the Button component in action with these practical examples demonstrating different variants, animations, and styling options.
+
+### Button variants showcase
+
+<div class="not-content">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+    <div style="text-align: center;">
+      <h4 style="margin: 0 0 0.5rem; font-size: 0.9rem;">Filled</h4>
+      <Button type="primary">Primary</Button>
+    </div>
+    <div style="text-align: center;">
+      <h4 style="margin: 0 0 0.5rem; font-size: 0.9rem;">Outlined</h4>
+      <Button variant="outlined" type="primary">Primary</Button>
+    </div>
+    <div style="text-align: center;">
+      <h4 style="margin: 0 0 0.5rem; font-size: 0.9rem;">Success</h4>
+      <Button type="success">Success</Button>
+    </div>
+    <div style="text-align: center;">
+      <h4 style="margin: 0 0 0.5rem; font-size: 0.9rem;">Warning</h4>
+      <Button type="warning">Warning</Button>
+    </div>
+    <div style="text-align: center;">
+      <h4 style="margin: 0 0 0.5rem; font-size: 0.9rem;">Error</h4>
+      <Button type="error">Error</Button>
+    </div>
+  </div>
+</div>
+
+### Animated buttons
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+    <Button 
+      type="info" 
+      animateOnHover 
+      animationType="boop"
+      animationIntensity={7}
+    >
+      <Icon name="ion:heart" size="1rem" />
+      Boop
+    </Button>
+    
+    <Button 
+      type="secondary" 
+      animateOnHover 
+      animationType="rotate"
+      animationIntensity={10}
+    >
+      <Icon name="ion:refresh" size="1rem" />
+      Rotate
+    </Button>
+    
+    <Button 
+      type="success" 
+      animateOnHover 
+      animationType="bouncing"
+    >
+      <Icon name="ion:arrow-up" size="1rem" />
+      Bounce
+    </Button>
+    
+    <Button 
+      type="warning" 
+      pulse
+    >
+      <Icon name="ion:flash" size="1rem" />
+      Pulse
+    </Button>
+  </div>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">Hover over the buttons to see different animation effects. The pulse button automatically animates.</p>
+</div>
+
+### Form actions
+
+<div class="not-content">
+  <form style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; padding: 1.5rem; border: 1px solid light-dark(hsl(204 20% 88%), hsl(215 25% 27%)); border-radius: 0.5rem; background: light-dark(hsl(0 0% 98%), hsl(215 25% 12%));">
+    <Button htmlType="submit" type="primary">
+      <Icon name="ion:save" size="1rem" />
+      Save
+    </Button>
+    
+    <Button htmlType="reset" variant="outlined">
+      <Icon name="ion:refresh" size="1rem" />
+      Reset
+    </Button>
+    
+    <Button htmlType="button" variant="outlined" type="error">
+      <Icon name="ion:close" size="1rem" />
+      Cancel
+    </Button>
+  </form>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">Form buttons with proper HTML types for semantic form behavior.</p>
+</div>
+
+### Size variations
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
+    <Button size="sm" type="info">
+      <Icon name="ion:add" size="0.875rem" />
+      Small
+    </Button>
+    
+    <Button size="md" type="info">
+      <Icon name="ion:add" size="1rem" />
+      Medium
+    </Button>
+    
+    <Button size="lg" type="info">
+      <Icon name="ion:add" size="1.125rem" />
+      Large
+    </Button>
+  </div>
+</div>
+
+### Icon-only buttons
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+    <Button 
+      type="primary" 
+      ariaLabel="Edit item"
+      animateOnHover
+    >
+      <Icon name="ion:pencil" size="1rem" />
+    </Button>
+    
+    <Button 
+      type="error" 
+      ariaLabel="Delete item"
+      animateOnHover
+      animationType="boop"
+    >
+      <Icon name="ion:trash" size="1rem" />
+    </Button>
+    
+    <Button 
+      type="success" 
+      ariaLabel="Approve item"
+      animateOnHover
+      animationType="bouncing"
+    >
+      <Icon name="ion:checkmark" size="1rem" />
+    </Button>
+    
+    <Button 
+      type="info" 
+      ariaLabel="Get more information"
+      animateOnHover
+      animationType="rotate"
+    >
+      <Icon name="ion:information-circle" size="1rem" />
+    </Button>
+  </div>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">Icon-only buttons with proper accessibility labels. Hover to see animations.</p>
+</div>
+
+## Related components
+
+- **Link**: For navigation and external links with button styling
+- **Badge**: For compact interactive elements and status indicators
+- **Modal**: Often used together for confirm/cancel actions

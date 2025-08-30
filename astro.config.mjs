@@ -124,8 +124,8 @@ export default defineConfig({
               label: 'Button',
               link: '/components/button',
               badge: {
-                text: 'next',
-                variant: 'tip',
+                text: 'new',
+                variant: 'success',
               },
             },
             {
