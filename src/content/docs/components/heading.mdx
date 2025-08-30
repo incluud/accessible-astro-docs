@@ -1,0 +1,303 @@
+---
+title: Heading
+description: A versatile heading component that separates semantic meaning from visual appearance, enabling proper accessibility while maintaining design flexibility.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Heading } from 'accessible-astro-components';
+
+## Introduction
+
+The Heading component provides a crucial solution for maintaining both semantic accessibility and visual design consistency. It allows you to independently control the semantic level (HTML tag) and visual appearance (styling) of headings, ensuring proper document structure while meeting design requirements.
+
+<Aside type="note" title="Semantic vs Visual">
+  This component solves the common problem where design calls for an h1-sized heading but semantically it should be an h3. You can now have an h3 that looks like an h1, maintaining both accessibility and visual hierarchy.
+</Aside>
+
+## When to use
+
+Use the Heading component when you need to:
+
+- Maintain proper semantic heading hierarchy
+- Apply different visual styling than semantic level
+- Ensure consistent typography across your application
+- Balance text layout for better readability
+- Create design systems with flexible heading styles
+- Follow accessibility best practices for document structure
+- Separate content structure from visual presentation
+
+## Quick example
+
+<div class="not-content">
+  <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <Heading level="h1" size="h1">This is an H1 (semantic and visual)</Heading>
+    <Heading level="h2" size="h1">This is an H2 that looks like H1</Heading>
+    <Heading level="h3" size="h2">This is an H3 that looks like H2</Heading>
+    <Heading level="h3" size="h4">This is an H3 that looks like H4</Heading>
+  </div>
+  
+  <p style="margin-top: 1rem; font-size: 0.9rem;">Notice how semantic meaning and visual appearance can be controlled independently!</p>
+</div>
+
+## Usage
+
+Learn how to implement the Heading component to create accessible and visually consistent headings throughout your project.
+
+### Basic
+
+```astro
+---
+import { Heading } from 'accessible-astro-components'
+---
+
+<Heading>Default heading (h2)</Heading>
+<Heading level="h1">Main page title</Heading>
+<Heading level="h3">Section heading</Heading>
+```
+
+### Semantic vs Visual separation
+
+This is the primary strength of the component - controlling semantic meaning independently from visual appearance:
+
+```astro
+<!-- Semantically h3, but visually styled like h1 -->
+<Heading level="h3" size="h1">
+  Visually prominent section
+</Heading>
+
+<!-- Semantically h2, but visually styled like h4 -->
+<Heading level="h2" size="h4">
+  Subtle subsection
+</Heading>
+
+<!-- Both semantic and visual are h1 -->
+<Heading level="h1" size="h1">
+  Page title
+</Heading>
+```
+
+<Aside type="tip" title="Why this matters">
+  Screen readers and SEO crawlers use the semantic level (h1, h2, h3) to understand document structure, while sighted users see the visual styling. This component lets you optimize for both audiences.
+</Aside>
+
+### Different heading levels
+
+```astro
+<Heading level="h1">Main title</Heading>
+<Heading level="h2">Section title</Heading>
+<Heading level="h3">Subsection title</Heading>
+<Heading level="h4">Minor heading</Heading>
+<Heading level="h5">Small heading</Heading>
+<Heading level="h6">Smallest heading</Heading>
+```
+
+### Visual size variations
+
+```astro
+<!-- All h3 semantically, but different visual sizes -->
+<Heading level="h3" size="h1">Largest visual style</Heading>
+<Heading level="h3" size="h2">Large visual style</Heading>
+<Heading level="h3" size="h3">Default visual style</Heading>
+<Heading level="h3" size="h4">Small visual style</Heading>
+<Heading level="h3" size="h5">Smaller visual style</Heading>
+<Heading level="h3" size="h6">Smallest visual style</Heading>
+```
+
+### With custom styling
+
+```astro
+<Heading 
+  level="h2" 
+  size="h1" 
+  class="custom-heading"
+>
+  Custom styled heading
+</Heading>
+
+<style>
+  :global(.custom-heading) {
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+</style>
+```
+
+## Props
+
+Configure the Heading component using these available props to control both semantic meaning and visual appearance.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `level` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h2'` | The semantic HTML tag to use (affects document structure and accessibility) |
+| `size` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `level` | The visual styling to apply (affects appearance only) |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
+
+<Aside type="note" title="Default behavior">
+  When only `level` is specified, `size` defaults to the same value, making the semantic and visual levels match. This provides sensible defaults while allowing flexibility when needed.
+</Aside>
+
+## Accessibility
+
+The Heading component is designed with accessibility as a core principle, providing proper semantic structure while maintaining visual flexibility.
+
+### Semantic document structure
+
+- **Proper heading hierarchy**: Uses actual HTML heading tags (h1-h6) for screen readers and SEO
+- **Document outline**: Maintains logical content structure regardless of visual styling
+- **Navigation landmarks**: Screen readers can navigate by heading levels
+- **SEO benefits**: Search engines understand content hierarchy through semantic markup
+
+### Typography accessibility
+
+- **Text balancing**: Uses `text-wrap: balance` for improved readability
+- **Responsive sizing**: Font sizes scale appropriately across devices
+- **High contrast**: Inherits color values that work in light and dark modes
+- **Focus states**: Maintains browser default focus behavior when interactive
+
+<Aside type="tip" title="Heading hierarchy best practices">
+  Always maintain a logical heading hierarchy (h1 → h2 → h3, never skip levels) for the `level` prop, regardless of the visual `size`. This ensures screen reader users can navigate your content effectively.
+</Aside>
+
+<Aside type="caution" title="Don't skip semantic levels">
+  Avoid jumping from h1 to h3 semantically, even if the visual design suggests it. Use h1 → h2 → h3 for the `level` prop, then adjust the visual appearance with the `size` prop.
+</Aside>
+
+## Styling
+
+Customize the Heading component while maintaining its accessibility and semantic benefits.
+
+<Aside type="caution" title="Accessibility considerations">
+  When customizing styles, ensure you maintain sufficient color contrast and don't interfere with the text balancing behavior that improves readability.
+</Aside>
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```css
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.heading) {
+        font-family: 'Your Custom Font', sans-serif;
+        color: var(--color-primary);
+      }
+
+      :global(.heading.h1) {
+        font-weight: 700;
+        letter-spacing: -0.025em;
+      }
+
+      :global(.heading.h2) {
+        font-weight: 600;
+        letter-spacing: -0.015em;
+      }
+
+      /* Custom responsive behavior */
+      @media (max-width: 768px) {
+        :global(.heading.h1) {
+          font-size: var(--font-size-5);
+        }
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .heading {
+        font-family: 'Your Custom Font', sans-serif;
+        color: var(--color-primary);
+      }
+
+      .heading.h1 {
+        font-weight: 700;
+        letter-spacing: -0.025em;
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <Heading 
+      level="h2"
+      size="h1"
+      class="font-bold text-primary-600 tracking-tight text-center"
+    >
+      Custom styled heading
+    </Heading>
+
+    <!-- Responsive sizing -->
+    <Heading 
+      level="h1"
+      class="text-4xl md:text-6xl font-extrabold"
+    >
+      Responsive heading
+    </Heading>
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="note" title="CSS custom properties">
+  The component uses CSS custom properties like `--font-size-1` through `--font-size-6`. You can override these in your design system to maintain consistency across all heading sizes.
+</Aside>
+
+## Interactive examples
+
+See the Heading component in action with practical examples showing the power of semantic vs visual separation.
+
+### Document structure example
+
+<div class="not-content">
+  <div style="border: 1px solid var(--sl-color-gray-4); padding: 1.5rem; border-radius: 0.5rem;">
+    <Heading level="h1" size="h1">Page Title (H1)</Heading>
+    <p style="margin: 0.5rem 0; color: var(--sl-color-gray-3); font-size: 0.9rem;">This is semantically and visually an H1</p>
+    
+    <Heading level="h2" size="h2" style="margin-top: 2rem;">Main Section (H2)</Heading>
+    <p style="margin: 0.5rem 0; color: var(--sl-color-gray-3); font-size: 0.9rem;">This is semantically and visually an H2</p>
+    
+    <Heading level="h3" size="h1" style="margin-top: 1.5rem;">Important Subsection (H3 styled as H1)</Heading>
+    <p style="margin: 0.5rem 0; color: var(--sl-color-gray-3); font-size: 0.9rem;">This is semantically H3 but visually prominent like H1</p>
+    
+    <Heading level="h3" size="h4" style="margin-top: 1.5rem;">Minor Subsection (H3 styled as H4)</Heading>
+    <p style="margin: 0.5rem 0; color: var(--sl-color-gray-3); font-size: 0.9rem;">This is semantically H3 but visually subtle like H4</p>
+  </div>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">Screen readers see proper h1 → h2 → h3 → h3 hierarchy, while visual design can vary!</p>
+</div>
+
+### Visual size comparison
+
+<div class="not-content">
+  <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+    <div style="border-left: 3px solid var(--sl-color-accent); padding-left: 1rem;">
+      <Heading level="h4" size="h1">H4 content, H1 styling</Heading>
+      <code style="font-size: 0.8rem; color: var(--sl-color-gray-3);">level="h4" size="h1"</code>
+    </div>
+    
+    <div style="border-left: 3px solid var(--sl-color-accent); padding-left: 1rem;">
+      <Heading level="h4" size="h2">H4 content, H2 styling</Heading>
+      <code style="font-size: 0.8rem; color: var(--sl-color-gray-3);">level="h4" size="h2"</code>
+    </div>
+    
+    <div style="border-left: 3px solid var(--sl-color-accent); padding-left: 1rem;">
+      <Heading level="h4" size="h4">H4 content, H4 styling</Heading>
+      <code style="font-size: 0.8rem; color: var(--sl-color-gray-3);">level="h4" size="h4"</code>
+    </div>
+    
+    <div style="border-left: 3px solid var(--sl-color-accent); padding-left: 1rem;">
+      <Heading level="h4" size="h6">H4 content, H6 styling</Heading>
+      <code style="font-size: 0.8rem; color: var(--sl-color-gray-3);">level="h4" size="h6"</code>
+    </div>
+  </div>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">All semantically H4 for screen readers, but with different visual hierarchy!</p>
+</div>
+
+### Design system use case
+
+<div class="not-content">
+  <div style="background: var(--sl-color-gray-6); padding: 1.5rem; border-radius: 0.5rem; margin-top: 1rem;">
+    <Heading level="h2" size="h1" style="color: var(--sl-color-white); margin-bottom: 1rem;">Feature Card Title</Heading>
+    <p style="color: var(--sl-color-gray-2); margin-bottom: 1rem;">In a design system, you might want all card titles to be visually prominent (h1 size) regardless of their semantic level in the document.</p>
+    
+    <Heading level="h3" size="h1" style="color: var(--sl-color-white); margin-bottom: 0.5rem;">Another Card Title</Heading>
+    <p style="color: var(--sl-color-gray-2); margin: 0;">This maintains proper heading hierarchy (h2 → h3) while keeping visual consistency.</p>
+  </div>
+</div>

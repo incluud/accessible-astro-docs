@@ -153,6 +153,14 @@ export default defineConfig({
               },
             },
             {
+              label: 'Heading',
+              link: '/components/heading',
+              badge: {
+                text: 'new',
+                variant: 'success',
+              },
+            },
+            {
               label: 'Media',
               link: '/components/media',
             },
