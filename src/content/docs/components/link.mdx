@@ -1,0 +1,474 @@
+---
+title: Link
+description: A versatile and fully accessible link component that handles both internal and external links with proper accessibility features and optional button styling.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Link } from 'accessible-astro-components';
+import { Icon } from 'astro-icon/components';
+
+## Introduction
+
+The Link component provides a robust solution for creating accessible links that seamlessly handle both internal navigation and external destinations. It automatically detects external links and applies appropriate attributes for security and accessibility, while offering optional button styling for enhanced visual impact.
+
+<Aside type="note" title="Automatic external link detection">
+  The Link component automatically detects external URLs (starting with `http`, `https`, or `//`) and applies proper security attributes (`target="_blank"`, `rel="noopener noreferrer"`) along with accessibility features.
+</Aside>
+
+## When to use
+
+Use the Link component when you need to:
+
+- Navigate between pages in your application
+- Link to external websites or resources
+- Create button-styled links for call-to-action elements
+- Ensure consistent link accessibility across your site
+- Automatically handle external link security and accessibility
+- Add animated interactions to link buttons
+- Maintain proper focus management and keyboard navigation
+
+## Quick example
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
+    <Link href="/getting-started/introduction">Internal link</Link>
+    <Link href="https://astro.build" isExternal>External link</Link>
+    <Link href="https://github.com/incluud" isButton>Button link</Link>
+  </div>
+  
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+    <Link href="#" isButton type="primary" animateOnHover>
+      <Icon name="ion:rocket" size="1rem" />
+      Get Started
+    </Link>
+    <Link href="#" isButton variant="outlined" type="info" size="lg">
+      Learn More
+    </Link>
+    <Link href="#" isButton type="success" pulse>
+      <Icon name="ion:download" size="1rem" />
+      Download
+    </Link>
+  </div>
+  
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">Try hovering over the "Get Started" button to see the animation effect!</p>
+</div>
+
+## All Button Types and Variants
+
+Here's a comprehensive overview of all available button types, variants, and sizes:
+
+### Button Types (Filled)
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
+    <Link href="#" isButton type="default">Default</Link>
+    <Link href="#" isButton type="primary">Primary</Link>
+    <Link href="#" isButton type="secondary">Secondary</Link>
+    <Link href="#" isButton type="info">Info</Link>
+    <Link href="#" isButton type="success">Success</Link>
+    <Link href="#" isButton type="warning">Warning</Link>
+    <Link href="#" isButton type="error">Error</Link>
+    <Link href="#" isButton type="ghost">Ghost</Link>
+  </div>
+</div>
+
+### Button Types (Outlined)
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
+    <Link href="#" isButton variant="outlined" type="default">Default</Link>
+    <Link href="#" isButton variant="outlined" type="primary">Primary</Link>
+    <Link href="#" isButton variant="outlined" type="secondary">Secondary</Link>
+    <Link href="#" isButton variant="outlined" type="info">Info</Link>
+    <Link href="#" isButton variant="outlined" type="success">Success</Link>
+    <Link href="#" isButton variant="outlined" type="warning">Warning</Link>
+    <Link href="#" isButton variant="outlined" type="error">Error</Link>
+    <Link href="#" isButton variant="outlined" type="ghost">Ghost</Link>
+  </div>
+</div>
+
+### Button Sizes
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
+    <Link href="#" isButton size="sm" type="primary">Small</Link>
+    <Link href="#" isButton size="md" type="primary">Medium (Default)</Link>
+    <Link href="#" isButton size="lg" type="primary">Large</Link>
+  </div>
+</div>
+
+## Usage
+
+Learn how to implement the Link component in your project, from basic navigation to advanced button-styled links.
+
+### Basic links
+
+```astro
+---
+import { Link } from 'accessible-astro-components'
+---
+
+<!-- Internal link -->
+<Link href="/about">About Us</Link>
+
+<!-- External link (automatically detected) -->
+<Link href="https://astro.build">Visit Astro</Link>
+
+<!-- Explicitly mark as external -->
+<Link href="https://example.com" isExternal>External Site</Link>
+```
+
+### Button-styled links
+
+```astro
+<Link href="/contact" isButton>Contact Us</Link>
+<Link href="/signup" isButton type="primary">Sign Up</Link>
+<Link href="/docs" isButton variant="outlined">Documentation</Link>
+```
+
+### Different button types and sizes
+
+```astro
+<Link href="#" isButton type="info" size="sm">Small Info</Link>
+<Link href="#" isButton type="success" size="md">Medium Success</Link>
+<Link href="#" isButton type="warning" size="lg">Large Warning</Link>
+<Link href="#" isButton type="error">Error Button</Link>
+```
+
+<Aside type="tip" title="Button vs link semantics">
+  When using `isButton={true}`, the component still renders as an anchor element (`<a>`) but styled as a button. This preserves proper link semantics while providing button-like appearance for navigation actions.
+</Aside>
+
+### With icons and animations
+
+```astro
+---
+import { Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+---
+
+<Link 
+  href="/dashboard" 
+  isButton 
+  type="primary"
+  animateOnHover
+  animationType="boop"
+>
+  <Icon name="ion:home" />
+  Dashboard
+</Link>
+
+<Link 
+  href="/settings" 
+  isButton 
+  animateOnHover 
+  animationType="rotate"
+  animationIntensity={8}
+>
+  <Icon name="ion:settings" />
+  Settings
+</Link>
+```
+
+### External links with custom icons
+
+```astro
+<Link href="https://github.com/incluud">
+  GitHub Repository
+  <Icon name="ion:logo-github" slot="icon" />
+</Link>
+```
+
+<Aside type="caution" title="Custom external link icons">
+  When providing a custom icon via the `icon` slot, ensure it clearly indicates that the link opens in a new tab for better user experience.
+</Aside>
+
+### Accessible link practices
+
+```astro
+<!-- Link with descriptive aria-label -->
+<Link 
+  href="/download" 
+  isButton 
+  type="success"
+  ariaLabel="Download the complete user guide PDF"
+>
+  <Icon name="ion:download" />
+  Download
+</Link>
+
+<!-- Link with title for additional context -->
+<Link 
+  href="https://example.com" 
+  title="Opens in a new tab - Example website"
+>
+  Visit Example
+</Link>
+```
+
+## Props
+
+Configure the Link component using these available props to customize its behavior and appearance.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `href` | `string` | Required | The URL to link to |
+| `isExternal` | `boolean` | `false` | Whether the link is external (auto-detected for http/https URLs) |
+| `isButton` | `boolean` | `false` | Style the link as a button |
+| `variant` | `'filled' \| 'outlined'` | `'filled'` | The variant of the link when styled as button |
+| `type` | `'default' \| 'primary' \| 'secondary' \| 'info' \| 'success' \| 'warning' \| 'error' \| 'ghost'` | `'default'` | Type affecting color scheme when styled as button |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size when styled as button |
+| `ariaLabel` | `string` | `''` | The aria-label attribute |
+| `title` | `string` | `''` | The title attribute |
+| `animateOnHover` | `boolean` | `false` | Whether to animate icons on hover (only when isButton is true) |
+| `animationType` | `'rotate' \| 'boop' \| 'bouncing' \| 'none'` | `'boop'` | Type of animation to apply on hover |
+| `animationIntensity` | `number` | `5` | Animation intensity (1-10) |
+| `pulse` | `boolean` | `false` | Whether to apply a pulsating animation |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
+
+## Accessibility
+
+The Link component is built with accessibility as a core principle, ensuring inclusive navigation for all users:
+
+- **Semantic HTML**: Uses proper anchor (`<a>`) elements for all links
+- **External link indicators**: Automatically adds visual icons and screen reader text for external links
+- **Security attributes**: External links include `target="_blank"` and `rel="noopener noreferrer"`
+- **Keyboard navigation**: Full keyboard support with proper focus management
+- **Screen reader support**: Contextual information for assistive technologies
+- **High contrast**: Color combinations meet WCAG contrast requirements
+- **Motion preferences**: Respects `prefers-reduced-motion` for animations
+- **Focus indicators**: Clear focus states for keyboard navigation
+
+<Aside type="tip" title="External link accessibility">
+  External links automatically include the text "Opens in a new tab" for screen readers, ensuring users with assistive technologies understand the link behavior.
+</Aside>
+
+<Aside type="note" title="Button-styled links">
+  When using `isButton={true}`, the component maintains link semantics while providing button-like appearance. This is perfect for navigation actions that should behave as links but look like buttons.
+</Aside>
+
+## Styling
+
+Customize the Link component's appearance while preserving its accessibility features and functionality.
+
+<Aside type="caution" title="Accessibility considerations">
+  When applying custom styles, ensure you maintain sufficient color contrast ratios and preserve focus indicators for keyboard navigation.
+</Aside>
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```css
+    /* Option 1: Using :global() in your style block */
+    <style>
+      :global(.link) {
+        color: var(--accent-color);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 4px;
+      }
+
+      :global(.link--external) {
+        color: var(--external-link-color);
+      }
+
+      :global(.link--external svg) {
+        color: var(--accent-color);
+      }
+
+      :global(.button) {
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+      }
+
+      :global(.button.type-primary) {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        border-color: var(--primary-dark);
+      }
+
+      :global(.button:focus-visible) {
+        outline: 3px solid var(--focus-color);
+        outline-offset: 2px;
+      }
+    </style>
+
+    /* Option 2: Using is:global on the style tag */
+    <style is:global>
+      .link {
+        color: var(--accent-color);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 4px;
+      }
+
+      .button {
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <Link 
+      class="font-semibold tracking-wide underline-offset-4"
+      href="/custom-styled"
+    >
+      Custom Styled Link
+    </Link>
+
+    <Link 
+      class="rounded-lg shadow-lg transform transition-transform hover:scale-105"
+      href="/enhanced-button"
+      isButton
+      type="primary"
+    >
+      Enhanced Button
+    </Link>
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+</Aside>
+
+## Interactive examples
+
+Explore the Link component in action with these practical examples showcasing different configurations and styling approaches.
+
+### Navigation links
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+    <Link href="/getting-started/introduction">Getting Started</Link>
+    <Link href="/components/overview">Components</Link>
+    <Link href="https://astro.build" isExternal>Astro Docs</Link>
+    <Link href="https://github.com/incluud" isExternal>GitHub</Link>
+  </div>
+</div>
+
+### Call-to-action buttons
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
+    <Link 
+      href="/getting-started/quick-start" 
+      isButton 
+      type="primary" 
+      size="lg"
+    >
+      <Icon name="ion:rocket" size="1rem" />
+      Get Started
+    </Link>
+    
+    <Link 
+      href="/components/overview" 
+      isButton 
+      variant="outlined" 
+      type="info"
+    >
+      <Icon name="ion:library" size="1rem" />
+      View Components
+    </Link>
+    
+    <Link 
+      href="https://github.com/incluud" 
+      isButton 
+      type="secondary"
+    >
+      <Icon name="ion:logo-github" size="1rem" />
+      Star on GitHub
+    </Link>
+  </div>
+</div>
+
+### Animated interactive buttons
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
+    <Link 
+      href="#" 
+      isButton 
+      type="success" 
+      animateOnHover 
+      animationType="bouncing"
+      animationIntensity={7}
+    >
+      <Icon name="ion:checkmark-circle" size="1rem" />
+      Complete
+    </Link>
+    
+    <Link 
+      href="#" 
+      isButton 
+      type="warning" 
+      animateOnHover 
+      animationType="rotate"
+      animationIntensity={10}
+    >
+      <Icon name="ion:refresh" size="1rem" />
+      Refresh
+    </Link>
+    
+    <Link 
+      href="#" 
+      isButton 
+      type="error"
+      pulse
+    >
+      <Icon name="ion:warning" size="1rem" />
+      Important Notice
+    </Link>
+  </div>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">Hover over the buttons to see different animation effects!</p>
+</div>
+
+### Different sizes and variants
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
+    <Link href="#" isButton size="sm" type="info">Small</Link>
+    <Link href="#" isButton size="md" type="primary">Medium</Link>
+    <Link href="#" isButton size="lg" type="success">Large</Link>
+  </div>
+  
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
+    <Link href="#" isButton variant="filled" type="primary">Filled</Link>
+    <Link href="#" isButton variant="outlined" type="primary">Outlined</Link>
+    <Link href="#" isButton type="ghost">Ghost</Link>
+  </div>
+</div>
+
+### Accessible external links
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
+    <Link 
+      href="https://astro.build" 
+      ariaLabel="Visit Astro documentation - opens in new tab"
+    >
+      Astro Framework
+    </Link>
+    
+    <Link 
+      href="https://github.com/incluud" 
+      title="View Incluud projects on GitHub"
+    >
+      <Icon name="ion:logo-github" size="1rem" />
+      Incluud on GitHub
+    </Link>
+    
+    <Link 
+      href="https://opencollective.com/incluud"
+      isButton
+      type="info"
+      ariaLabel="Support Incluud on Open Collective - opens in new tab"
+    >
+      <Icon name="ion:heart" size="1rem" />
+      Support Us
+    </Link>
+  </div>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">These links provide proper context for screen readers while maintaining clean visual design.</p>
+</div>
