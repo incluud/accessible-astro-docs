@@ -53,9 +53,10 @@ Use the Link component when you need to:
   <p style="margin-top: 0.5rem; font-size: 0.9rem;">Try hovering over the "Get Started" button to see the animation effect!</p>
 </div>
 
-## All Button Types and Variants
+## Button Types and Variants
 
-Here's a comprehensive overview of all available button types, variants, and sizes:
+All button types from the [Button component](/components/button) are available here.
+Here's a few examples of the available button types, variants, and sizes:
 
 ### Button Types (Filled)
 
@@ -94,6 +95,22 @@ Here's a comprehensive overview of all available button types, variants, and siz
     <Link href="#" isButton size="sm" type="primary">Small</Link>
     <Link href="#" isButton size="md" type="primary">Medium (Default)</Link>
     <Link href="#" isButton size="lg" type="primary">Large</Link>
+  </div>
+</div>
+
+### Animations
+Available animations are the same as the [Button component](/components/button#animated-buttons) animations.
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
+    <Link href="#" isButton animateOnHover animationType="boop">
+      <Icon name="ion:rocket" size="1rem" />
+      Boop
+    </Link>
+    <Link href="#" isButton animateOnHover animationType="nudge">
+      <Icon name="ion:rocket" size="1rem" />
+      Nudge
+    </Link>
   </div>
 </div>
 
@@ -215,6 +232,7 @@ Configure the Link component using these available props to customize its behavi
 |------|------|---------|-------------|
 | `href` | `string` | Required | The URL to link to |
 | `isExternal` | `boolean` | `false` | Whether the link is external (auto-detected for http/https URLs) |
+| `hideIcon` | `boolean` | `false` | Whether to hide the external link icon |
 | `isButton` | `boolean` | `false` | Style the link as a button |
 | `variant` | `'filled' \| 'outlined'` | `'filled'` | The variant of the link when styled as button |
 | `type` | `'default' \| 'primary' \| 'secondary' \| 'info' \| 'success' \| 'warning' \| 'error' \| 'ghost'` | `'default'` | Type affecting color scheme when styled as button |

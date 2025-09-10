@@ -50,7 +50,11 @@ Use the Button component when you need to:
     <Button variant="outlined" type="error">Outlined</Button>
     <Button type="info" animateOnHover animationType="boop">
       <Icon name="ion:rocket" size="1rem" />
-      Hover me!
+      Hover boop
+    </Button>
+    <Button type="info" animateOnHover animationType="nudge">
+      <Icon name="ion:rocket" size="1rem" />
+      Nudge nudge
     </Button>
     <Button type="success" pulse>Pulsing</Button>
   </div>
@@ -138,6 +142,7 @@ import { Icon } from 'astro-icon/components'
 </Aside>
 
 ### Animated buttons
+Available animations are 'rotate', 'boop', 'bouncing', 'nudge'.
 
 ```astro
 <!-- Hover animations -->
