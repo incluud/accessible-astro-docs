@@ -140,16 +140,16 @@ export default defineConfig({
               label: 'Drawer',
               link: '/components/drawer',
               badge: {
-                text: 'soon',
-                variant: 'caution',
+                text: 'next',
+                variant: 'tip',
               },
             },
             {
               label: 'Forms',
               link: '/components/forms',
               badge: {
-                text: 'next',
-                variant: 'tip',
+                text: 'beta',
+                variant: 'danger',
               },
             },
             {
@@ -179,6 +179,10 @@ export default defineConfig({
             {
               label: 'Notification',
               link: '/components/notification',
+              badge: {
+                text: 'updated',
+                variant: 'note',
+              },
             },
             {
               label: 'Pagination',
@@ -196,8 +200,8 @@ export default defineConfig({
               label: 'Tooltip',
               link: '/components/tooltip',
               badge: {
-                text: 'soon',
-                variant: 'caution',
+                text: 'next',
+                variant: 'tip',
               },
             },
             {
