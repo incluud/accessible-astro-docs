@@ -129,7 +129,7 @@ Configure the Card component using these available props to customize its behavi
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `url` | `string` | `'#'` | URL for the card's link wrapper |
-| `img` | `string` | `'https://fakeimg.pl/640x360'` | Path to the card's image |
+| `img` | `string` | `'https://placehold.co/640x360'` | Path to the card's image |
 | `imageComponent` | `ImageMetadata \| Promise<{ default: ImageMetadata }>` | `undefined` | Optional Astro Image component (supports both ImageMetadata and dynamic import) |
 | `imageAlt` | `string` | `''` | Alt text for the image |
 | `width` | `number` | `640` | Width of the image (required for remote images) |
@@ -137,8 +137,10 @@ Configure the Card component using these available props to customize its behavi
 | `inferSize` | `boolean` | `false` | Whether to infer the image size (for remote images) |
 | `title` | `string` | `'Default title'` | Title text for the card |
 | `class` | `string` | `''` | Additional CSS classes to apply to the card |
-| `tagName` | `string` | `'h3'` | HTML tag name for the title |
+| `headingLevel` | `string` | `'h3'` | HTML tag name for the title |
+| `headingSize` | `string` | `'h6'` | The visual size of the title |
 | `footer` | `string` | `''` | Footer content for the card |
+| `fullHeight` | `boolean` | `false` | Whether the card should take full height (useful for equal height card grids) |
 </div>
 
 ## Accessibility
@@ -146,7 +148,7 @@ Configure the Card component using these available props to customize its behavi
 Accessibility isn't an afterthought - it's built into the core of this component through semantic HTML elements and proper image handling. The Card component is built with accessibility in mind:
 
 - Uses semantic HTML structure with `<article>` element
-- Proper heading hierarchy with configurable levels (via `tagName` prop)
+- Proper heading hierarchy with configurable levels (via `headingLevel` prop)
 - Images have appropriate alt text support (via `imageAlt` prop)
   - Empty alt text (`alt=""`) is appropriate when the image is decorative and the key content is conveyed through title and description
   - Add meaningful alt text for informative images that aren't described elsewhere in the card
