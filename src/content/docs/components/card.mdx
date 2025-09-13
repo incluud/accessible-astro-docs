@@ -129,7 +129,7 @@ Configure the Card component using these available props to customize its behavi
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `url` | `string` | `'#'` | URL for the card's link wrapper |
-| `img` | `string` | `'https://fakeimg.pl/640x360'` | Path to the card's image |
+| `img` | `string` | `'https://placehold.co/640x360'` | Path to the card's image |
 | `imageComponent` | `ImageMetadata \| Promise<{ default: ImageMetadata }>` | `undefined` | Optional Astro Image component (supports both ImageMetadata and dynamic import) |
 | `imageAlt` | `string` | `''` | Alt text for the image |
 | `width` | `number` | `640` | Width of the image (required for remote images) |
@@ -137,9 +137,10 @@ Configure the Card component using these available props to customize its behavi
 | `inferSize` | `boolean` | `false` | Whether to infer the image size (for remote images) |
 | `title` | `string` | `'Default title'` | Title text for the card |
 | `class` | `string` | `''` | Additional CSS classes to apply to the card |
-| `headingLevel` | `string` | `'h6'` | HTML tag name for the title |
+| `headingLevel` | `string` | `'h3'` | HTML tag name for the title |
 | `headingSize` | `string` | `'h6'` | The visual size of the title |
 | `footer` | `string` | `''` | Footer content for the card |
+| `fullHeight` | `boolean` | `false` | Whether the card should take full height (useful for equal height card grids) |
 </div>
 
 ## Accessibility

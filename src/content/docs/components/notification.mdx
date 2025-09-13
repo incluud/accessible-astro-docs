@@ -79,8 +79,27 @@ import { Icon } from 'astro-icon/components'
 </Notification>
 ```
 
+### Accent variant (automatic icons)
+
+The accent variant includes automatic icons and sleek styling - no manual icon management needed!
+
+```astro
+<!-- Accent notifications with automatic icons -->
+<Notification type="success" variant="accent" role="status">
+  <p><strong>Success:</strong> Your file has been uploaded!</p>
+</Notification>
+
+<Notification type="warning" variant="accent" role="status">
+  <p><strong>Warning:</strong> Storage space is running low.</p>
+</Notification>
+
+<Notification type="error" variant="accent" role="alert">
+  <p><strong>Error:</strong> Failed to connect to server.</p>
+</Notification>
+```
+
 <Aside type="note" title="Icon integration">
-  The examples use [Astro Icon](https://github.com/natemoo-re/astro-icon) for the notification icons, but you can use any icon system or custom icons.
+  The default variant examples use [Astro Icon](https://github.com/natemoo-re/astro-icon) for manual icons, but the accent variant includes automatic icons for all notification types.
 </Aside>
 
 ## Props
@@ -91,8 +110,9 @@ Configure the Notification component using these available props to customize it
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `type` | `'info' \| 'success' \| 'warning' \| 'error' \| 'default'` | `'default'` | Sets the notification style and context |
+| `variant` | `'default' \| 'accent'` | `'default'` | Visual style variant of the notification |
+| `element` | `'div' \| 'aside'` | `'div'` | Semantic element to use for the notification |
 | `role` | `'none' \| 'alert' \| 'log' \| 'marquee' \| 'status' \| 'timer' \| 'region'` | `'none'` | ARIA role for the notification |
-| `ariaLive` | `'off' \| 'polite' \| 'assertive'` | `'off'` | Controls how screen readers announce updates |
 | `message` | `string` | `'This is a notification!'` | Default message when no children are provided |
 | `class` | `string` | `''` | Additional CSS classes to apply |
 </div>
@@ -258,4 +278,38 @@ See the Notification component in action with these practical examples:
     <Icon name="ion:alert-circle-outline" size="1.5rem" />
     <p><strong>Error:</strong> This is a notification of type error.</p>
   </Notification>
+</div>
+
+### Accent variant notifications
+
+The accent variant provides a sleek design with automatic icons and a beautiful left border accent. Perfect for modern interfaces!
+
+<div class="not-content">
+  <Notification type="info" variant="accent" role="status">
+    <p><strong>Info:</strong> This accent notification automatically includes an icon and styled border.</p>
+  </Notification>
+  
+  <div style="margin-top: 1rem;">
+    <Notification type="success" variant="accent" role="status">
+      <p><strong>Success:</strong> Your changes have been saved successfully!</p>
+    </Notification>
+  </div>
+  
+  <div style="margin-top: 1rem;">
+    <Notification type="warning" variant="accent" role="status">
+      <p><strong>Warning:</strong> Please review your input before continuing.</p>
+    </Notification>
+  </div>
+  
+  <div style="margin-top: 1rem;">
+    <Notification type="error" variant="accent" role="alert">
+      <p><strong>Error:</strong> Something went wrong. Please try again.</p>
+    </Notification>
+  </div>
+  
+  <div style="margin-top: 1rem;">
+    <Notification variant="accent">
+      <p><strong>Default:</strong> A neutral accent notification for general messages.</p>
+    </Notification>
+  </div>
 </div>
