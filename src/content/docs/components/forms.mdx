@@ -1,10 +1,533 @@
 ---
 title: Forms
-description: A fully accessible form component for creating and submitting data using native HTML elements.
+description: A fully accessible form system with progressive enhancement validation, WCAG 2.2 AA compliance, and comprehensive error handling using native HTML elements.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Form, Input, Textarea, Checkbox, Radio, Fieldset, Button } from 'accessible-astro-components';
 
-<Aside type="caution" title="Docs coming soon">
-  <p>This component can already be used, but the docs are still being written.</p>
+<Aside type="caution" title="Beta components">
+  <p>The form components are currently in beta. While they are fully functional and accessible, the API may change in future versions based on feedback.</p>
+</Aside>
+
+## Introduction
+
+The Forms system provides a comprehensive set of accessible form components with built-in progressive enhancement validation. All components follow WCAG 2.2 AA guidelines and work together to create inclusive form experiences that function with or without JavaScript.
+
+The form system automatically handles validation, error messaging, focus management, and screen reader announcements. It includes protection against common security vulnerabilities like ReDoS attacks and provides both built-in and custom validation patterns.
+
+Key features include:
+- **Progressive enhancement** - Forms work without JavaScript and enhance when available
+- **WCAG 2.2 AA compliance** with proper ARIA attributes and focus management
+- **Built-in validation** for common input types (email, password, tel, url)
+- **Custom validation patterns** and functions
+- **Accessible error handling** with live regions and error summaries
+- **Group validation** for checkboxes and radio buttons
+- **Security protection** against ReDoS and pattern injection attacks
+
+## When to use
+
+Use the form components when you need:
+
+- **Contact forms** with email validation and required fields
+- **Registration forms** with password requirements and field validation
+- **Survey forms** with grouped checkboxes and radio button selections
+- **Feedback forms** with textarea inputs and custom validation
+- **Newsletter signups** with email validation and accessibility features
+- **Multi-step forms** that require robust validation and error handling
+- **Forms that must work without JavaScript** for maximum accessibility
+
+## Usage
+
+### Basic form with validation
+
+```astro {7,13}
+---
+import { Form, Input, Button } from 'accessible-astro-components';
+---
+
+<Form action="/submit" method="post">
+  <Input
+    name="email"
+    label="Email address"
+    type="email"
+    required
+    data-validation="Please provide a valid email address"
+  />
+  <Button type="submit">Submit form</Button>
+</Form>
+```
+
+<Aside type="tip">
+  The Form component automatically adds `novalidate` to prevent browser validation and uses progressive enhancement for consistent, accessible validation across all browsers.
+</Aside>
+
+### Input types with validation
+
+```astro {7-12,18-23}
+<Form>
+  <!-- Text input with custom validation -->
+  <Input
+    name="username"
+    label="Username"
+    type="text"
+    required
+    data-validation-pattern="^[a-zA-Z0-9]{3,20}$"
+    data-validation="Username must be 3-20 characters, letters and numbers only"
+  />
+
+  <!-- Email with built-in validation -->
+  <Input
+    name="email"
+    label="Email address"
+    type="email"
+    required
+  />
+
+  <!-- Password with custom requirements -->
+  <Input
+    name="password"
+    label="Password"
+    type="password"
+    required
+    data-validation="Password must be at least 8 characters long"
+  />
+</Form>
+```
+
+### Textarea with validation
+
+```astro {4-9}
+<Form>
+  <Textarea
+    name="message"
+    label="Your message"
+    required
+    rows={5}
+    data-validation="Please provide your message (required)"
+  />
+</Form>
+```
+
+### Checkbox and radio groups
+
+```astro {2-6,12-18}
+<Form>
+  <Fieldset name="preferences" legend="Newsletter preferences" required>
+    <Checkbox name="newsletter" label="Weekly newsletter" value="weekly" />
+    <Checkbox name="newsletter" label="Monthly updates" value="monthly" />
+    <Checkbox name="newsletter" label="Special offers" value="offers" />
+  </Fieldset>
+
+  <Fieldset name="contact-method" legend="Preferred contact method" required>
+    <Radio name="contact" label="Email" value="email" />
+    <Radio name="contact" label="Phone" value="phone" />
+    <Radio name="contact" label="Mail" value="mail" />
+  </Fieldset>
+</Form>
+```
+
+<Aside type="note">
+  Fieldsets with `required` attribute ensure at least one option is selected within the group, providing accessible group-level validation.
+</Aside>
+
+### Custom validation functions
+
+```astro
+---
+// Define custom validation function
+---
+
+<script>
+  // Custom validation function available globally
+  window.validatePhoneNumber = (value) => {
+    // Custom phone number validation logic
+    const phoneRegex = /^(\+1|1)?[-.\s]?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}$/;
+    return phoneRegex.test(value);
+  };
+</script>
+
+<Form>
+  <Input
+    name="phone"
+    label="Phone number"
+    type="tel"
+    required
+    data-validation-fn="validatePhoneNumber"
+    data-validation="Please provide a valid US phone number"
+  />
+</Form>
+```
+
+## Props
+
+### Form
+
+<div class="props-wrapper">
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `class` | `string` | `undefined` | Additional CSS classes |
+| `action` | `string` | `undefined` | Form action URL |
+| `name` | `string` | `undefined` | Form name attribute |
+| `method` | `'get' \| 'post'` | `'post'` | HTTP method for form submission |
+| `enctype` | `'application/x-www-form-urlencoded' \| 'multipart/form-data' \| 'text/plain'` | `'application/x-www-form-urlencoded'` | Encoding type for form data |
+| `target` | `'_self' \| '_blank' \| '_parent' \| '_top'` | `'_self'` | Target for form submission |
+| `autocomplete` | `'on' \| 'off'` | `'on'` | Autocomplete behavior |
+
+</div>
+
+### Input
+
+<div class="props-wrapper">
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | - | **Required.** Name attribute for form submission |
+| `label` | `string` | - | **Required.** Label text for the input |
+| `data-validation` | `string` | Auto-generated | Custom error message |
+| `type` | `'text' \| 'email' \| 'password' \| 'tel' \| 'url'` | `'text'` | Input type with built-in validation |
+| `required` | `boolean` | `false` | Whether the field is required |
+| `data-validation-pattern` | `string` | `undefined` | Custom regex validation pattern |
+| `data-validation-fn` | `string` | `undefined` | Custom validation function name |
+| `value` | `string` | `undefined` | Default value |
+| `disabled` | `boolean` | `false` | Whether the field is disabled |
+| `readonly` | `boolean` | `false` | Whether the field is readonly |
+| `autocomplete` | `string` | `'on'` | Autocomplete attribute value |
+
+</div>
+
+### Textarea
+
+<div class="props-wrapper">
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | - | **Required.** Name attribute for form submission |
+| `label` | `string` | - | **Required.** Label text for the textarea |
+| `data-validation` | `string` | Auto-generated | Custom error message |
+| `required` | `boolean` | `false` | Whether the field is required |
+| `data-validation-pattern` | `string` | `undefined` | Custom regex validation pattern |
+| `data-validation-fn` | `string` | `undefined` | Custom validation function name |
+| `rows` | `number` | `undefined` | Number of visible text lines |
+| `cols` | `number` | `undefined` | Number of visible text columns |
+| `placeholder` | `string` | `undefined` | Placeholder text |
+
+</div>
+
+### Checkbox
+
+<div class="props-wrapper">
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | - | **Required.** Name attribute for form submission |
+| `label` | `string` | - | **Required.** Label text for the checkbox |
+| `value` | `string` | `undefined` | Value attribute for the checkbox |
+| `checked` | `boolean` | `false` | Whether checked by default |
+| `disabled` | `boolean` | `false` | Whether the field is disabled |
+
+</div>
+
+### Radio
+
+<div class="props-wrapper">
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | - | **Required.** Name attribute shared within group |
+| `label` | `string` | - | **Required.** Label text for the radio button |
+| `value` | `string` | - | **Required.** Value attribute for the radio button |
+| `checked` | `boolean` | `false` | Whether checked by default |
+| `disabled` | `boolean` | `false` | Whether the field is disabled |
+
+</div>
+
+### Fieldset
+
+<div class="props-wrapper">
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | - | **Required.** Name attribute for group validation |
+| `legend` | `string` | - | **Required.** Legend text for the fieldset |
+| `required` | `boolean` | `false` | Whether at least one selection is required |
+| `data-validation` | `string` | Auto-generated | Custom error message for group validation |
+| `variant` | `'default' \| 'minimal'` | `'default'` | Visual style variant |
+
+</div>
+
+## Accessibility
+
+The form system is designed with accessibility as a priority and meets WCAG 2.2 AA standards:
+
+### Keyboard navigation
+- **Tab navigation** through all form controls in logical order
+- **Enter key** submits forms when focused on submit buttons
+- **Arrow keys** navigate between radio buttons in the same group
+- **Space key** toggles checkboxes and selects radio buttons
+
+### Screen reader support
+- **Proper labeling** with `<label>` elements associated via `for` attributes
+- **Fieldset legends** provide group context for checkboxes and radio buttons
+- **Live regions** announce validation errors using `aria-live="polite"`
+- **Error summaries** with focus management for failed validation
+- **Descriptive error messages** linked via `aria-describedby`
+
+### ARIA attributes
+- `aria-invalid="true"` applied to fields with validation errors
+- `aria-describedby` links inputs to their validation messages
+- `role="alert"` used for critical error notifications
+- Proper `aria-live` regions for dynamic error announcements
+
+### Error handling
+- **Progressive enhancement** ensures forms work without JavaScript
+- **Error summaries** appear at form submission with focusable links
+- **Inline validation messages** appear below each field
+- **Visual and programmatic** error indicators for all users
+- **Automatic focus management** to error summary on validation failure
+
+### Built-in validation rules
+- **Email validation** with helpful error messages
+- **Password strength** requirements (minimum 8 characters)
+- **Phone number** format validation
+- **URL format** validation with protocol requirements
+- **Required field** validation with clear messaging
+
+## Styling
+
+Form components use CSS custom properties for easy theming while maintaining accessibility requirements.
+
+<Tabs>
+<TabItem label="Custom CSS">
+
+```css
+/* Custom form styling */
+:global(.form) {
+  --color-default-border: hsl(210, 20%, 80%);
+  --color-error-border: hsl(0, 70%, 60%);
+  --space-xs: 1rem;
+  --space-2xs: 0.75rem;
+  --radius-s: 0.375rem;
+}
+
+/* Focus styles (maintain for accessibility) */
+:global(.input-group input:focus) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Error state styling */
+:global(.input-group:has([aria-invalid='true']) input) {
+  border-color: var(--color-error-border);
+  box-shadow: 0 0 0 1px var(--color-error-border);
+}
+
+/* Validation message styling */
+:global(.input-group small) {
+  color: var(--color-error-text);
+  font-size: 0.875rem;
+}
+```
+
+</TabItem>
+<TabItem label="Tailwind CSS">
+
+```astro
+<!-- Custom form styling with Tailwind -->
+<Form class="space-y-6 max-w-md">
+  <Input
+    name="email"
+    label="Email"
+    type="email"
+    required
+    class="w-full"
+  />
+  
+  <Fieldset
+    name="preferences"
+    legend="Preferences"
+    class="border-2 border-gray-200 rounded-lg p-4"
+  >
+    <Checkbox name="newsletter" label="Newsletter" value="yes" />
+    <Checkbox name="updates" label="Updates" value="yes" />
+  </Fieldset>
+</Form>
+
+<style>
+  /* Ensure focus indicators remain accessible */
+  :global(.input-group input:focus) {
+    @apply ring-2 ring-blue-500 ring-offset-2;
+  }
+</style>
+```
+
+</TabItem>
+</Tabs>
+
+<Aside type="caution" title="Accessibility warning">
+  When customizing form styles, always maintain sufficient color contrast (4.5:1 minimum) and clear focus indicators. Never remove focus outlines without providing alternative visual feedback.
+</Aside>
+
+## Validation examples
+
+### Custom pattern validation
+
+```astro
+<!-- Username validation with specific requirements -->
+<Input
+  name="username"
+  label="Username"
+  type="text"
+  required
+  data-validation-pattern="^[a-zA-Z0-9_]{3,20}$"
+  data-validation="Username must be 3-20 characters (letters, numbers, underscore only)"
+/>
+
+<!-- Credit card number validation -->
+<Input
+  name="card-number"
+  label="Credit card number"
+  type="text"
+  required
+  data-validation-pattern="^[0-9]{4}[\s-]?[0-9]{4}[\s-]?[0-9]{4}[\s-]?[0-9]{4}$"
+  data-validation="Please enter a valid 16-digit credit card number"
+/>
+```
+
+### Custom function validation
+
+```astro
+<script>
+  // Advanced validation function
+  window.validatePassword = (value) => {
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasLowerCase = /[a-z]/.test(value);
+    const hasNumbers = /\d/.test(value);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+    const isLongEnough = value.length >= 8;
+    
+    return hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChar && isLongEnough;
+  };
+</script>
+
+<Input
+  name="password"
+  label="Password"
+  type="password"
+  required
+  data-validation-fn="validatePassword"
+  data-validation="Password must be at least 8 characters with uppercase, lowercase, number, and special character"
+/>
+```
+
+## Interactive examples
+
+<div class="not-content">
+
+### Contact form example
+
+<Form name="contact" action="/thank-you" method="post">
+  <Input
+    name="firstname"
+    label="First name"
+    required
+    data-validation="We need your first name to address you correctly"
+    autocomplete="given-name"
+  />
+
+  <Input name="email" label="Email address" type="email" required autocomplete="email" />
+
+  <Input name="phone" label="Phone number" type="tel" required data-validation-pattern="^[0-9]{10}$" />
+
+  <Textarea name="message" label="Message" required />
+
+  <Fieldset
+    name="interests"
+    legend="What are you interested in?"
+    required
+    data-validation="Please select at least one area of interest"
+  >
+    <Checkbox name="accessibility" value="a11y" label="Accessibility and inclusive design" />
+    <Checkbox name="wcag-compliance" value="wcag" label="WCAG compliance and testing" />
+    <Checkbox name="screen-reader" value="sr" label="Screen reader optimization" />
+    <Checkbox name="keyboard-nav" value="keyboard" label="Keyboard navigation" />
+  </Fieldset>
+
+  <Fieldset name="experience" legend="Your experience level" required>
+    <Radio name="experience" value="beginner" label="Beginner" />
+    <Radio name="experience" value="intermediate" label="Intermediate" />
+    <Radio name="experience" value="advanced" label="Advanced" />
+  </Fieldset>
+
+  <Button htmlType="submit" type="primary">Send Message</Button>
+</Form>
+
+### Registration form example
+
+<Form name="registration" action="/register" method="post">
+  <Input
+    name="username"
+    label="Choose username"
+    type="text"
+    required
+    data-validation-pattern="^[a-zA-Z0-9_]{3,20}$"
+    data-validation="Username must be 3-20 characters (letters, numbers, underscore only)"
+    autocomplete="username"
+  />
+  
+  <Input
+    name="email"
+    label="Email address"
+    type="email"
+    required
+    autocomplete="email"
+  />
+  
+  <Input
+    name="password"
+    label="Create password"
+    type="password"
+    required
+    autocomplete="new-password"
+  />
+  
+  <Input
+    name="confirm-password"
+    label="Confirm password"
+    type="password"
+    required
+    autocomplete="new-password"
+  />
+  
+  <Fieldset name="terms" legend="Terms and conditions" required>
+    <Checkbox
+      name="terms"
+      label="I agree to the terms and conditions"
+      value="accepted"
+    />
+    <Checkbox
+      name="privacy"
+      label="I agree to the privacy policy"
+      value="accepted"
+    />
+  </Fieldset>
+  
+  <Button htmlType="submit" type="primary">Create account</Button>
+</Form>
+
+</div>
+
+## Security features
+
+The form system includes built-in security protections:
+
+- **ReDoS protection** - Custom regex patterns are validated for safety and length-limited
+- **Pattern sanitization** - Invalid patterns are escaped as literal strings
+- **XSS prevention** - All user input is properly escaped
+- **Length limits** - Validation patterns are limited to 200 characters
+- **Safe fallbacks** - Invalid validation functions fail gracefully
+
+<Aside type="tip">
+  The form validation system logs security warnings to the console for debugging while maintaining functionality through safe fallbacks.
 </Aside>
