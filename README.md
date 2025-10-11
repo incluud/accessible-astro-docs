@@ -10,7 +10,7 @@ Welcome to the official documentation website for the Accessible Astro Projects!
 - [Accessible Astro Components](https://github.com/incluud/accessible-astro-components/): Library of reusable, accessible components build for Astro.
 - [Accessible Astro Dashboard](https://github.com/incluud/accessible-astro-dashboard/): User-friendly dashboard interface with a login screen and widgets.
 
-[![GO TO DOCS](https://img.shields.io/badge/GO_TO_DOCS-2AA198?style=for-the-badge&logo=astro&logoColor=black)](https://astro.incluud.dev) &nbsp;
+[![GO TO DOCS](https://img.shields.io/badge/GO_TO_DOCS-2AA198?style=for-the-badge&logo=astro&logoColor=black)](https://accessible-astro.incluud.dev) &nbsp;
 [![Sponsor on Open Collective](https://img.shields.io/badge/Open%20Collective-7FADF2?style=for-the-badge&logo=opencollective&logoColor=white)](https://opencollective.com/incluud) &nbsp;
 
 Check out our [roadmap](https://github.com/orgs/incluud/projects/4/views/1) to see what's coming next!
