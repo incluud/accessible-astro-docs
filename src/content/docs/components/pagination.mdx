@@ -30,12 +30,12 @@ Use the Pagination component when you need to split content across multiple page
 <div class="not-content">
   <p>Try using Tab key to navigate through the pagination controls:</p>
   <div style="margin-top: 1rem;">
-    <Pagination 
-      firstPage="#" 
-      previousPage="#" 
-      nextPage="#" 
-      lastPage="#" 
-      currentPage={3} 
+    <Pagination
+      firstPage="#"
+      previousPage="#"
+      nextPage="#"
+      lastPage="#"
+      currentPage={3}
       totalPages={5}
     />
   </div>
@@ -53,7 +53,7 @@ Learn how to implement the Pagination component in your project, from basic usag
 import { Pagination } from 'accessible-astro-components'
 ---
 
-<Pagination 
+<Pagination
   firstPage="/blog/1"
   previousPage="/blog/4"
   nextPage="/blog/6"
@@ -74,7 +74,7 @@ import { Pagination } from 'accessible-astro-components'
 <Pagination
   currentPage="5"
   totalPages="12"
-  renderProgress={({ currentPage, totalPages }) => 
+  renderProgress={({ currentPage, totalPages }) =>
     `${currentPage} of ${totalPages} pages`
   }
 />
@@ -84,7 +84,32 @@ import { Pagination } from 'accessible-astro-components'
   You can customize the progress text using the `renderProgress` prop. It's a function that receives the current page and total pages as arguments and returns a string.
 </Aside>
 
-### Custom labels
+### Custom labels (simple)
+
+For simple label customization (like internationalization), use the individual label props:
+
+```astro
+---
+import { Pagination } from 'accessible-astro-components'
+---
+
+<Pagination
+  currentPage="5"
+  totalPages="12"
+  firstPageLabel="Zur ersten Seite"
+  previousPageLabel="Zur vorherigen Seite"
+  nextPageLabel="Zur nächsten Seite"
+  lastPageLabel="Zur letzten Seite"
+/>
+```
+
+<Aside type="tip" title="Internationalization">
+  Individual label props are perfect for i18n - just pass translated strings without writing custom functions.
+</Aside>
+
+### Custom labels (advanced)
+
+For dynamic label generation with page numbers or complex logic, use the `renderPageLabel` function:
 
 ```astro
 ---
@@ -109,8 +134,8 @@ import { Pagination } from 'accessible-astro-components'
 />
 ```
 
-<Aside type="tip" title="Accessible labels">
-  The `renderPageLabel` prop allows you to customize the accessible labels for each navigation control while maintaining both context ("next", "previous") and specific page numbers for optimal screen reader experience.
+<Aside type="note" title="Advanced customization">
+  The `renderPageLabel` function receives `type` and `page` parameters, allowing you to include specific page numbers or implement complex labeling logic. When provided, it overrides the individual label props.
 </Aside>
 
 ## Props
@@ -126,9 +151,13 @@ Configure the Pagination component using these available props to customize its 
 | `lastPage` | `string \| null \| undefined` | `'#'` | URL for the last page, falsy value disables the control |
 | `currentPage` | `string \| number` | `'1'` | Current page number |
 | `totalPages` | `string \| number` | `'12'` | Total number of pages |
-| `renderProgress` | `Function` | See example | Custom function to render the progress text |
-| `renderPageLabel` | `Function` | See example | Custom function to generate accessible labels for navigation controls |
 | `ariaLabel` | `string` | `'Pagination'` | Accessible label for the navigation |
+| `firstPageLabel` | `string` | `'Go to the first page'` | Accessible label for the first page button |
+| `previousPageLabel` | `string` | `'Go to the previous page'` | Accessible label for the previous page button |
+| `nextPageLabel` | `string` | `'Go to the next page'` | Accessible label for the next page button |
+| `lastPageLabel` | `string` | `'Go to the last page'` | Accessible label for the last page button |
+| `renderProgress` | `Function` | See example | Custom function to render the progress text |
+| `renderPageLabel` | `Function` | See example | Custom function to generate accessible labels (overrides individual label props) |
 | `class` | `string` | `''` | Additional CSS classes to apply |
 </div>
 
@@ -208,7 +237,7 @@ The component includes built-in styling with light and dark mode support. You ca
   </TabItem>
   <TabItem label="Tailwind Classes">
     ```astro
-    <Pagination 
+    <Pagination
       class="rounded-lg shadow-md"
     />
     ```
@@ -224,7 +253,7 @@ The component includes built-in styling with light and dark mode support. You ca
 See the Pagination component in action with this practical example:
 
 <div class="not-content">
-  <Pagination 
+  <Pagination
     firstPage="#first"
     previousPage="#prev"
     nextPage="#next"
