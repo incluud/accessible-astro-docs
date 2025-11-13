@@ -2,22 +2,75 @@
 import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
 import icon from 'astro-icon'
-
 import sentry from '@sentry/astro'
 import dotenv from 'dotenv'
-
 import vue from '@astrojs/vue'
+import { existsSync, lstatSync } from 'fs'
+import { resolve } from 'path'
+import { watch } from 'fs'
 
 dotenv.config()
 
+// Check if we're using a symlinked/workspace setup
+const componentsPath = resolve('./node_modules/accessible-astro-components')
+const isLinked = existsSync(componentsPath) && lstatSync(componentsPath).isSymbolicLink()
+
+// Base Vite config
+const viteConfig = {
+  // Make environment variables available to client-side code
+  define: {
+    'import.meta.env.GITHUB_TOKEN': JSON.stringify(process.env.GITHUB_TOKEN),
+  },
+}
+
+// Add workspace-specific config only when using symlinks
+if (isLinked) {
+  console.log('Workspace detected - enabling auto-reload for locally linked components')
+
+  const componentsRealPath = resolve('../accessible-astro-components')
+
+  // Essential config for symlinked packages
+  viteConfig.resolve.preserveSymlinks = true
+  viteConfig.server = {
+    fs: {
+      allow: ['..', '../..'],
+    },
+  }
+  viteConfig.optimizeDeps = {
+    exclude: ['accessible-astro-components'],
+  }
+
+  // Custom watcher for linked components - triggers reload on changes
+  viteConfig.plugins.push({
+    name: 'reload-on-components-change',
+    configureServer(server) {
+      const componentsWatchPath = resolve(componentsRealPath, 'src/components')
+
+      const watcher = watch(componentsWatchPath, { recursive: true }, (eventType, filename) => {
+        if (filename?.endsWith('.astro')) {
+          console.log('Component changed:', filename, ' - reloading...')
+
+          // Invalidate all modules from the components package
+          Array.from(server.moduleGraph.urlToModuleMap.keys()).forEach((url) => {
+            if (url.includes('accessible-astro-components')) {
+              const mod = server.moduleGraph.urlToModuleMap.get(url)
+              if (mod) server.moduleGraph.invalidateModule(mod)
+            }
+          })
+
+          // Trigger full page reload
+          server.ws.send({ type: 'full-reload', path: '*' })
+        }
+      })
+
+      server.httpServer?.on('close', () => watcher.close())
+    },
+  })
+}
+
 // https://astro.build/config
 export default defineConfig({
-  vite: {
-    // Make environment variables available to client-side code
-    define: {
-      'import.meta.env.GITHUB_TOKEN': JSON.stringify(process.env.GITHUB_TOKEN),
-    },
-  },
+  vite: viteConfig,
   integrations: [
     starlight({
       title: 'Accessible Astro Documentation',
