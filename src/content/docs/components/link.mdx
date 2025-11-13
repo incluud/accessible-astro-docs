@@ -35,7 +35,7 @@ Use the Link component when you need to:
     <Link href="https://astro.build" isExternal>External link</Link>
     <Link href="https://github.com/incluud" isButton>Button link</Link>
   </div>
-  
+
   <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
     <Link href="#" isButton type="primary" animateOnHover>
       <Icon name="ion:rocket" size="1rem" />
@@ -49,7 +49,7 @@ Use the Link component when you need to:
       Download
     </Link>
   </div>
-  
+
   <p style="margin-top: 0.5rem; font-size: 0.9rem;">Try hovering over the "Get Started" button to see the animation effect!</p>
 </div>
 
@@ -164,9 +164,9 @@ import { Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 ---
 
-<Link 
-  href="/dashboard" 
-  isButton 
+<Link
+  href="/dashboard"
+  isButton
   type="primary"
   animateOnHover
   animationType="boop"
@@ -175,10 +175,10 @@ import { Icon } from 'astro-icon/components'
   Dashboard
 </Link>
 
-<Link 
-  href="/settings" 
-  isButton 
-  animateOnHover 
+<Link
+  href="/settings"
+  isButton
+  animateOnHover
   animationType="rotate"
   animationIntensity={8}
 >
@@ -204,9 +204,9 @@ import { Icon } from 'astro-icon/components'
 
 ```astro
 <!-- Link with descriptive aria-label -->
-<Link 
-  href="/download" 
-  isButton 
+<Link
+  href="/download"
+  isButton
   type="success"
   ariaLabel="Download the complete user guide PDF"
 >
@@ -215,13 +215,59 @@ import { Icon } from 'astro-icon/components'
 </Link>
 
 <!-- Link with title for additional context -->
-<Link 
-  href="https://example.com" 
+<Link
+  href="https://example.com"
   title="Opens in a new tab - Example website"
 >
   Visit Example
 </Link>
 ```
+
+### Custom rel attributes
+
+External links automatically include `rel="noopener noreferrer"` for security. You can add additional rel values that will be merged with these defaults:
+
+```astro
+<!-- Mastodon/Fediverse identity verification -->
+<Link
+  href="https://mastodon.social/@username"
+  isExternal
+  rel="me"
+>
+  Follow me on Mastodon
+</Link>
+<!-- Renders: rel="noopener noreferrer me" -->
+
+<!-- Microformats identity verification -->
+<Link
+  href="https://github.com/username"
+  isExternal
+  rel="me"
+>
+  GitHub Profile
+</Link>
+
+<!-- Sponsored link (SEO) -->
+<Link
+  href="https://sponsor.example.com"
+  isExternal
+  rel="sponsored"
+>
+  Our Sponsor
+</Link>
+
+<!-- Internal link with custom rel -->
+<Link
+  href="/author-profile"
+  rel="author"
+>
+  About the Author
+</Link>
+```
+
+<Aside type="tip" title="Security defaults preserved">
+  External links always include `noopener noreferrer` for security, even when you provide custom rel values. Your custom values are automatically merged with these defaults, so you never have to worry about security best practices.
+</Aside>
 
 ## Props
 
@@ -239,6 +285,7 @@ Configure the Link component using these available props to customize its behavi
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size when styled as button |
 | `ariaLabel` | `string` | `''` | The aria-label attribute |
 | `title` | `string` | `''` | The title attribute |
+| `rel` | `string` | `''` | Additional rel attribute values (auto-merged with security defaults for external links) |
 | `animateOnHover` | `boolean` | `false` | Whether to animate icons on hover (only when isButton is true) |
 | `animationType` | `'rotate' \| 'boop' \| 'bouncing' \| 'none'` | `'boop'` | Type of animation to apply on hover |
 | `animationIntensity` | `number` | `5` | Animation intensity (1-10) |
@@ -252,7 +299,7 @@ The Link component is built with accessibility as a core principle, ensuring inc
 
 - **Semantic HTML**: Uses proper anchor (`<a>`) elements for all links
 - **External link indicators**: Automatically adds visual icons and screen reader text for external links
-- **Security attributes**: External links include `target="_blank"` and `rel="noopener noreferrer"`
+- **Security attributes**: External links include `target="_blank"` and `rel="noopener noreferrer"` (custom rel values are merged, not replaced)
 - **Keyboard navigation**: Full keyboard support with proper focus management
 - **Screen reader support**: Contextual information for assistive technologies
 - **High contrast**: Color combinations meet WCAG contrast requirements
@@ -329,14 +376,14 @@ Customize the Link component's appearance while preserving its accessibility fea
   </TabItem>
   <TabItem label="Tailwind Classes">
     ```astro
-    <Link 
+    <Link
       class="font-semibold tracking-wide underline-offset-4"
       href="/custom-styled"
     >
       Custom Styled Link
     </Link>
 
-    <Link 
+    <Link
       class="rounded-lg shadow-lg transform transition-transform hover:scale-105"
       href="/enhanced-button"
       isButton
@@ -371,29 +418,29 @@ Explore the Link component in action with these practical examples showcasing di
 
 <div class="not-content">
   <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
-    <Link 
-      href="/getting-started/quick-start" 
-      isButton 
-      type="primary" 
+    <Link
+      href="/getting-started/quick-start"
+      isButton
+      type="primary"
       size="lg"
     >
       <Icon name="ion:rocket" size="1rem" />
       Get Started
     </Link>
-    
-    <Link 
-      href="/components/overview" 
-      isButton 
-      variant="outlined" 
+
+    <Link
+      href="/components/overview"
+      isButton
+      variant="outlined"
       type="info"
     >
       <Icon name="ion:library" size="1rem" />
       View Components
     </Link>
-    
-    <Link 
-      href="https://github.com/incluud" 
-      isButton 
+
+    <Link
+      href="https://github.com/incluud"
+      isButton
       type="secondary"
     >
       <Icon name="ion:logo-github" size="1rem" />
@@ -406,33 +453,33 @@ Explore the Link component in action with these practical examples showcasing di
 
 <div class="not-content">
   <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
-    <Link 
-      href="#" 
-      isButton 
-      type="success" 
-      animateOnHover 
+    <Link
+      href="#"
+      isButton
+      type="success"
+      animateOnHover
       animationType="bouncing"
       animationIntensity={7}
     >
       <Icon name="ion:checkmark-circle" size="1rem" />
       Complete
     </Link>
-    
-    <Link 
-      href="#" 
-      isButton 
-      type="warning" 
-      animateOnHover 
+
+    <Link
+      href="#"
+      isButton
+      type="warning"
+      animateOnHover
       animationType="rotate"
       animationIntensity={10}
     >
       <Icon name="ion:refresh" size="1rem" />
       Refresh
     </Link>
-    
-    <Link 
-      href="#" 
-      isButton 
+
+    <Link
+      href="#"
+      isButton
       type="error"
       pulse
     >
@@ -451,7 +498,7 @@ Explore the Link component in action with these practical examples showcasing di
     <Link href="#" isButton size="md" type="primary">Medium</Link>
     <Link href="#" isButton size="lg" type="success">Large</Link>
   </div>
-  
+
   <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
     <Link href="#" isButton variant="filled" type="primary">Filled</Link>
     <Link href="#" isButton variant="outlined" type="primary">Outlined</Link>
@@ -463,22 +510,22 @@ Explore the Link component in action with these practical examples showcasing di
 
 <div class="not-content">
   <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
-    <Link 
-      href="https://astro.build" 
+    <Link
+      href="https://astro.build"
       ariaLabel="Visit Astro documentation - opens in new tab"
     >
       Astro Framework
     </Link>
-    
-    <Link 
-      href="https://github.com/incluud" 
+
+    <Link
+      href="https://github.com/incluud"
       title="View Incluud projects on GitHub"
     >
       <Icon name="ion:logo-github" size="1rem" />
       Incluud on GitHub
     </Link>
-    
-    <Link 
+
+    <Link
       href="https://opencollective.com/incluud"
       isButton
       type="info"
@@ -489,4 +536,33 @@ Explore the Link component in action with these practical examples showcasing di
     </Link>
   </div>
   <p style="margin-top: 0.5rem; font-size: 0.9rem;">These links provide proper context for screen readers while maintaining clean visual design.</p>
+</div>
+
+### Identity verification links
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
+    <Link
+      href="https://mastodon.social/@incluud"
+      isExternal
+      rel="me"
+      ariaLabel="Follow Incluud on Mastodon - Verified profile"
+    >
+      <Icon name="ion:logo-mastodon" size="1rem" />
+      Mastodon Profile
+    </Link>
+
+    <Link
+      href="https://github.com/incluud"
+      isExternal
+      rel="me"
+    >
+      <Icon name="ion:logo-github" size="1rem" />
+      GitHub (Verified)
+    </Link>
+  </div>
+  <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+    These links use <code>rel="me"</code> for identity verification (Mastodon, IndieAuth, etc.).
+    Security defaults (<code>noopener noreferrer</code>) are automatically preserved.
+  </p>
 </div>
