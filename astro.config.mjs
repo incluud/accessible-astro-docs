@@ -5,17 +5,11 @@ import icon from 'astro-icon'
 import sentry from '@sentry/astro'
 import dotenv from 'dotenv'
 import vue from '@astrojs/vue'
-import { existsSync, lstatSync } from 'fs'
-import { resolve } from 'path'
-import { watch } from 'fs'
+import { enhanceConfigForWorkspace } from './scripts/workspace-config.js'
 
 dotenv.config()
 
-// Check if we're using a symlinked/workspace setup
-const componentsPath = resolve('./node_modules/accessible-astro-components')
-const isLinked = existsSync(componentsPath) && lstatSync(componentsPath).isSymbolicLink()
-
-// Base Vite config
+// Vite configuration with environment variables
 const viteConfig = {
   // Make environment variables available to client-side code
   define: {
@@ -23,54 +17,9 @@ const viteConfig = {
   },
 }
 
-// Add workspace-specific config only when using symlinks
-if (isLinked) {
-  console.log('Workspace detected - enabling auto-reload for locally linked components')
-
-  const componentsRealPath = resolve('../accessible-astro-components')
-
-  // Essential config for symlinked packages
-  viteConfig.resolve.preserveSymlinks = true
-  viteConfig.server = {
-    fs: {
-      allow: ['..', '../..'],
-    },
-  }
-  viteConfig.optimizeDeps = {
-    exclude: ['accessible-astro-components'],
-  }
-
-  // Custom watcher for linked components - triggers reload on changes
-  viteConfig.plugins.push({
-    name: 'reload-on-components-change',
-    configureServer(server) {
-      const componentsWatchPath = resolve(componentsRealPath, 'src/components')
-
-      const watcher = watch(componentsWatchPath, { recursive: true }, (eventType, filename) => {
-        if (filename?.endsWith('.astro')) {
-          console.log('Component changed:', filename, ' - reloading...')
-
-          // Invalidate all modules from the components package
-          Array.from(server.moduleGraph.urlToModuleMap.keys()).forEach((url) => {
-            if (url.includes('accessible-astro-components')) {
-              const mod = server.moduleGraph.urlToModuleMap.get(url)
-              if (mod) server.moduleGraph.invalidateModule(mod)
-            }
-          })
-
-          // Trigger full page reload
-          server.ws.send({ type: 'full-reload', path: '*' })
-        }
-      })
-
-      server.httpServer?.on('close', () => watcher.close())
-    },
-  })
-}
-
 // https://astro.build/config
 export default defineConfig({
-  vite: viteConfig,
+  vite: enhanceConfigForWorkspace(viteConfig),
   integrations: [
     starlight({
       title: 'Accessible Astro Documentation',
@@ -171,10 +120,6 @@ export default defineConfig({
             {
               label: 'Button',
               link: '/components/button',
-              badge: {
-                text: 'new',
-                variant: 'success',
-              },
             },
             {
               label: 'Card',
@@ -183,6 +128,18 @@ export default defineConfig({
             {
               label: 'DarkMode',
               link: '/components/dark-mode',
+              badge: {
+                text: 'update',
+                variant: 'note',
+              },
+            },
+            {
+              label: 'HighContrast',
+              link: '/components/high-contrast',
+              badge: {
+                text: 'new',
+                variant: 'success',
+              },
             },
             {
               label: 'Drawer',
@@ -195,26 +152,14 @@ export default defineConfig({
             {
               label: 'Forms',
               link: '/components/forms',
-              badge: {
-                text: 'beta',
-                variant: 'danger',
-              },
             },
             {
               label: 'Heading',
               link: '/components/heading',
-              badge: {
-                text: 'new',
-                variant: 'success',
-              },
             },
             {
               label: 'Link',
               link: '/components/link',
-              badge: {
-                text: 'new',
-                variant: 'success',
-              },
             },
             {
               label: 'Media',
@@ -227,14 +172,18 @@ export default defineConfig({
             {
               label: 'Notification',
               link: '/components/notification',
-              badge: {
-                text: 'updated',
-                variant: 'note',
-              },
             },
             {
               label: 'Pagination',
               link: '/components/pagination',
+            },
+            {
+              label: 'ReducedMotion',
+              link: '/components/reduced-motion',
+              badge: {
+                text: 'new',
+                variant: 'success',
+              },
             },
             {
               label: 'SkipLink',
