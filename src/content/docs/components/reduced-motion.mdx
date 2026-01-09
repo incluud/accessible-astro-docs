@@ -1,0 +1,241 @@
+---
+title: Reduced motion
+description: A fully accessible reduced motion toggle that respects system preferences and disables animations for users who need them.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { ReducedMotion } from 'accessible-astro-components';
+import { Icon } from 'astro-icon/components';
+
+## Introduction
+
+The Reduced motion component provides a toggle for enabling or disabling animations and transitions across your website. It respects the user's system `prefers-reduced-motion` preference by default, persists user choices, and exposes a global JavaScript API for programmatic control. This is essential for users with vestibular disorders, motion sensitivity, or those who simply prefer a calmer browsing experience.
+
+## When to use
+
+- Accessibility settings panels
+- User preference controls
+- Sites with significant animations
+- WCAG compliance (Success Criterion 2.3.3)
+- Command palette / launcher integration
+- Supporting users with vestibular disorders
+
+## Quick example
+
+<div class="not-content">
+  <p>Click the toggle below to switch between normal and reduced motion mode:</p>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
+    <ReducedMotion />
+    <span>Try using keyboard navigation (Tab + Enter/Space) to toggle!</span>
+  </div>
+</div>
+
+<Aside type="caution" title="Example component">
+  The toggle here demonstrates the component but may not visually affect this documentation site since Starlight uses its own styling system.
+</Aside>
+
+## Usage
+
+Learn how to implement the ReducedMotion component in your project.
+
+```astro
+---
+import { ReducedMotion } from 'accessible-astro-components'
+---
+
+<!-- Default - respects system preference -->
+<ReducedMotion />
+
+<!-- With custom icons -->
+<ReducedMotion>
+  <Icon name="ion:play-outline" slot="off" />
+  <Icon name="ion:pause-outline" slot="on" />
+</ReducedMotion>
+
+<!-- Force reduced motion on by default -->
+<ReducedMotion initialMode="on" />
+
+<!-- Force animations on by default (ignores system preference) -->
+<ReducedMotion initialMode="off" />
+```
+
+<Aside type="tip" title="System preference">
+  By default (`initialMode="auto"`), the component respects the user's `prefers-reduced-motion` system preference. Once the user interacts with the toggle, their choice is saved and takes precedence.
+</Aside>
+
+<Aside title="Class .reduce-motion">
+  The component sets a class of `reduce-motion` on the `html` element when reduced motion mode is active. You can use this class to conditionally disable animations.
+</Aside>
+
+## Props
+
+Configure the ReducedMotion component using these available props to customize its behavior and appearance.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `initialMode` | `'on' \| 'off' \| 'auto'` | `'auto'` | Sets the initial mode. 'auto' respects system preference |
+| `label` | `string` | `'Toggle Reduced Motion'` | Accessible label for the toggle button |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
+
+## Slots
+
+The ReducedMotion component supports named slots for customizing the icons displayed in normal and reduced motion modes.
+
+<div class="props-wrapper">
+| Slot | Description |
+|------|-------------|
+| `off` | Icon or content to display when animations are enabled |
+| `on` | Icon or content to display when reduced motion is active |
+</div>
+
+## JavaScript API
+
+The ReducedMotion component exposes a global `window.reducedMotion` API for programmatic control. This is useful for integrating with command palettes, launchers, or other UI elements.
+
+```javascript
+// Toggle reduced motion mode
+window.reducedMotion.toggle()
+
+// Enable reduced motion (disable animations)
+window.reducedMotion.enable()
+
+// Disable reduced motion (enable animations)
+window.reducedMotion.disable()
+
+// Check if reduced motion is enabled
+window.reducedMotion.isEnabled() // returns boolean
+```
+
+### Events
+
+The component dispatches a `reducemotion:change` custom event when the mode changes:
+
+```javascript
+document.addEventListener('reducemotion:change', (e) => {
+  console.log('Reduced motion enabled:', e.detail.enabled)
+})
+```
+
+### Launcher integration
+
+The component automatically listens for `launcher:action` events with `action: 'toggle-reduced-motion'`, making it compatible with the [Accessible Astro Launcher](https://github.com/incluud/accessible-astro-launcher) out of the box.
+
+## Accessibility
+
+Accessibility isn't an afterthought - it's built into the core of this component. The ReducedMotion component is built with accessibility in mind:
+
+- Uses semantic button element
+- Proper ARIA attributes (`aria-pressed`, `aria-label`)
+- Maintains focus states
+- Persists across page loads using `localStorage`
+- Respects `prefers-reduced-motion` system preference by default
+- Disables all animations and transitions when active
+
+### Why reduced motion matters
+
+Some users experience discomfort, dizziness, or nausea when viewing animations. This includes:
+
+- Users with vestibular disorders
+- Users with motion sensitivity
+- Users with certain cognitive disabilities
+- Users who simply prefer less motion
+
+By providing this toggle, you give users control over their browsing experience.
+
+## Styling
+
+Make the ReducedMotion component your own with custom styling while maintaining its accessibility features.
+
+<Aside type="caution" title="Accessibility considerations">
+  When applying custom styles, ensure they don't compromise accessibility by maintaining sufficient color contrast and touch target sizes.
+</Aside>
+
+### Default reduced motion styles
+
+The component includes global styles that disable animations when reduced motion mode is active:
+
+```css
+/* These styles are automatically applied */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+```
+
+### Custom animation handling
+
+You can also check for reduced motion in your own animations:
+
+<Tabs>
+  <TabItem label="CSS">
+    ```css
+    .animated-element {
+      animation: slide-in 0.3s ease-out;
+    }
+
+    /* Disable animation when reduced motion is active */
+    .reduce-motion .animated-element {
+      animation: none;
+    }
+
+    /* Or use the media query for CSS-only solutions */
+    @media (prefers-reduced-motion: reduce) {
+      .animated-element {
+        animation: none;
+      }
+    }
+    ```
+  </TabItem>
+  <TabItem label="JavaScript">
+    ```javascript
+    // Check programmatically before starting animations
+    if (!window.reducedMotion?.isEnabled()) {
+      element.animate([
+        { opacity: 0 },
+        { opacity: 1 }
+      ], {
+        duration: 300,
+        easing: 'ease-out'
+      })
+    }
+
+    // Or listen for changes
+    document.addEventListener('reducemotion:change', (e) => {
+      if (e.detail.enabled) {
+        // Stop or skip animations
+        cancelAnimationFrame(animationId)
+      }
+    })
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive examples
+
+See the ReducedMotion component in action with these practical examples.
+
+<Aside type="caution" title="Example component">
+  The toggle here demonstrates the component but may not visually affect this documentation site.
+</Aside>
+
+### Default style
+
+<div class="not-content">
+  <ReducedMotion />
+</div>
+
+### With custom icons
+
+<div class="not-content">
+  <ReducedMotion>
+    <Icon name="ion:flash-outline" slot="off" />
+    <Icon name="ion:flash-off-outline" slot="on" />
+  </ReducedMotion>
+</div>
+

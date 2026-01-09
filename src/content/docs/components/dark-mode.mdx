@@ -9,7 +9,7 @@ import { Icon } from 'astro-icon/components';
 
 ## Introduction
 
-The Dark mode component provides a toggle for switching between light and dark color schemes. It uses system preferences, persists user choices, and follows accessibility best practices.
+The Dark mode component provides a toggle for switching between light and dark color schemes. It uses system preferences, persists user choices, and follows accessibility best practices. It also exposes a global JavaScript API for programmatic control.
 
 ## When to use
 
@@ -18,16 +18,14 @@ The Dark mode component provides a toggle for switching between light and dark c
 - Reducing eye strain in low-light conditions
 - Respecting user system preferences
 - Battery saving on OLED displays
+- Command palette / launcher integration
 
 ## Quick example
 
 <div class="not-content">
   <p>Click the toggle below to switch between light and dark mode:</p>
   <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
-    <DarkMode>
-      <Icon name="ion:sunny" slot="light" />
-      <Icon name="ion:moon" slot="dark" />
-    </DarkMode>
+    <DarkMode />
     <span>Try using keyboard navigation (Tab + Enter/Space) to toggle!</span>
   </div>
 </div>
@@ -45,8 +43,20 @@ Learn how to implement the DarkMode component in your project, from basic usage 
 import { DarkMode } from 'accessible-astro-components'
 ---
 
-<!-- Default with system preference -->
+<!-- Default with system preference (auto mode) -->
 <DarkMode />
+
+<!-- Start with dark mode as default -->
+<DarkMode initialMode="dark">
+  <Icon name="ion:sunny" slot="light" />
+  <Icon name="ion:moon" slot="dark" />
+</DarkMode>
+
+<!-- Start with light mode as default -->
+<DarkMode initialMode="light">
+  <Icon name="ion:sunny" slot="light" />
+  <Icon name="ion:moon" slot="dark" />
+</DarkMode>
 
 <!-- With custom icons -->
 <DarkMode>
@@ -56,21 +66,57 @@ import { DarkMode } from 'accessible-astro-components'
 ```
 
 <Aside type="tip" title="Initial mode">
-  Use the `initialMode` prop to set the default color scheme. Options are 'light', 'dark', or 'auto' (uses system preference).
+  Use the `initialMode` prop to set the default color scheme for first-time visitors. Options are `'light'`, `'dark'`, or `'auto'` (uses system preference). **Important:** Once a user toggles the mode, their preference is saved in `localStorage` and will override the `initialMode` on subsequent visits.
+</Aside>
+
+<Aside type="note" title="Where to add it">
+  The DarkMode component is typically added to your Header or Navigation component so it appears on every page. Check your `src/components/Header.astro` or equivalent layout file.
 </Aside>
 
 <Aside title="Class .darkmode">
   The component sets a class of `darkmode` on the `html` element when dark mode is active. You can use this class to apply styles to your website.
 </Aside>
 
+## JavaScript API
+
+The DarkMode component exposes a global `window.darkMode` API for programmatic control. This is useful for integrating with command palettes, launchers, or other UI elements.
+
+```javascript
+// Toggle dark mode
+window.darkMode.toggle()
+
+// Enable dark mode
+window.darkMode.enable()
+
+// Disable dark mode
+window.darkMode.disable()
+
+// Check if dark mode is enabled
+window.darkMode.isEnabled() // returns boolean
+```
+
+### Events
+
+The component dispatches a `darkmode:change` custom event when the mode changes:
+
+```javascript
+document.addEventListener('darkmode:change', (e) => {
+  console.log('Dark mode enabled:', e.detail.enabled)
+})
+```
+
+### Launcher integration
+
+The component automatically listens for `launcher:action` events with `action: 'toggle-dark-mode'`, making it compatible with the [Accessible Astro Launcher](https://github.com/incluud/accessible-astro-launcher) out of the box.
+
 ## Props
 
 Configure the DarkMode component using these available props to customize its behavior and appearance.
 
-<div class="props-wrapper"> 
+<div class="props-wrapper">
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `initialMode` | `'light' \| 'dark' \| 'auto'` | `'auto'` | Sets the initial color scheme mode |
+| `initialMode` | `'light' \| 'dark' \| 'auto'` | `'auto'` | Sets the initial color scheme mode for first-time visitors (user preference in localStorage takes precedence) |
 | `label` | `string` | `'Toggle Dark Mode'` | Accessible label for the toggle button |
 | `class` | `string` | `''` | Additional CSS classes to apply |
 </div>
@@ -79,7 +125,7 @@ Configure the DarkMode component using these available props to customize its be
 
 The DarkMode component supports named slots for customizing the icons displayed in light and dark modes.
 
-<div class="props-wrapper"> 
+<div class="props-wrapper">
 | Slot | Description |
 |------|-------------|
 | `light` | Icon or content to display when in light mode |
@@ -147,16 +193,16 @@ Make the DarkMode component your own with custom styling while maintaining its a
   </TabItem>
   <TabItem label="Tailwind Classes">
     ```astro
-    <DarkMode 
+    <DarkMode
       class="text-lg text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
     >
-      <Icon 
-        name="ion:sunny" 
+      <Icon
+        name="ion:sunny"
         slot="light"
         class="w-6 h-6"
       />
-      <Icon 
-        name="ion:moon" 
+      <Icon
+        name="ion:moon"
         slot="dark"
         class="w-6 h-6"
       />

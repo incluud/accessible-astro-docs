@@ -1,0 +1,222 @@
+---
+title: High contrast
+description: A fully accessible high contrast mode toggle that enhances visual clarity for users with low vision.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { HighContrast } from 'accessible-astro-components';
+import { Icon } from 'astro-icon/components';
+
+## Introduction
+
+The High contrast component provides a toggle for switching between normal and high contrast modes. It enhances focus indicators, link visibility, and overall visual clarity for users with low vision or those who prefer increased contrast. The component persists user choices and exposes a global JavaScript API for programmatic control.
+
+## When to use
+
+- Accessibility settings panels
+- User preference controls
+- Sites targeting users with low vision
+- WCAG AAA compliance efforts
+- Command palette / launcher integration
+
+## Quick example
+
+<div class="not-content">
+  <p>Click the toggle below to switch between normal and high contrast mode:</p>
+  <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
+    <HighContrast />
+    <span>Try using keyboard navigation (Tab + Enter/Space) to toggle!</span>
+  </div>
+</div>
+
+<Aside type="caution" title="Example component">
+  The toggle here demonstrates the component but may not visually affect this documentation site since Starlight uses its own styling system.
+</Aside>
+
+## Usage
+
+Learn how to implement the HighContrast component in your project.
+
+```astro
+---
+import { HighContrast } from 'accessible-astro-components'
+---
+
+<!-- Default high contrast toggle -->
+<HighContrast />
+
+<!-- With custom icons -->
+<HighContrast>
+  <Icon name="ion:contrast-outline" slot="off" />
+  <Icon name="ion:contrast" slot="on" />
+</HighContrast>
+
+<!-- With custom label -->
+<HighContrast label="Toggle high contrast mode" />
+```
+
+<Aside title="Class .high-contrast">
+  The component sets a class of `high-contrast` on the `html` element when high contrast mode is active. You can use this class to apply enhanced styles to your website.
+</Aside>
+
+## Props
+
+Configure the HighContrast component using these available props to customize its behavior and appearance.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | `'Toggle High Contrast'` | Accessible label for the toggle button |
+| `class` | `string` | `''` | Additional CSS classes to apply |
+</div>
+
+## Slots
+
+The HighContrast component supports named slots for customizing the icons displayed in normal and high contrast modes.
+
+<div class="props-wrapper">
+| Slot | Description |
+|------|-------------|
+| `off` | Icon or content to display when high contrast is off |
+| `on` | Icon or content to display when high contrast is on |
+</div>
+
+## JavaScript API
+
+The HighContrast component exposes a global `window.highContrast` API for programmatic control. This is useful for integrating with command palettes, launchers, or other UI elements.
+
+```javascript
+// Toggle high contrast mode
+window.highContrast.toggle()
+
+// Enable high contrast mode
+window.highContrast.enable()
+
+// Disable high contrast mode
+window.highContrast.disable()
+
+// Check if high contrast mode is enabled
+window.highContrast.isEnabled() // returns boolean
+```
+
+### Events
+
+The component dispatches a `highcontrast:change` custom event when the mode changes:
+
+```javascript
+document.addEventListener('highcontrast:change', (e) => {
+  console.log('High contrast enabled:', e.detail.enabled)
+})
+```
+
+### Launcher integration
+
+The component automatically listens for `launcher:action` events with `action: 'toggle-high-contrast'`, making it compatible with the [Accessible Astro Launcher](https://github.com/incluud/accessible-astro-launcher) out of the box.
+
+## Accessibility
+
+Accessibility isn't an afterthought - it's built into the core of this component. The HighContrast component is built with accessibility in mind:
+
+- Uses semantic button element
+- Proper ARIA attributes (`aria-pressed`, `aria-label`)
+- Maintains focus states
+- Persists across page loads using `localStorage`
+- Enhances focus indicators site-wide when active
+- Improves link visibility with underlines
+
+## Styling
+
+Make the HighContrast component your own with custom styling while maintaining its accessibility features.
+
+<Aside type="caution" title="Accessibility considerations">
+  When applying custom styles, ensure they don't compromise accessibility by maintaining sufficient color contrast and touch target sizes.
+</Aside>
+
+### Default high contrast styles
+
+The component includes global styles that are applied when high contrast mode is active:
+
+```css
+/* These styles are automatically applied */
+.high-contrast *:focus-visible {
+  outline-width: 3px;
+  outline-style: solid;
+}
+
+.high-contrast a:not([class]) {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+```
+
+### Extending high contrast styles
+
+You can add your own high contrast styles by targeting the `.high-contrast` class:
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```css
+    <style is:global>
+      .high-contrast {
+        /* Increase text contrast */
+        --text-color: hsl(0 0% 0%);
+        --bg-color: hsl(0 0% 100%);
+      }
+
+      .high-contrast button,
+      .high-contrast a {
+        /* Thicker borders */
+        border-width: 2px;
+      }
+
+      .high-contrast img {
+        /* Add borders to images */
+        outline: 2px solid currentColor;
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <HighContrast
+      class="text-lg border-2 hover:border-4"
+    >
+      <Icon
+        name="ion:contrast-outline"
+        slot="off"
+        class="w-6 h-6"
+      />
+      <Icon
+        name="ion:contrast"
+        slot="on"
+        class="w-6 h-6"
+      />
+    </HighContrast>
+    ```
+  </TabItem>
+</Tabs>
+
+## Interactive examples
+
+See the HighContrast component in action with these practical examples.
+
+<Aside type="caution" title="Example component">
+  The toggle here demonstrates the component but may not visually affect this documentation site.
+</Aside>
+
+### Default style
+
+<div class="not-content">
+  <HighContrast />
+</div>
+
+### With custom icons
+
+<div class="not-content">
+  <HighContrast>
+    <Icon name="ion:eye-outline" slot="off" />
+    <Icon name="ion:eye" slot="on" />
+  </HighContrast>
+</div>
+
