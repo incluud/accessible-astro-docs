@@ -1,8 +1,8 @@
 # Accessible Astro Docs
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/small.svg)](https://starlight.astro.build)
-
 ![accessible-astro-docs](https://github.com/user-attachments/assets/37c49368-c0b4-47fd-b4c6-67abf658522d)
+
+[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/small.svg)](https://starlight.astro.build)
 
 Welcome to the official documentation website for the Accessible Astro Projects! This comprehensive resource is built with [Starlight](https://starlight.astro.build), Astro's powerful documentation framework, to provide clear and accessible documentation for our suite of accessibility-focused tools. Whether you're a developer looking to build more inclusive web applications or someone interested in learning about web accessibility, this documentation covers:
 
@@ -33,6 +33,19 @@ Check out our [roadmap](https://github.com/orgs/incluud/projects/4/views/1) to s
 - Skip links and keyboard navigation
 - Screen reader friendly
 - Performance optimized
+
+## Accessible Astro ecosystem
+
+The Accessible Astro ecosystem is a collection of projects that are designed to help you build accessible web applications. It includes:
+
+- [Accessible Astro Starter](https://github.com/incluud/accessible-astro-starter): Fully accessible starter for kickstarting Astro projects, with Tailwind.
+- [Accessible Astro Components](https://github.com/incluud/accessible-astro-components/): Library of reusable, accessible components built for Astro.
+- [Accessible Astro Dashboard](https://github.com/incluud/accessible-astro-dashboard/): User-friendly dashboard interface with a login screen and widgets.
+- [Accessible Astro Launcher](https://github.com/incluud/accessible-astro-launcher): Command palette/launcher component for Astro projects.
+- [Accessible Astro Docs](https://github.com/incluud/accessible-astro-docs): Comprehensive documentation for all Accessible Astro projects.
+- [Color Contrast Checker](https://github.com/incluud/color-contrast-checker): WCAG-compliant color contrast checker with design system token generation.
+
+Check out our [roadmap](https://github.com/orgs/incluud/projects/4) to see what's coming next!
 
 ## Contributing
 

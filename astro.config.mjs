@@ -158,6 +158,14 @@ export default defineConfig({
               link: '/components/heading',
             },
             {
+              label: 'Launcher',
+              link: '/components/launcher',
+              badge: {
+                text: 'new',
+                variant: 'success',
+              },
+            },
+            {
               label: 'Link',
               link: '/components/link',
             },

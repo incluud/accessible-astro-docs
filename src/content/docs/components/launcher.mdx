@@ -1,0 +1,534 @@
+---
+title: Launcher
+description: An accessible command palette/launcher component with keyboard navigation, instant search, and WCAG 2.2 AA compliance.
+---
+
+import { Aside, Badge, Tabs, TabItem, Steps } from '@astrojs/starlight/components';
+
+## Introduction
+
+The Launcher component provides a powerful command palette for keyboard-driven navigation in your Astro projects. It follows the WAI-ARIA combobox pattern and includes full keyboard support, instant search, and proper ARIA attributes. The component supports navigation links, action buttons with toggle states, and automatic integration with preference toggles from `accessible-astro-components`.
+
+<Aside type="note" title="Separate package">
+  The Launcher is distributed as a separate package (`accessible-astro-launcher`) from the main component library. Install it separately to use these components.
+</Aside>
+
+<div class="flex gap-2 mb-8">
+  <a href="https://github.com/incluud/accessible-astro-launcher" class="sl-flex">GitHub Repository</a>
+  <a href="https://www.npmjs.com/package/accessible-astro-launcher" class="sl-flex">NPM Package</a>
+  <a href="https://accessible-astro-starter.incluud.dev/" class="sl-flex">Live Demo</a>
+</div>
+
+## When to use
+
+Use the Launcher component when you need to:
+
+- Provide keyboard-driven navigation
+- Create a command palette (like VS Code's Cmd/Ctrl+K)
+- Allow quick searching through site pages
+- Toggle preferences (dark mode, high contrast, reduced motion)
+- Provide power users with efficient navigation
+- Add a search-style trigger in your header
+
+## Key features
+
+- **Accessible by default**: WAI-ARIA combobox pattern with proper roles
+- **Keyboard navigation**: Open with `Cmd/Ctrl + K`, navigate with arrow keys
+- **Screen reader support**: Live region announcements for results
+- **Quick search**: Instant client-side fuzzy search
+- **Navigation items**: Link to any page with custom icons
+- **Action items**: Toggle preferences with LED-style indicators
+- **Preference sync**: Automatic sync with `accessible-astro-components` toggles
+- **Dark mode**: Automatic light/dark theming via `light-dark()` CSS
+- **Customizable**: Extensive styling through CSS custom properties
+- **i18n ready**: All text labels customizable via props
+- **Zero dependencies**: Pure Astro components
+- **TypeScript**: Full type support
+
+## Installation
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install accessible-astro-launcher
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add accessible-astro-launcher
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add accessible-astro-launcher
+    ```
+  </TabItem>
+</Tabs>
+
+## Quick example
+
+```astro
+---
+import {
+  Launcher,
+  LauncherTrigger,
+  LauncherList,
+  LauncherGroup,
+  LauncherItem,
+} from 'accessible-astro-launcher'
+---
+
+<LauncherTrigger launcherId="site-launcher" />
+
+<Launcher id="site-launcher">
+  <LauncherList>
+    <LauncherGroup label="Navigation">
+      <LauncherItem type="navigation" href="/" label="Home" />
+      <LauncherItem type="navigation" href="/about" label="About" />
+      <LauncherItem type="navigation" href="/contact" label="Contact" />
+    </LauncherGroup>
+    <LauncherGroup label="Preferences">
+      <LauncherItem type="action" onAction="toggle-dark-mode" label="Dark mode" />
+    </LauncherGroup>
+  </LauncherList>
+</Launcher>
+```
+
+<Aside type="tip" title="Keyboard shortcut">
+  Users can open the launcher by pressing `Cmd + K` (Mac) or `Ctrl + K` (Windows/Linux) from anywhere on the page.
+</Aside>
+
+## Components
+
+The Launcher system consists of five components that work together:
+
+### Launcher
+
+The main dialog component containing the search input and results.
+
+```astro
+<Launcher
+  id="my-launcher"
+  labels={{
+    placeholder: "Search...",
+    noResults: "No results found",
+    close: "Close"
+  }}
+>
+  <!-- LauncherList with items goes here -->
+</Launcher>
+```
+
+### LauncherTrigger
+
+A button that opens the launcher. Can be placed anywhere in your layout.
+
+```astro
+<!-- Full trigger with placeholder -->
+<LauncherTrigger launcherId="my-launcher" />
+
+<!-- Compact trigger -->
+<LauncherTrigger launcherId="my-launcher" compact />
+
+<!-- Icon only trigger -->
+<LauncherTrigger launcherId="my-launcher" iconOnly />
+
+<!-- With gradient border effect -->
+<LauncherTrigger launcherId="my-launcher" gradientBorder />
+```
+
+### LauncherList
+
+Wrapper for items with proper ARIA listbox role.
+
+```astro
+<LauncherList>
+  <!-- LauncherGroup or LauncherItem components -->
+</LauncherList>
+```
+
+### LauncherGroup
+
+Optional grouping wrapper for organizing items.
+
+```astro
+<LauncherGroup label="Navigation">
+  <LauncherItem type="navigation" href="/" label="Home" />
+  <LauncherItem type="navigation" href="/about" label="About" />
+</LauncherGroup>
+```
+
+### LauncherItem
+
+Individual items - either navigation links or action buttons.
+
+```astro
+<!-- Navigation item -->
+<LauncherItem
+  type="navigation"
+  href="/dashboard"
+  label="Dashboard"
+  keywords={["admin", "panel"]}
+/>
+
+<!-- Action item (toggle) -->
+<LauncherItem
+  type="action"
+  onAction="toggle-dark-mode"
+  label="Dark mode"
+  pressed={false}
+/>
+
+<!-- Navigation item with custom icon -->
+<LauncherItem type="navigation" href="/settings" label="Settings">
+  <svg slot="icon" viewBox="0 0 24 24"><!-- icon SVG --></svg>
+</LauncherItem>
+```
+
+## Props
+
+### Launcher
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | Required | Unique identifier (must match `launcherId` on triggers) |
+| `labels` | `LauncherLabels` | `{}` | i18n labels object for all UI text |
+| `class` | `string` | `''` | Additional CSS classes |
+
+#### LauncherLabels object
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `placeholder` | `string` | `'Search or use commands...'` | Search input placeholder |
+| `noResults` | `string` | `'No results found'` | Text shown when no results match |
+| `endOfResults` | `string` | `'End of results'` | Text shown at end of results |
+| `resultsCount` | `string` | `'{count} results'` | Template for results count |
+| `close` | `string` | `'Close'` | Close button label |
+| `clear` | `string` | `'Clear'` | Clear button label |
+| `toSelect` | `string` | `'to select'` | Hint text for Enter key |
+| `toNavigate` | `string` | `'to navigate'` | Hint text for arrow keys |
+| `toClose` | `string` | `'to close'` | Hint text for Escape key |
+
+### LauncherTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `launcherId` | `string` | Required | ID of the launcher to open |
+| `id` | `string` | `undefined` | Optional trigger element ID |
+| `placeholder` | `string` | `'Search or use commands...'` | Placeholder text |
+| `shortcutKey` | `string` | `'K'` | Keyboard shortcut key to display |
+| `compact` | `boolean` | `false` | Compact mode without placeholder |
+| `iconOnly` | `boolean` | `false` | Icon-only mode |
+| `gradientBorder` | `boolean` | `false` | Animated gradient border effect |
+| `class` | `string` | `''` | Additional CSS classes |
+
+### LauncherList
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `class` | `string` | `''` | Additional CSS classes |
+
+### LauncherGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | Required | Group heading text |
+| `class` | `string` | `''` | Additional CSS classes |
+
+### LauncherItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `'navigation' \| 'action'` | Required | Item type |
+| `label` | `string` | Required | Display text |
+| `href` | `string` | `undefined` | URL for navigation items |
+| `onAction` | `string` | `undefined` | Action identifier for action items |
+| `pressed` | `boolean` | `false` | Initial pressed state for toggles |
+| `keywords` | `string[]` | `[]` | Additional search keywords |
+| `typeLabel` | `string` | `'Go to' / 'Run'` | Label for type indicator |
+| `class` | `string` | `''` | Additional CSS classes |
+
+**Slots:**
+
+| Slot | Description |
+|------|-------------|
+| `icon` | Custom icon for navigation items |
+
+## Accessibility
+
+Accessibility isn't an afterthought - it's built into the core of this component through the WAI-ARIA combobox pattern. The Launcher component implements:
+
+### Keyboard navigation
+
+| Key | Action |
+|-----|--------|
+| `Cmd/Ctrl + K` | Open launcher |
+| `Arrow Up/Down` | Navigate items |
+| `Enter` | Select item |
+| `Escape` | Close launcher |
+| `Tab` | Move between header elements |
+
+### ARIA implementation
+
+- Dialog with `aria-modal="true"` and proper labeling
+- Input with `role="combobox"`, `aria-controls`, `aria-activedescendant`
+- List with `role="listbox"`
+- Items with `role="option"`, `aria-selected`
+- Groups with `role="group"`, `aria-labelledby`
+- Live region for results count announcements
+
+### Focus management
+
+- Focus moves to input when launcher opens
+- Virtual focus via `aria-activedescendant` for smooth navigation
+- Focus returns to trigger element when launcher closes
+- Clear focus indicators on all interactive elements
+
+### Visual indicators
+
+- LED-style indicators for toggle action states
+- Clear selected item highlighting
+- Visible focus outlines
+- Proper color contrast in light and dark modes
+
+## Events
+
+The Launcher component dispatches custom events that you can listen for:
+
+### launcher:action
+
+Dispatched when an action item is selected.
+
+```javascript
+document.addEventListener('launcher:action', (event) => {
+  switch (event.detail.action) {
+    case 'toggle-dark-mode':
+      window.darkMode?.toggle()
+      break
+    case 'toggle-high-contrast':
+      window.highContrast?.toggle()
+      break
+    case 'toggle-reduced-motion':
+      window.reducedMotion?.toggle()
+      break
+    case 'logout':
+      window.location.href = '/logout'
+      break
+  }
+})
+```
+
+### launcher:open
+
+Dispatched when the launcher opens. Useful for syncing preference states.
+
+```javascript
+document.addEventListener('launcher:open', () => {
+  // Sync preference states when launcher opens
+  console.log('Launcher opened')
+})
+```
+
+<Aside type="tip" title="Automatic preference sync">
+  When using the DarkMode, HighContrast, or ReducedMotion components from `accessible-astro-components`, the launcher automatically syncs toggle states. Use `onAction="toggle-dark-mode"`, `onAction="toggle-high-contrast"`, or `onAction="toggle-reduced-motion"` for automatic integration.
+</Aside>
+
+## Styling
+
+Make the Launcher your own while maintaining its accessibility features.
+
+<Aside type="caution" title="Accessibility considerations">
+  When customizing styles, ensure you maintain sufficient color contrast ratios and don't remove focus indicators.
+</Aside>
+
+### CSS custom properties
+
+The Launcher uses CSS custom properties for easy theming:
+
+<Tabs>
+  <TabItem label="Colors">
+    ```css
+    :root {
+      /* Base theme colors */
+      --launcher-theme-light: #fff;
+      --launcher-theme-dark: #090b0f;
+
+      /* These are auto-generated from theme colors */
+      --launcher-text-color: /* auto light/dark */;
+      --launcher-subtle-text-color: /* auto light/dark */;
+      --launcher-outer-border-color: /* auto light/dark */;
+      --launcher-inner-border-color: /* auto light/dark */;
+      --launcher-main-body-color: /* auto light/dark */;
+      --launcher-action-bar-color: /* auto light/dark */;
+      --launcher-kbd-color: /* auto light/dark */;
+      --launcher-interaction-color: /* auto light/dark */;
+      --launcher-backdrop-color: rgba(0 0 0 / 0.3);
+    }
+    ```
+  </TabItem>
+  <TabItem label="Dimensions">
+    ```css
+    :root {
+      /* Launcher dialog */
+      --launcher-width: min(90vw, 650px);
+      --launcher-height: min(60vh, 500px);
+
+      /* Trigger button */
+      --launcher-trigger-width-min: 44px;
+      --launcher-trigger-width-max: 350px;
+      --launcher-trigger-height: 40px;
+      --launcher-trigger-compact-width: 95px;
+      --launcher-trigger-icon-only-size: 44px;
+    }
+    ```
+  </TabItem>
+  <TabItem label="Spacing & Radius">
+    ```css
+    :root {
+      /* Fluid spacing */
+      --launcher-space-xs: clamp(0.25rem, 0.2283rem + 0.1087vw, 0.3125rem);
+      --launcher-space-sm: clamp(0.5rem, 0.4783rem + 0.1087vw, 0.5625rem);
+      --launcher-space-md: clamp(0.75rem, 0.7065rem + 0.2174vw, 0.875rem);
+      --launcher-space-lg: clamp(1rem, 0.9565rem + 0.2174vw, 1.125rem);
+      --launcher-space-xl: clamp(1.5rem, 1.4348rem + 0.3261vw, 1.6875rem);
+
+      /* Border radius */
+      --launcher-radius-sm: 0.25rem;
+      --launcher-radius-md: 0.5rem;
+      --launcher-radius-lg: 0.75rem;
+    }
+    ```
+  </TabItem>
+  <TabItem label="Animation">
+    ```css
+    :root {
+      --launcher-animation-duration: 0.2s;
+      --launcher-animation-timing: cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    /* Animations respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      :root {
+        --launcher-animation-duration: 0s;
+      }
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+### Custom theming example
+
+```css
+/* Custom purple theme */
+:root {
+  --launcher-theme-light: #faf5ff;
+  --launcher-theme-dark: #1a0a2e;
+}
+
+/* Larger launcher */
+:root {
+  --launcher-width: min(95vw, 800px);
+  --launcher-height: min(70vh, 600px);
+}
+```
+
+<Aside type="note" title="Style scoping">
+  The Launcher uses `:where()` selectors for low specificity, making it easy to override styles without specificity battles.
+</Aside>
+
+## Complete example
+
+Here's a full implementation showing all features:
+
+```astro
+---
+import {
+  Launcher,
+  LauncherTrigger,
+  LauncherList,
+  LauncherGroup,
+  LauncherItem,
+} from 'accessible-astro-launcher'
+import { DarkMode, HighContrast, ReducedMotion } from 'accessible-astro-components'
+---
+
+<header>
+  <nav>
+    <a href="/">My Site</a>
+    <LauncherTrigger launcherId="main-launcher" gradientBorder />
+    <DarkMode />
+  </nav>
+</header>
+
+<Launcher
+  id="main-launcher"
+  labels={{
+    placeholder: "Search pages, actions...",
+    noResults: "Nothing found. Try a different search.",
+  }}
+>
+  <LauncherList>
+    <LauncherGroup label="Pages">
+      <LauncherItem type="navigation" href="/" label="Home" keywords={["start", "main"]} />
+      <LauncherItem type="navigation" href="/about" label="About Us" keywords={["team", "company"]} />
+      <LauncherItem type="navigation" href="/blog" label="Blog" keywords={["articles", "posts"]} />
+      <LauncherItem type="navigation" href="/contact" label="Contact" keywords={["email", "form"]} />
+    </LauncherGroup>
+
+    <LauncherGroup label="Preferences">
+      <LauncherItem type="action" onAction="toggle-dark-mode" label="Toggle dark mode" />
+      <LauncherItem type="action" onAction="toggle-high-contrast" label="Toggle high contrast" />
+      <LauncherItem type="action" onAction="toggle-reduced-motion" label="Toggle reduced motion" />
+    </LauncherGroup>
+
+    <LauncherGroup label="Account">
+      <LauncherItem type="navigation" href="/settings" label="Settings" />
+      <LauncherItem type="action" onAction="logout" label="Log out" />
+    </LauncherGroup>
+  </LauncherList>
+</Launcher>
+
+<!-- Handle custom actions -->
+<script>
+  document.addEventListener('launcher:action', (event) => {
+    if (event.detail.action === 'logout') {
+      window.location.href = '/logout'
+    }
+  })
+</script>
+```
+
+## TypeScript support
+
+The package includes full TypeScript definitions. Import types as needed:
+
+```typescript
+import type {
+  LauncherProps,
+  LauncherTriggerProps,
+  LauncherListProps,
+  LauncherGroupProps,
+  LauncherItemProps,
+  LauncherLabels,
+  LauncherActionEventDetail,
+} from 'accessible-astro-launcher'
+```
+
+## Integration with accessible-astro-components
+
+The Launcher automatically syncs with preference toggles from `accessible-astro-components`:
+
+| Event | Action ID |
+|-------|-----------|
+| `darkmode:change` | `toggle-dark-mode` |
+| `highcontrast:change` | `toggle-high-contrast` |
+| `reducemotion:change` | `toggle-reduced-motion` |
+
+When you use these action IDs, the launcher automatically:
+- Updates the LED indicator state when preferences change
+- Listens for preference change events
+- Syncs state when the launcher opens
+
+<Aside type="tip" title="No extra code needed">
+  Simply use the matching `onAction` values and the launcher handles synchronization automatically!
+</Aside>

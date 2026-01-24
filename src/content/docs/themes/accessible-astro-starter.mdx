@@ -90,7 +90,7 @@ The starter follows a clear and organized structure:
       - base/ _// Core styles and utilities_
   - components/
     - CallToAction.astro
-    - ContentMedia.astro 
+    - ContentMedia.astro
     - Counter.astro
     - Feature.astro
     - Footer.astro
@@ -143,7 +143,7 @@ The starter includes several pre-built accessible components, with several new a
 
 #### Core Components
 - `CallToAction.astro` - Styled block with a button
-- `ContentMedia.astro` - Content with media layout  
+- `ContentMedia.astro` - Content with media layout
 - `Counter.astro` - Icon and number counter
 - `DarkMode.astro` - Theme toggle with system preference
 - `Feature.astro` - Feature highlight component
@@ -202,6 +202,93 @@ The theme uses Tailwind CSS with additional SCSS utilities. Customize your theme
         - _root.scss _// Custom properties_
 </FileTree>
 
+### Responsive Breakpoint System
+
+The starter includes a powerful and versatile breakpoint mixin system using modern CSS media query syntax. The system supports min-width, max-width, and range queries with predefined breakpoints or custom values.
+
+#### Available Breakpoints
+
+```scss
+$breakpoints: (
+  'default': 0,
+  'xs': 320px,
+  's': 480px,
+  'm': 768px,
+  'l': 1024px,
+  'xl': 1280px,
+  '2xl': 1536px,
+  'nav': 1000px,
+)
+```
+
+#### Usage Examples
+
+<Tabs>
+  <TabItem label="Min-width (mobile-first)">
+  ```scss
+  // Apply styles from medium screens and up
+  .component {
+    @include breakpoint('m') {
+      font-size: 1.2rem;
+      padding: 2rem;
+    }
+  }
+
+  // Output: @media (width >= 768px) { ... }
+  ```
+  </TabItem>
+  <TabItem label="Max-width">
+  ```scss
+  // Apply styles below medium screens (mobile override)
+  .component {
+    @include breakpoint('m', 'max') {
+      display: none;
+    }
+  }
+
+  // Output: @media (width < 768px) { ... }
+  ```
+  </TabItem>
+  <TabItem label="Range between breakpoints">
+  ```scss
+  // Apply styles only between medium and extra-large
+  .component {
+    @include breakpoint('m', 'xl') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  // Output: @media (768px <= width < 1280px) { ... }
+  ```
+  </TabItem>
+  <TabItem label="Custom values">
+  ```scss
+  // Use custom pixel values
+  .component {
+    @include breakpoint(600px, 900px) {
+      max-width: 80%;
+    }
+  }
+
+  // Output: @media (600px <= width < 900px) { ... }
+  ```
+  </TabItem>
+  <TabItem label="Explicit helpers">
+  ```scss
+  // Alternative syntax for clarity
+  .component {
+    @include breakpoint-min('m') { }  // Min-width
+    @include breakpoint-max('l') { }  // Max-width
+    @include breakpoint-between('m', 'xl') { } // Range
+  }
+  ```
+  </TabItem>
+</Tabs>
+
+<Aside type="tip" title="Modern syntax">
+  The breakpoint system uses modern CSS range syntax (`width >= 768px` instead of `min-width: 768px`), which is more readable and follows current CSS best practices. All modern browsers support this syntax.
+</Aside>
+
 ### OKLCH Color System
 
 Version 4.0.0 introduces a powerful OKLCH-based color system that makes it incredibly easy to create accessible color schemes. The best part? You only need to define your three brand colors, and the entire color palette is automatically generated!
@@ -212,9 +299,9 @@ Version 4.0.0 introduces a powerful OKLCH-based color system that makes it incre
   :root {
     // Just set these three brand colors in hex or any format
     --brand-primary: #d648ff;   // Your primary brand color
-    --brand-secondary: #00d1b7; // Your secondary brand color  
+    --brand-secondary: #00d1b7; // Your secondary brand color
     --brand-neutral: #b9bec4;   // Your neutral brand color
-    
+
     // The rest of the color palette is automatically generated!
   }
   ```
@@ -233,24 +320,24 @@ Version 4.0.0 introduces a powerful OKLCH-based color system that makes it incre
     --color-primary-300: oklch(from var(--brand-primary) 70% c h);
     --color-primary-400: oklch(from var(--brand-primary) 60% c h);
     --color-primary-500: oklch(from var(--brand-primary) 50% c h); // Darkest
-    
+
     // Secondary color palette is generated the same way
     --color-secondary-100: oklch(from var(--brand-secondary) 90% c h);
     // ... and so on
-    
+
     // Neutral palette for text, backgrounds, etc.
     --color-neutral-100: oklch(from var(--brand-neutral) 100% 0 0); // White
     --color-neutral-200: oklch(from var(--brand-neutral) 95% c h);
     // ... through to:
     --color-neutral-900: oklch(from var(--brand-neutral) 15% c h); // Near black
-    
+
     // Automatic light/dark mode handling
     --foreground-color: light-dark(var(--color-neutral-800), var(--color-neutral-100));
     --background-color: light-dark(var(--color-neutral-100), var(--color-neutral-900));
     --link-color: light-dark(var(--color-primary-400), var(--color-secondary-100));
     // ... and more
   }
-  
+
   // Dark mode is handled automatically
   .darkmode {
     color-scheme: dark;
@@ -260,13 +347,13 @@ Version 4.0.0 introduces a powerful OKLCH-based color system that makes it incre
   <TabItem label="Example customization">
   ```scss
   // In your _root.scss or a new SCSS file
-  
+
   :root {
     // Just update these three values to transform your entire theme
     --brand-primary: #4a6cf7;    // Blue
     --brand-secondary: #f7724a;  // Orange
     --brand-neutral: #94a3b8;    // Slate
-    
+
     // All of your theme colors will automatically adjust!
   }
   ```

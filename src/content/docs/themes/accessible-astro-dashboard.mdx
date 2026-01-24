@@ -137,7 +137,69 @@ The theme includes a comprehensive design system:
         - _font.scss _// Font styles_
         - _space.scss _// Space scale_
         - _elevation.scss _// Box shadows_
+        - _breakpoint.scss _// Responsive breakpoints_
 </FileTree>
+
+### Responsive Breakpoint System
+
+The dashboard includes a powerful and versatile breakpoint mixin system using modern CSS media query syntax. The system supports min-width, max-width, and range queries with predefined breakpoints or custom values.
+
+#### Available Breakpoints
+
+```scss
+$breakpoints: (
+  'default': 0,
+  'xs': 320px,
+  's': 480px,
+  'm': 768px,
+  'l': 1024px,
+  'xl': 1280px,
+  '2xl': 1536px,
+)
+```
+
+#### Usage Examples
+
+```scss
+// Min-width (mobile-first approach)
+.sidebar {
+  @include breakpoint('l') {
+    width: 250px;
+  }
+}
+
+// Max-width (mobile overrides)
+.dashboard-widget {
+  @include breakpoint('m', 'max') {
+    flex-direction: column;
+  }
+}
+
+// Range between breakpoints (tablet-only styles)
+.navigation {
+  @include breakpoint('m', 'xl') {
+    padding: 1rem 2rem;
+  }
+}
+
+// Custom pixel values
+.content {
+  @include breakpoint(900px, 1200px) {
+    max-width: 90%;
+  }
+}
+
+// Alternative explicit syntax
+.component {
+  @include breakpoint-min('m') { }  // Min-width
+  @include breakpoint-max('l') { }  // Max-width
+  @include breakpoint-between('m', 'xl') { } // Range
+}
+```
+
+<Aside type="tip" title="Modern syntax">
+  The breakpoint system uses modern CSS range syntax (`width >= 768px` instead of `min-width: 768px`), which is more readable and follows current CSS best practices.
+</Aside>
 
 ### Example usage
 
