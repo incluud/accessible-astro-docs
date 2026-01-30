@@ -7,7 +7,7 @@ import { Aside, Steps, FileTree, Tabs, TabItem } from '@astrojs/starlight/compon
 
 ## Introduction
 
-The [Accessible Astro Starter](https://github.com/incluud/accessible-astro-starter) is a ready-to-use, SEO and accessibility-friendly blogging theme. It provides a solid foundation with numerous accessible components, Tailwind CSS integration, and example pages including a dynamic blog, 404 page, and MDX support. Version 4.0.0 introduces a complete design system overhaul with OKLCH colors, Atkinson Hyperlegible font, and significant accessibility improvements.
+The [Accessible Astro Starter](https://github.com/incluud/accessible-astro-starter) is a ready-to-use, SEO and accessibility-friendly blogging theme. It provides a solid foundation with numerous accessible components, Tailwind CSS integration, and example pages including a dynamic blog, 404 page, and MDX support. The theme features a **centralized configuration system**, an integrated **command launcher** for keyboard-driven navigation, and comprehensive **accessibility preference toggles**.
 
 <div class="flex gap-2 mb-8">
   <a href="https://github.com/incluud/accessible-astro-starter" class="sl-flex">GitHub Repository</a>
@@ -16,16 +16,20 @@ The [Accessible Astro Starter](https://github.com/incluud/accessible-astro-start
 
 ## Key features
 
-- Built on Astro 5.7.5
-- Tailwind CSS 4.0 integration
+- Built on Astro 5.16+
+- Tailwind CSS 4.1+ integration
+- **Centralized theme configuration** via `theme.config.ts`
+- **Command launcher** with keyboard navigation (Cmd/Ctrl+K)
+- **Dynamic theme colors** configurable from a single config file
 - Modern OKLCH color system with light/dark mode
+- Improved SEO with `astro-seo` package
 - Atkinson Hyperlegible font for improved readability
 - Markdown and MDX support with examples included
 - Excellent Lighthouse/PageSpeed scores
 - ESLint with strict accessibility settings
 - Prettier integration with plugins for Astro and Tailwind
 - View Transitions support
-- Dynamic blog with pagination and breadcrumbs using AJAX fetch
+- Dynamic blog with pagination and breadcrumbs
 - Enhanced portfolio page with rich media support
 - Custom 404 error page
 - TypeScript interfaces and proper prop typing
@@ -36,10 +40,12 @@ The [Accessible Astro Starter](https://github.com/incluud/accessible-astro-start
 - Proper heading hierarchy
 - ARIA attributes for enhanced screen reader support
 - Keyboard-accessible navigation with dropdown support
+- **Command launcher** with full keyboard navigation (Cmd/Ctrl+K)
 - Skip links for main menu and content
 - Dark mode with system preference detection
+- **High Contrast mode** toggle for enhanced visual clarity
+- **Reduced Motion mode** toggle respecting user preferences
 - Focus indicators that work on all backgrounds
-- Reduced motion preferences support
 - Screen reader only text utilities
 - Accessible components like Accordions, Breadcrumbs, Modals, and more
 - Color Contrast Checker component for accessibility testing
@@ -85,7 +91,7 @@ The starter follows a clear and organized structure:
   - ... // Other assets
 - src/
   - assets/
-    - img/ // Contains the logo
+    - img/ // Contains the logo and social preview
     - scss/
       - base/ _// Core styles and utilities_
   - components/
@@ -96,20 +102,16 @@ The starter follows a clear and organized structure:
     - Footer.astro
     - Header.astro
     - Hero.astro
+    - LauncherConfig.astro _// Command launcher configuration_
     - Navigation.astro
+    - NavigationItems.astro _// Dynamic navigation from config_
     - ResponsiveToggle.astro
-    - SiteMeta.astro
   - content/
     - projects/
-      - project-01.md
-      - project-02.md
-      - project-03.md
-      - project-04.md
-      - project-05.md
-      - project-06.md
-      - project-07.md
+      - project-01.mdx
+      - ... _// Project content files_
   - layouts/
-    - DefaultLayout.astro
+    - DefaultLayout.astro _// Includes SEO via astro-seo_
     - MarkdownLayout.astro
   - pages/
     - blog/
@@ -119,13 +121,17 @@ The starter follows a clear and organized structure:
       - [...page].astro
       - [project].astro
     - 404.astro
-    - accessible-astro-components.astro
+    - accessible-components.astro
+    - accessible-launcher.astro _// Launcher demo page_
+    - accessibility-statement.mdx
     - index.astro
     - markdown-page.md
     - mdx-page.mdx
+  - utils/
+    - defineThemeConfig.ts _// Theme config utility_
+- theme.config.ts _// Centralized theme configuration_
 - package.json
 - astro.config.mjs
-- tailwind.config.js
 </FileTree>
 
 ## Available commands
@@ -139,48 +145,221 @@ The starter follows a clear and organized structure:
 
 ## Components
 
-The starter includes several pre-built accessible components, with several new additions in version 4.0.0:
+The starter includes several pre-built accessible components:
 
 #### Core Components
 - `CallToAction.astro` - Styled block with a button
 - `ContentMedia.astro` - Content with media layout
 - `Counter.astro` - Icon and number counter
-- `DarkMode.astro` - Theme toggle with system preference
 - `Feature.astro` - Feature highlight component
 - `Footer.astro` - With customizable content
-- `Header.astro` - With responsive navigation
+- `Header.astro` - With responsive navigation and launcher
 - `Hero.astro` - Hero section component
 - `Navigation.astro` - Keyboard accessible dropdown navigation
+- `NavigationItems.astro` - Dynamic navigation items from theme config
 - `ResponsiveToggle.astro` - Mobile navigation toggle
-- `SiteMeta.astro` - SEO meta component
-- `SkipLinks.astro` - For keyboard users
 
-#### New in 4.0.0
+#### Content Components
 - `ColorContrast.astro` - Accessibility testing component for color contrast
 - `PageHeader.astro` - Consistent page titles component
 - `Logo.astro` - Standardized branding component
-- `ExternalLink.astro` - Link with proper external attributes
 - `BlockQuote.astro` - Content citation component
 - `BreakoutImage.astro` - Full-width image component
 - `SocialShares.astro` - Blog post sharing component
+- `FeaturedPosts.astro` - Showcase featured blog posts
+- `FeaturedProjects.astro` - Showcase featured projects
+
+#### Launcher
+- `LauncherConfig.astro` - Command launcher configuration with preferences, navigation, blog posts, projects, and socials
 
 <Aside type="note" title="View transitions">
   This theme supports Astro's View Transitions. Please review the [Astro documentation](https://docs.astro.build/en/guides/view-transitions/) for more information.
 </Aside>
 
-Extend or modify existing components in the `src/components` directory:
+## Theme Configuration
+
+The starter uses a centralized theme configuration system. All site-wide settings are managed in a single `theme.config.ts` file at the project root.
+
+### Basic Configuration
+
+```typescript
+// theme.config.ts
+import { defineThemeConfig } from '@utils/defineThemeConfig'
+import previewImage from '@assets/img/social-preview-image.png'
+import logoImage from '@assets/img/logo.svg'
+
+export default defineThemeConfig({
+  name: 'My Awesome Site',
+  id: 'my-awesome-site',
+  logo: logoImage,
+  seo: {
+    title: 'My Awesome Site',
+    description: 'A website built with Accessible Astro Starter',
+    author: 'Your Name',
+    image: previewImage,
+  },
+  colors: {
+    primary: '#d648ff',
+    secondary: '#00d1b7',
+    neutral: '#b9bec4',
+    outline: '#ff4500',
+  },
+  navigation: {
+    darkmode: true,
+    items: [
+      // Navigation items...
+    ],
+  },
+  socials: [
+    // Social links...
+  ],
+})
+```
+
+### Configuration Options
+
+<Tabs>
+  <TabItem label="SEO Settings">
+  ```typescript
+  seo: {
+    title: 'Site Title',           // Used in <title> and OG tags
+    subtitle: 'Optional Subtitle', // Appended to title when present
+    description: 'Site description for SEO',
+    author: 'Author Name',
+    image: previewImage,           // ImageMetadata or string path
+  }
+  ```
+  </TabItem>
+  <TabItem label="Theme Colors">
+  ```typescript
+  colors: {
+    primary: '#d648ff',   // Primary brand color
+    secondary: '#00d1b7', // Secondary brand color
+    neutral: '#b9bec4',   // Neutral/gray color
+    outline: '#ff4500',   // Focus outline color
+  }
+  ```
+
+  These colors are automatically applied as CSS custom properties and used by the OKLCH color system to generate your full color palette.
+  </TabItem>
+  <TabItem label="Navigation Items">
+  ```typescript
+  navigation: {
+    darkmode: true, // Show dark mode toggle
+    items: [
+      // Simple link
+      {
+        type: 'link',
+        label: 'Home',
+        href: '/',
+      },
+      // External link with icon
+      {
+        type: 'link',
+        label: 'GitHub',
+        href: 'https://github.com/...',
+        icon: 'lucide:github',
+        external: true,
+        excludeFromLauncher: true, // Hide from command launcher
+      },
+      // Dropdown menu
+      {
+        type: 'dropdown',
+        label: 'Features',
+        items: [
+          { label: 'Components', href: '/components' },
+          { label: 'Launcher', href: '/launcher' },
+        ],
+      },
+    ],
+  }
+  ```
+  </TabItem>
+  <TabItem label="Social Links">
+  ```typescript
+  socials: [
+    {
+      label: 'GitHub',
+      href: 'https://github.com/yourname',
+      icon: 'lucide:github',
+    },
+    {
+      label: 'Bluesky',
+      href: 'https://bsky.app/profile/yourname',
+      icon: 'lucide:bot-message-square',
+    },
+  ]
+  ```
+
+  Social links appear in the command launcher for quick access.
+  </TabItem>
+</Tabs>
+
+<Aside type="tip" title="TypeScript Support">
+  The `defineThemeConfig` utility provides full TypeScript support with autocompletion and type checking for all configuration options.
+</Aside>
+
+## Command Launcher
+
+The starter includes the [Accessible Astro Launcher](https://github.com/incluud/accessible-astro-launcher) component - a keyboard-driven command palette for quick navigation and accessibility preferences.
+
+### Opening the Launcher
+
+- **Keyboard shortcut**: Press `Cmd + K` (Mac) or `Ctrl + K` (Windows/Linux)
+- **Click trigger**: Click the search field in the navigation bar
+
+### Features
+
+The launcher provides quick access to:
+
+- **Preferences**: Toggle Dark Mode, High Contrast, and Reduced Motion
+- **Navigation**: All pages defined in your theme configuration
+- **Blog Posts**: Dynamically loaded from your blog API (if configured)
+- **Projects**: Your portfolio projects from content collections
+- **Socials**: Links to your social profiles
+
+### Configuration
+
+The launcher is configured in `src/components/LauncherConfig.astro` and automatically reads from your `theme.config.ts`:
 
 ```astro
 ---
-// src/components/Header.astro
-import Navigation from './Navigation.astro'
+// src/components/LauncherConfig.astro
+import { Launcher, LauncherList, LauncherItem, LauncherGroup } from 'accessible-astro-launcher'
+import themeConfig from '@theme-config'
+
+// Navigation items are automatically loaded from theme config
+const launcherNavigationItems = themeConfig.navigation.items.flatMap((item) => {
+  if (item.excludeFromLauncher) return []
+  // ... processes navigation items
+})
 ---
 
-<header>
-  <Navigation />
-  <!-- Add your custom header content -->
-</header>
+<Launcher id="site-launcher">
+  <LauncherList>
+    <LauncherGroup label="Preferences">
+      <!-- Preference toggles -->
+    </LauncherGroup>
+    <LauncherGroup label="Navigate to">
+      <!-- Navigation items from config -->
+    </LauncherGroup>
+    <!-- Additional groups for blog, projects, socials -->
+  </LauncherList>
+</Launcher>
 ```
+
+### Blog API Integration
+
+To enable dynamic blog posts in the launcher, set the `BLOG_API_URL` environment variable:
+
+```bash
+# .env
+BLOG_API_URL=https://your-blog-api.com/posts.json
+```
+
+<Aside type="note" title="Launcher Documentation">
+  For complete documentation on the launcher component, including all available props and customization options, visit the [Accessible Astro Launcher documentation](https://github.com/incluud/accessible-astro-launcher).
+</Aside>
 
 ## Customization
 
@@ -291,7 +470,7 @@ $breakpoints: (
 
 ### OKLCH Color System
 
-Version 4.0.0 introduces a powerful OKLCH-based color system that makes it incredibly easy to create accessible color schemes. The best part? You only need to define your three brand colors, and the entire color palette is automatically generated!
+The starter includes a powerful OKLCH-based color system that makes it incredibly easy to create accessible color schemes. You only need to define your brand colors in `theme.config.ts`, and the entire color palette is automatically generated!
 
 <Tabs>
   <TabItem label="Simple Brand Color Setup">
@@ -369,6 +548,38 @@ The magic of this system is how it leverages OKLCH color transformations to crea
 <Aside type="caution" title="Verify accessibility">
   While OKLCH helps create better color palettes, always verify your customized colors with the Color Contrast Checker component included in the starter. Accessibility is not automatically guaranteed when customizing colors, especially for text and interactive elements that need to meet WCAG contrast requirements.
 </Aside>
+
+## SEO Configuration
+
+The starter uses the `astro-seo` package for SEO management, integrated directly in `DefaultLayout.astro`. Pass SEO props to any page through the layout:
+
+```astro
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+---
+
+<DefaultLayout
+  title="My Page"
+  description="Page description"
+  image="/my-image.png"
+>
+  <!-- Page content -->
+</DefaultLayout>
+```
+
+### Available SEO Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `title` | `string` | Page title |
+| `description` | `string` | Page description |
+| `url` | `string` | Canonical URL (defaults to current URL) |
+| `image` | `ImageMetadata \| string` | Social sharing image |
+| `author` | `string` | Page author |
+| `type` | `'website' \| 'article'` | Open Graph type |
+| `useTitleTemplate` | `boolean` | Whether to append site name (default: `true`) |
+
+Default values for these props are pulled from your `theme.config.ts` SEO settings.
 
 ## Contributing
 
