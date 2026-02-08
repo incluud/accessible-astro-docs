@@ -7,7 +7,7 @@ import { Aside, Badge, Tabs, TabItem, Steps } from '@astrojs/starlight/component
 
 ## Introduction
 
-The Launcher component provides a powerful command palette for keyboard-driven navigation in your Astro projects. It follows the WAI-ARIA combobox pattern and includes full keyboard support, instant search, and proper ARIA attributes. The component supports navigation links, action buttons with toggle states, and automatic integration with preference toggles from `accessible-astro-components`.
+The Launcher component provides a powerful command palette for keyboard-driven navigation in your Astro projects. Version 2.0 features an improved semantic structure with proper ARIA patterns: `role="switch"` for toggles and native anchors for navigation. The component includes full keyboard support via roving tabindex, instant search, and automatic integration with preference toggles from `accessible-astro-components`.
 
 <Aside type="note" title="Separate package">
   The Launcher is distributed as a separate package (`accessible-astro-launcher`) from the main component library. Install it separately to use these components.
@@ -32,12 +32,12 @@ Use the Launcher component when you need to:
 
 ## Key features
 
-- **Accessible by default**: WAI-ARIA combobox pattern with proper roles
-- **Keyboard navigation**: Open with `Cmd/Ctrl + K`, navigate with arrow keys
+- **Accessible by default**: Semantic HTML with proper ARIA roles (`role="switch"` for toggles)
+- **Keyboard navigation**: Open with `Cmd/Ctrl + K`, navigate with arrow keys (roving tabindex)
 - **Screen reader support**: Live region announcements for results
 - **Quick search**: Instant client-side fuzzy search
-- **Navigation items**: Link to any page with custom icons
-- **Action items**: Toggle preferences with LED-style indicators
+- **Navigation links**: Semantic `<a>` elements with custom icons
+- **Switch toggles**: LED-style indicators with `role="switch"`
 - **Preference sync**: Automatic sync with `accessible-astro-components` toggles
 - **Dark mode**: Automatic light/dark theming via `light-dark()` CSS
 - **Customizable**: Extensive styling through CSS custom properties
@@ -72,25 +72,25 @@ Use the Launcher component when you need to:
 import {
   Launcher,
   LauncherTrigger,
-  LauncherList,
-  LauncherGroup,
-  LauncherItem,
+  LauncherPreferences,
+  LauncherSwitch,
+  LauncherNav,
+  LauncherLink,
 } from 'accessible-astro-launcher'
 ---
 
 <LauncherTrigger launcherId="site-launcher" />
 
 <Launcher id="site-launcher">
-  <LauncherList>
-    <LauncherGroup label="Navigation">
-      <LauncherItem type="navigation" href="/" label="Home" />
-      <LauncherItem type="navigation" href="/about" label="About" />
-      <LauncherItem type="navigation" href="/contact" label="Contact" />
-    </LauncherGroup>
-    <LauncherGroup label="Preferences">
-      <LauncherItem type="action" onAction="toggle-dark-mode" label="Dark mode" />
-    </LauncherGroup>
-  </LauncherList>
+  <LauncherPreferences label="Preferences">
+    <LauncherSwitch label="Dark mode" onAction="toggle-dark-mode" />
+    <LauncherSwitch label="High contrast" onAction="toggle-high-contrast" />
+  </LauncherPreferences>
+  <LauncherNav label="Navigation">
+    <LauncherLink href="/" label="Home" />
+    <LauncherLink href="/about" label="About" />
+    <LauncherLink href="/contact" label="Contact" />
+  </LauncherNav>
 </Launcher>
 ```
 
@@ -100,7 +100,7 @@ import {
 
 ## Components
 
-The Launcher system consists of five components that work together:
+The Launcher system consists of six components that work together:
 
 ### Launcher
 
@@ -110,12 +110,12 @@ The main dialog component containing the search input and results.
 <Launcher
   id="my-launcher"
   labels={{
-    placeholder: "Search...",
+    placeholder: "Type to search...",
     noResults: "No results found",
     close: "Close"
   }}
 >
-  <!-- LauncherList with items goes here -->
+  <!-- LauncherPreferences and LauncherNav go here -->
 </Launcher>
 ```
 
@@ -137,52 +137,68 @@ A button that opens the launcher. Can be placed anywhere in your layout.
 <LauncherTrigger launcherId="my-launcher" gradientBorder />
 ```
 
-### LauncherList
+### LauncherPreferences
 
-Wrapper for items with proper ARIA listbox role.
+A `<fieldset>` wrapper with `<legend>` for grouping switch toggles.
 
 ```astro
-<LauncherList>
-  <!-- LauncherGroup or LauncherItem components -->
-</LauncherList>
+<LauncherPreferences label="Preferences">
+  <LauncherSwitch label="Dark mode" onAction="toggle-dark-mode" />
+  <LauncherSwitch label="High contrast" onAction="toggle-high-contrast" />
+</LauncherPreferences>
 ```
 
-### LauncherGroup
+### LauncherSwitch
 
-Optional grouping wrapper for organizing items.
+A toggle button with `role="switch"` and LED indicator for preference controls.
 
 ```astro
-<LauncherGroup label="Navigation">
-  <LauncherItem type="navigation" href="/" label="Home" />
-  <LauncherItem type="navigation" href="/about" label="About" />
-</LauncherGroup>
+<LauncherSwitch
+  label="Dark mode"
+  onAction="toggle-dark-mode"
+  checked={false}
+  keywords={["theme", "night"]}
+/>
 ```
 
-### LauncherItem
+### LauncherNav
 
-Individual items - either navigation links or action buttons.
+A `<nav>` wrapper with heading for grouping navigation links.
 
 ```astro
-<!-- Navigation item -->
-<LauncherItem
-  type="navigation"
+<LauncherNav label="Pages" headingLevel={3}>
+  <LauncherLink href="/" label="Home" />
+  <LauncherLink href="/about" label="About" />
+</LauncherNav>
+```
+
+### LauncherLink
+
+A semantic anchor element for navigation within the launcher.
+
+```astro
+<!-- Basic link -->
+<LauncherLink href="/dashboard" label="Dashboard" />
+
+<!-- With search keywords -->
+<LauncherLink
   href="/dashboard"
   label="Dashboard"
   keywords={["admin", "panel"]}
 />
 
-<!-- Action item (toggle) -->
-<LauncherItem
-  type="action"
-  onAction="toggle-dark-mode"
-  label="Dark mode"
-  pressed={false}
-/>
-
-<!-- Navigation item with custom icon -->
-<LauncherItem type="navigation" href="/settings" label="Settings">
+<!-- With custom icon -->
+<LauncherLink href="/settings" label="Settings">
   <svg slot="icon" viewBox="0 0 24 24"><!-- icon SVG --></svg>
-</LauncherItem>
+</LauncherLink>
+
+<!-- External link -->
+<LauncherLink
+  href="https://github.com"
+  label="GitHub"
+  target="_blank"
+  rel="noopener noreferrer"
+/>
 ```
 
 ## Props
@@ -199,15 +215,16 @@ Individual items - either navigation links or action buttons.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `placeholder` | `string` | `'Search or use commands...'` | Search input placeholder |
-| `noResults` | `string` | `'No results found'` | Text shown when no results match |
+| `placeholder` | `string` | `'Type to search...'` | Search input placeholder |
+| `noResults` | `string` | `'No results for "{query}"'` | Text shown when no results (use `{query}` placeholder) |
 | `endOfResults` | `string` | `'End of results'` | Text shown at end of results |
-| `resultsCount` | `string` | `'{count} results'` | Template for results count |
+| `resultsCount` | `string` | `'{count} results for "{query}"'` | Screen reader announcement (use `{count}` and `{query}`) |
 | `close` | `string` | `'Close'` | Close button label |
 | `clear` | `string` | `'Clear'` | Clear button label |
-| `toSelect` | `string` | `'to select'` | Hint text for Enter key |
-| `toNavigate` | `string` | `'to navigate'` | Hint text for arrow keys |
-| `toClose` | `string` | `'to close'` | Hint text for Escape key |
+| `toSelect` | `string` | `'Select'` | Hint text for Enter key |
+| `toNavigate` | `string` | `'Navigate'` | Hint text for arrow keys |
+| `toClose` | `string` | `'Close'` | Hint text for Escape key |
+| `searchHint` | `string` | `'Type to filter...'` | Screen reader hint for search |
 
 ### LauncherTrigger
 
@@ -215,48 +232,58 @@ Individual items - either navigation links or action buttons.
 |------|------|---------|-------------|
 | `launcherId` | `string` | Required | ID of the launcher to open |
 | `id` | `string` | `undefined` | Optional trigger element ID |
-| `placeholder` | `string` | `'Search or use commands...'` | Placeholder text |
+| `placeholder` | `string` | `'Search'` | Placeholder text |
 | `shortcutKey` | `string` | `'K'` | Keyboard shortcut key to display |
 | `compact` | `boolean` | `false` | Compact mode without placeholder |
 | `iconOnly` | `boolean` | `false` | Icon-only mode |
 | `gradientBorder` | `boolean` | `false` | Animated gradient border effect |
 | `class` | `string` | `''` | Additional CSS classes |
 
-### LauncherList
+### LauncherPreferences
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
+| `label` | `string` | Required | Fieldset legend text |
 | `class` | `string` | `''` | Additional CSS classes |
 
-### LauncherGroup
+### LauncherSwitch
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `label` | `string` | Required | Group heading text |
-| `class` | `string` | `''` | Additional CSS classes |
-
-### LauncherItem
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `type` | `'navigation' \| 'action'` | Required | Item type |
 | `label` | `string` | Required | Display text |
-| `href` | `string` | `undefined` | URL for navigation items |
-| `onAction` | `string` | `undefined` | Action identifier for action items |
-| `pressed` | `boolean` | `false` | Initial pressed state for toggles |
+| `onAction` | `string` | Required | Action identifier |
+| `checked` | `boolean` | `false` | Initial checked state |
 | `keywords` | `string[]` | `[]` | Additional search keywords |
-| `typeLabel` | `string` | `'Go to' / 'Run'` | Label for type indicator |
+| `typeLabel` | `string` | `'Toggle'` | Label for type indicator |
+| `class` | `string` | `''` | Additional CSS classes |
+
+### LauncherNav
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | Required | Navigation heading text |
+| `headingLevel` | `2 \| 3 \| 4 \| 5 \| 6` | `3` | Heading level for label |
+| `class` | `string` | `''` | Additional CSS classes |
+
+### LauncherLink
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | Required | Display text |
+| `href` | `string` | Required | URL to navigate to |
+| `keywords` | `string[]` | `[]` | Additional search keywords |
+| `typeLabel` | `string` | `'Go to'` | Label for type indicator |
 | `class` | `string` | `''` | Additional CSS classes |
 
 **Slots:**
 
 | Slot | Description |
 |------|-------------|
-| `icon` | Custom icon for navigation items |
+| `icon` | Custom icon for navigation links |
 
 ## Accessibility
 
-Accessibility isn't an afterthought - it's built into the core of this component through the WAI-ARIA combobox pattern. The Launcher component implements:
+Accessibility isn't an afterthought - it's built into the core of this component with proper semantic HTML and ARIA patterns.
 
 ### Keyboard navigation
 
@@ -268,26 +295,32 @@ Accessibility isn't an afterthought - it's built into the core of this component
 | `Escape` | Close launcher |
 | `Tab` | Move between header elements |
 
-### ARIA implementation
+You can type at any time while navigating - the caret stays in the search input, so there's no need to refocus.
 
-- Dialog with `aria-modal="true"` and proper labeling
-- Input with `role="combobox"`, `aria-controls`, `aria-activedescendant`
-- List with `role="listbox"`
-- Items with `role="option"`, `aria-selected`
-- Groups with `role="group"`, `aria-labelledby`
-- Live region for results count announcements
+### Semantic structure
+
+Version 2.0 uses semantic HTML elements with appropriate ARIA:
+
+- **Dialog**: `<dialog>` with `aria-modal="true"` and `aria-labelledby`
+- **Search input**: `<input type="search">` with `aria-controls` and `aria-activedescendant`
+- **Preferences**: `<fieldset>` with `<legend>` for grouping
+- **Switches**: `<button role="switch">` with `aria-checked` for state
+- **Navigation**: `<nav>` with `aria-labelledby` heading
+- **Links**: Native `<a>` elements within `<ul>/<li>` structure
+- **Live region**: `role="status"` for results count announcements
 
 ### Focus management
 
-- Focus moves to input when launcher opens
-- Virtual focus via `aria-activedescendant` for smooth navigation
+- Focus stays on search input at all times (enabling continuous typing)
+- `aria-activedescendant` manages the active item for screen readers
+- Arrow keys update the active item without moving DOM focus
 - Focus returns to trigger element when launcher closes
-- Clear focus indicators on all interactive elements
+- Clear visual indicators on the active item
 
 ### Visual indicators
 
-- LED-style indicators for toggle action states
-- Clear selected item highlighting
+- LED-style indicators for switch toggle states
+- Hover/focus highlighting on all items
 - Visible focus outlines
 - Proper color contrast in light and dark modes
 
@@ -297,7 +330,7 @@ The Launcher component dispatches custom events that you can listen for:
 
 ### launcher:action
 
-Dispatched when an action item is selected.
+Dispatched when a switch item is activated.
 
 ```javascript
 document.addEventListener('launcher:action', (event) => {
@@ -445,9 +478,10 @@ Here's a full implementation showing all features:
 import {
   Launcher,
   LauncherTrigger,
-  LauncherList,
-  LauncherGroup,
-  LauncherItem,
+  LauncherPreferences,
+  LauncherSwitch,
+  LauncherNav,
+  LauncherLink,
 } from 'accessible-astro-launcher'
 import { DarkMode, HighContrast, ReducedMotion } from 'accessible-astro-components'
 ---
@@ -467,32 +501,37 @@ import { DarkMode, HighContrast, ReducedMotion } from 'accessible-astro-componen
     noResults: "Nothing found. Try a different search.",
   }}
 >
-  <LauncherList>
-    <LauncherGroup label="Pages">
-      <LauncherItem type="navigation" href="/" label="Home" keywords={["start", "main"]} />
-      <LauncherItem type="navigation" href="/about" label="About Us" keywords={["team", "company"]} />
-      <LauncherItem type="navigation" href="/blog" label="Blog" keywords={["articles", "posts"]} />
-      <LauncherItem type="navigation" href="/contact" label="Contact" keywords={["email", "form"]} />
-    </LauncherGroup>
+  <LauncherPreferences label="Preferences">
+    <LauncherSwitch label="Toggle dark mode" onAction="toggle-dark-mode" />
+    <LauncherSwitch label="Toggle high contrast" onAction="toggle-high-contrast" />
+    <LauncherSwitch label="Toggle reduced motion" onAction="toggle-reduced-motion" />
+  </LauncherPreferences>
 
-    <LauncherGroup label="Preferences">
-      <LauncherItem type="action" onAction="toggle-dark-mode" label="Toggle dark mode" />
-      <LauncherItem type="action" onAction="toggle-high-contrast" label="Toggle high contrast" />
-      <LauncherItem type="action" onAction="toggle-reduced-motion" label="Toggle reduced motion" />
-    </LauncherGroup>
+  <LauncherNav label="Pages">
+    <LauncherLink href="/" label="Home" keywords={["start", "main"]} />
+    <LauncherLink href="/about" label="About Us" keywords={["team", "company"]} />
+    <LauncherLink href="/blog" label="Blog" keywords={["articles", "posts"]} />
+    <LauncherLink href="/contact" label="Contact" keywords={["email", "form"]} />
+  </LauncherNav>
 
-    <LauncherGroup label="Account">
-      <LauncherItem type="navigation" href="/settings" label="Settings" />
-      <LauncherItem type="action" onAction="logout" label="Log out" />
-    </LauncherGroup>
-  </LauncherList>
+  <LauncherNav label="Account">
+    <LauncherLink href="/settings" label="Settings" />
+  </LauncherNav>
 </Launcher>
 
 <!-- Handle custom actions -->
 <script>
   document.addEventListener('launcher:action', (event) => {
-    if (event.detail.action === 'logout') {
-      window.location.href = '/logout'
+    switch (event.detail.action) {
+      case 'toggle-dark-mode':
+        window.darkMode?.toggle()
+        break
+      case 'toggle-high-contrast':
+        window.highContrast?.toggle()
+        break
+      case 'toggle-reduced-motion':
+        window.reducedMotion?.toggle()
+        break
     }
   })
 </script>
@@ -506,9 +545,10 @@ The package includes full TypeScript definitions. Import types as needed:
 import type {
   LauncherProps,
   LauncherTriggerProps,
-  LauncherListProps,
-  LauncherGroupProps,
-  LauncherItemProps,
+  LauncherPreferencesProps,
+  LauncherSwitchProps,
+  LauncherNavProps,
+  LauncherLinkProps,
   LauncherLabels,
   LauncherActionEventDetail,
 } from 'accessible-astro-launcher'
@@ -532,3 +572,124 @@ When you use these action IDs, the launcher automatically:
 <Aside type="tip" title="No extra code needed">
   Simply use the matching `onAction` values and the launcher handles synchronization automatically!
 </Aside>
+
+## Migration from v1 to v2
+
+<Aside type="caution" title="Breaking changes">
+  Version 2.0.0 introduces breaking changes to the component API. Follow this guide to update your code.
+</Aside>
+
+### Component changes
+
+| v1 Component | v2 Component | Notes |
+|--------------|--------------|-------|
+| `LauncherList` | Removed | No longer needed |
+| `LauncherGroup` | `LauncherPreferences` or `LauncherNav` | Split by semantic purpose |
+| `LauncherItem type="action"` | `LauncherSwitch` | Dedicated switch component |
+| `LauncherItem type="navigation"` | `LauncherLink` | Dedicated link component |
+
+### Props changes
+
+| v1 Prop | v2 Prop | Notes |
+|---------|---------|-------|
+| `LauncherItem.type` | Removed | Component determines type |
+| `LauncherItem.pressed` | `LauncherSwitch.checked` | Renamed for clarity |
+| `LauncherItem.onAction` | `LauncherSwitch.onAction` | Same on switch |
+| `LauncherItem.href` | `LauncherLink.href` | Same on link |
+
+### Migration steps
+
+<Steps>
+1. **Update imports**
+
+   ```diff
+   - import { Launcher, LauncherTrigger, LauncherList, LauncherGroup, LauncherItem } from 'accessible-astro-launcher'
+   + import { Launcher, LauncherTrigger, LauncherPreferences, LauncherSwitch, LauncherNav, LauncherLink } from 'accessible-astro-launcher'
+   ```
+
+2. **Remove LauncherList wrapper**
+
+   ```diff
+   <Launcher id="my-launcher">
+   -   <LauncherList>
+         <!-- content -->
+   -   </LauncherList>
+   </Launcher>
+   ```
+
+3. **Replace action items with LauncherSwitch**
+
+   ```diff
+   - <LauncherGroup label="Preferences">
+   -   <LauncherItem type="action" label="Dark mode" onAction="toggle-dark-mode" pressed={false} />
+   - </LauncherGroup>
+   + <LauncherPreferences label="Preferences">
+   +   <LauncherSwitch label="Dark mode" onAction="toggle-dark-mode" checked={false} />
+   + </LauncherPreferences>
+   ```
+
+4. **Replace navigation items with LauncherLink**
+
+   ```diff
+   - <LauncherGroup label="Pages">
+   -   <LauncherItem type="navigation" label="Home" href="/" />
+   -   <LauncherItem type="navigation" label="About" href="/about" />
+   - </LauncherGroup>
+   + <LauncherNav label="Pages">
+   +   <LauncherLink label="Home" href="/" />
+   +   <LauncherLink label="About" href="/about" />
+   + </LauncherNav>
+   ```
+
+5. **Update custom icons**
+
+   ```diff
+   - <LauncherItem type="navigation" label="Settings" href="/settings">
+   + <LauncherLink label="Settings" href="/settings">
+       <svg slot="icon"><!-- icon --></svg>
+   - </LauncherItem>
+   + </LauncherLink>
+   ```
+</Steps>
+
+### Full before/after example
+
+**v1 (Before):**
+
+```astro
+<Launcher id="site-launcher">
+  <LauncherList>
+    <LauncherGroup label="Preferences">
+      <LauncherItem type="action" label="Dark mode" onAction="toggle-dark-mode" />
+    </LauncherGroup>
+    <LauncherGroup label="Navigate">
+      <LauncherItem type="navigation" label="Home" href="/" />
+      <LauncherItem type="navigation" label="About" href="/about" />
+    </LauncherGroup>
+  </LauncherList>
+</Launcher>
+```
+
+**v2 (After):**
+
+```astro
+<Launcher id="site-launcher">
+  <LauncherPreferences label="Preferences">
+    <LauncherSwitch label="Dark mode" onAction="toggle-dark-mode" />
+  </LauncherPreferences>
+  <LauncherNav label="Navigate">
+    <LauncherLink label="Home" href="/" />
+    <LauncherLink label="About" href="/about" />
+  </LauncherNav>
+</Launcher>
+```
+
+### Why the changes?
+
+Version 2.0 introduces these changes to improve semantic correctness:
+
+1. **Better screen reader announcements**: Switches are now announced as "switch, on/off" instead of "option"
+2. **Proper ARIA patterns**: Uses `role="switch"` for toggles, which is the correct pattern for on/off controls
+3. **Native elements**: Links are now native `<a>` elements, improving screen reader navigation
+4. **Semantic grouping**: `<fieldset>` for switches and `<nav>` for links provide better structure
+5. **Clearer API**: Component names directly indicate their purpose
