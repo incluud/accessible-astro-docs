@@ -1,10 +1,156 @@
 ---
 title: Tooltip
-description: A fully accessible tooltip component for displaying additional information using native HTML elements.
+description: A tooltip component using Popover API and CSS Anchor Positioning for contextual helper text.
 ---
 
 import { Aside } from '@astrojs/starlight/components';
+import { Tooltip } from 'accessible-astro-components';
 
-<Aside type="tip" title="Soon">
-  <p>This component is being considered for a future release. To stay updated with what might be coming next you can check out our [Accessible Astro Roadmap](https://github.com/orgs/incluud/projects/4/views/1).</p>
+## Introduction
+
+The Tooltip component displays supplemental information in a small popup anchored to a trigger element. It uses the Popover API together with CSS Anchor Positioning, so placement and fallback behavior are handled by the browser.
+
+<Aside type="note" title="Interaction pattern">
+  This implementation is activated via a trigger button (`popovertarget`), which makes it suitable for concise helper content users intentionally reveal.
 </Aside>
+
+<Aside type="note" title="Modern API support and fallback strategy">
+  Tooltip intentionally leans on newer platform APIs (Popover API, CSS Anchor Positioning, and `@starting-style`) to reduce custom JavaScript and align with future browser-native UI patterns. The component still uses defensive CSS behavior and robust ARIA relationships for accessibility, but some positioning and animation features remain newer and may degrade in older/other browser engines.
+</Aside>
+
+## When to use
+
+Use the Tooltip component when you need to:
+
+- Explain icon-only controls
+- Add short contextual guidance near an action
+- Clarify labels or terms without cluttering the UI
+- Show non-critical, supplementary content
+
+<Aside type="caution" title="Use concise content">
+  Tooltips are best for short supporting text. If users need rich content or interactive controls, use a dialog or drawer instead.
+</Aside>
+
+## Quick example
+
+<div class="not-content">
+  <Tooltip id="tooltip-quick-example" triggerLabel="More information">
+    <span>Account status</span>
+    <span slot="tooltip">Your current billing and plan status.</span>
+  </Tooltip>
+</div>
+
+## Usage
+
+Learn how to implement the Tooltip component in your project, from simple helper text to positioned variants.
+
+### Basic usage
+
+```astro
+---
+import { Tooltip } from 'accessible-astro-components'
+---
+
+<Tooltip id="tooltip-help" triggerLabel="More information">
+  Profile
+  <span slot="tooltip">This is the name visible to other users.</span>
+</Tooltip>
+```
+
+### Positioning
+
+```astro
+<Tooltip id="tooltip-right" position="right" triggerLabel="Open help">
+  Help
+  <span slot="tooltip">This tooltip appears on the right when possible.</span>
+</Tooltip>
+```
+
+### Icon-only trigger
+
+```astro
+<Tooltip id="tooltip-icon" triggerLabel="Learn more about notifications">
+  <span aria-hidden="true">Notifications</span>
+  <span slot="tooltip">Choose when and how you receive updates.</span>
+</Tooltip>
+```
+
+## Props
+
+Configure the Tooltip component with these available props.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | - | Unique ID used to connect trigger and tooltip |
+| `position` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'` | Preferred tooltip position |
+| `offset` | `string` | `'var(--space-2xs)'` | Distance between trigger and tooltip |
+| `triggerLabel` | `string` | `undefined` | Screen reader label for icon-only or unclear trigger text |
+| `showIcon` | `boolean` | `true` | Show or hide the default help icon |
+| `class` | `string` | `undefined` | Additional wrapper classes |
+</div>
+
+## Accessibility
+
+Accessibility is built into the component through semantic trigger markup and descriptive relationships:
+
+- Semantic `<button>` trigger for keyboard interaction
+- `aria-describedby` linking trigger and tooltip text
+- `role="tooltip"` on the popup content
+- Preserved focus visibility from native button behavior
+- Reduced motion support through `prefers-reduced-motion`
+
+<Aside type="tip" title="Accessible naming">
+  Provide meaningful visible trigger text. When the trigger is icon-only or ambiguous, set `triggerLabel` so assistive technologies receive a clear accessible name.
+</Aside>
+
+## Styling
+
+Make the Tooltip component your own while preserving readability and contrast.
+
+<Aside type="caution" title="Accessibility considerations">
+  When customizing styles, keep sufficient color contrast and preserve visible focus indicators on the trigger.
+</Aside>
+
+The component exposes CSS custom properties for spacing and animation behavior:
+
+- `--tooltip-offset`
+- `--transition-duration`
+- `--transition-easing`
+- `--translate-offset-x`
+- `--translate-offset-y`
+
+You can provide a custom class via the `class` prop and override styles using global selectors in your project stylesheet.
+
+## Interactive examples
+
+See the Tooltip component in action with common usage patterns.
+
+### Position examples
+
+<div class="not-content">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+    <Tooltip id="tooltip-top-example" triggerLabel="Info top">
+      <span>Top</span>
+      <span slot="tooltip">Tooltip on top (default).</span>
+    </Tooltip>
+    <Tooltip id="tooltip-right-example" position="right" triggerLabel="Info right">
+      <span>Right</span>
+      <span slot="tooltip">Tooltip prefers the right side.</span>
+    </Tooltip>
+    <Tooltip id="tooltip-left-example" position="left" triggerLabel="Info left">
+      <span>Left</span>
+      <span slot="tooltip">Tooltip prefers the left side.</span>
+    </Tooltip>
+    <Tooltip id="tooltip-bottom-example" position="bottom" triggerLabel="Info bottom">
+      <span>Bottom</span>
+      <span slot="tooltip">Tooltip prefers the bottom side.</span>
+    </Tooltip>
+  </div>
+</div>
+
+## Related components
+
+- [Modal](/components/modal/)
+- [Drawer](/components/drawer/)
+- [Notification](/components/notification/)
