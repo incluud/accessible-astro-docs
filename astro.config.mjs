@@ -128,17 +128,17 @@ export default defineConfig({
             {
               label: 'DarkMode',
               link: '/components/dark-mode',
-              badge: {
-                text: 'update',
-                variant: 'note',
-              },
             },
             {
               label: 'HighContrast',
               link: '/components/high-contrast',
+            },
+            {
+              label: 'DataTable',
+              link: '/components/data-table',
               badge: {
-                text: 'new',
-                variant: 'success',
+                text: 'next',
+                variant: 'tip',
               },
             },
             {
@@ -161,8 +161,8 @@ export default defineConfig({
               label: 'Launcher',
               link: '/components/launcher',
               badge: {
-                text: 'new',
-                variant: 'success',
+                text: 'tip',
+                variant: 'note',
               },
             },
             {
@@ -188,10 +188,6 @@ export default defineConfig({
             {
               label: 'ReducedMotion',
               link: '/components/reduced-motion',
-              badge: {
-                text: 'new',
-                variant: 'success',
-              },
             },
             {
               label: 'SkipLink',
@@ -202,11 +198,19 @@ export default defineConfig({
               link: '/components/tabs',
             },
             {
-              label: 'Tooltip',
-              link: '/components/tooltip',
+              label: 'Toast',
+              link: '/components/toast',
               badge: {
                 text: 'next',
                 variant: 'tip',
+              },
+            },
+            {
+              label: 'Tooltip',
+              link: '/components/tooltip',
+              badge: {
+                text: 'new',
+                variant: 'success',
               },
             },
             {
