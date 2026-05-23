@@ -201,8 +201,8 @@ export default defineConfig({
               label: 'Toast',
               link: '/components/toast',
               badge: {
-                text: 'next',
-                variant: 'tip',
+                text: 'new',
+                variant: 'success',
               },
             },
             {

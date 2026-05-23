@@ -10,3 +10,46 @@ import Default from '@astrojs/starlight/components/Head.astro'
   name="twitter:image"
   content="https://accessible-astro.incluud.dev/social-preview-image.png"
 />
+
+<script>
+  document.addEventListener('click', (event) => {
+    const target = event.target
+    if (!(target instanceof Element)) return
+
+    const trigger = target.closest('[data-toast-demo]')
+    if (!(trigger instanceof HTMLElement)) return
+
+    const action = trigger.dataset.toastDemo
+    if (!action || !window.toast) return
+
+    const message = trigger.dataset.toastMessage
+
+    switch (action) {
+      case 'success':
+        window.toast.success(message || 'Operation completed successfully.')
+        break
+      case 'error':
+        window.toast.error(message || 'An error occurred.')
+        break
+      case 'info':
+        window.toast.info(message || 'Here is some information.')
+        break
+      case 'warning':
+        window.toast.warning(message || 'Please review before continuing.')
+        break
+      case 'default':
+        window.toast.show({ message: message || 'Notification' })
+        break
+      case 'persistent':
+        window.toast.show({
+          message: message || 'This toast will stay until dismissed.',
+          type: 'info',
+          duration: 0,
+        })
+        break
+      case 'dismiss-all':
+        window.toast.dismissAll()
+        break
+    }
+  })
+</script>

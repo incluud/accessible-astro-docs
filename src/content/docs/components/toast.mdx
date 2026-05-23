@@ -1,10 +1,325 @@
 ---
 title: Toast
-description: A fully accessible toast component with multiple variants, sizes, and delightful animations to enhance user interactions.
+description: A fully accessible toast notification system with multiple variants, auto-dismiss, and a convenient JavaScript API.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { ToastProvider, Button } from 'accessible-astro-components';
 
-<Aside type="note" title="Coming soon">
-  The Toast component is coming soon.
+## Introduction
+
+The Toast component provides non-intrusive notifications that appear temporarily to inform users about the result of an action or system event. It includes a provider component that manages the toast stack and a JavaScript API for triggering toasts programmatically.
+
+<Aside type="note" title="View transitions">
+  The component automatically handles Astro's view transitions and re-initializes when navigating between pages.
 </Aside>
+
+## When to use
+
+Toast notifications are ideal for:
+
+- Success confirmations ("Changes saved")
+- Error messages ("Could not connect")
+- Informational updates ("New message received")
+- Warnings ("Session expiring soon")
+- Background process status ("Sync in progress")
+
+<Aside type="caution" title="Not for critical actions">
+  Toasts are ephemeral and may be missed. For critical information requiring user acknowledgment, use a Modal or inline Notification instead.
+</Aside>
+
+## Quick example
+
+<div class="not-content">
+  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-block-end: 1rem;">
+    <Button data-toast-demo="success" data-toast-message="Changes saved successfully." type="success">Show success</Button>
+    <Button data-toast-demo="error" data-toast-message="Could not save your changes." type="error">Show error</Button>
+    <Button data-toast-demo="info" data-toast-message="Your session will refresh in 2 minutes." type="info">Show info</Button>
+    <Button data-toast-demo="warning" data-toast-message="Storage is almost full." type="warning">Show warning</Button>
+  </div>
+  
+  <ToastProvider position="bottom-right" />
+</div>
+
+## Usage
+
+Learn how to implement the Toast component in your project, from basic setup to advanced configurations.
+
+### Basic setup
+
+Add the `ToastProvider` once in your layout (typically near the end of the body):
+
+```astro
+---
+import { ToastProvider } from 'accessible-astro-components'
+---
+
+<html>
+  <body>
+    <slot />
+    <ToastProvider />
+  </body>
+</html>
+```
+
+Then trigger toasts anywhere using the global API:
+
+```astro
+<button id="save-button">Save</button>
+
+<script>
+  document.getElementById('save-button')?.addEventListener('click', () => {
+    window.toast?.success('Saved successfully.')
+  })
+</script>
+```
+
+### Toast variants
+
+Use the typed helper methods for common toast types:
+
+```javascript
+// Success (green)
+window.toast?.success('Changes saved.')
+
+// Error (red)
+window.toast?.error('Something went wrong.')
+
+// Info (blue)
+window.toast?.info('New updates available.')
+
+// Warning (yellow)
+window.toast?.warning('Your session will expire soon.')
+
+// Default (neutral)
+window.toast?.show({ message: 'Notification' })
+```
+
+### Persistent toasts
+
+Set `duration: 0` to create a toast that doesn't auto-dismiss:
+
+```javascript
+window.toast?.show({
+  message: 'Background sync in progress...',
+  type: 'info',
+  duration: 0,
+})
+```
+
+### Custom duration
+
+Override the default duration (in milliseconds) per toast:
+
+```javascript
+window.toast?.success('Quick message', 2000)  // 2 seconds
+window.toast?.error('Important error', 10000) // 10 seconds
+```
+
+### Dismissing toasts
+
+```javascript
+// Dismiss a specific toast by ID
+const id = window.toast?.success('Hello')
+window.toast?.dismiss(id)
+
+// Dismiss all toasts
+window.toast?.dismissAll()
+```
+
+<Aside type="tip" title="Keyboard dismissal">
+  Users can press <kbd>Escape</kbd> to dismiss all visible toasts.
+</Aside>
+
+### Positioning
+
+Control where toasts appear using the `position` prop:
+
+```astro
+<ToastProvider position="top-center" />
+```
+
+Available positions: `bottom-right` (default), `bottom-left`, `bottom-center`, `top-right`, `top-left`, `top-center`.
+
+## Props
+
+### ToastProvider
+
+Configure the toast container using these props:
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `position` | `string` | `'bottom-right'` | Position in viewport. Options: `bottom-right`, `bottom-left`, `bottom-center`, `top-right`, `top-left`, `top-center` |
+| `duration` | `number` | `5000` | Default auto-dismiss time in milliseconds. Set to `0` for persistent toasts |
+| `maxToasts` | `number` | `5` | Maximum visible toasts. Oldest are dismissed when exceeded |
+| `ariaLabel` | `string` | `'Notifications'` | Accessible label for the toast region |
+| `class` | `string` | `''` | Additional CSS classes |
+</div>
+
+### Toast
+
+Individual toast props (used internally, but useful for understanding the API):
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `message` | `string` | `'Notification'` | Toast message content |
+| `type` | `string` | `'default'` | Visual variant: `default`, `info`, `success`, `warning`, `error` |
+| `dismissible` | `boolean` | `true` | Whether to show the dismiss button |
+| `dismissLabel` | `string` | `'Dismiss notification'` | Accessible label for dismiss button (for i18n) |
+| `class` | `string` | `''` | Additional CSS classes |
+</div>
+
+## JavaScript API
+
+The `window.toast` object provides these methods:
+
+<div class="props-wrapper">
+| Method | Signature | Description |
+|--------|-----------|-------------|
+| `show` | `(options: ToastOptions) => string` | Show a toast with full options, returns toast ID |
+| `success` | `(message: string, duration?: number) => string` | Show success toast |
+| `error` | `(message: string, duration?: number) => string` | Show error toast |
+| `info` | `(message: string, duration?: number) => string` | Show info toast |
+| `warning` | `(message: string, duration?: number) => string` | Show warning toast |
+| `dismiss` | `(id: string, immediate?: boolean) => void` | Dismiss specific toast |
+| `dismissAll` | `() => void` | Dismiss all toasts |
+</div>
+
+### ToastOptions
+
+```typescript
+type ToastOptions = {
+  message: string
+  type?: 'info' | 'success' | 'warning' | 'error' | 'default'
+  duration?: number
+  dismissible?: boolean
+}
+```
+
+## Events
+
+The toast system dispatches custom events on `document`:
+
+```javascript
+// Fired when a toast is shown
+document.addEventListener('toast:show', (e) => {
+  console.log('Toast shown:', e.detail.id, e.detail.type, e.detail.message)
+})
+
+// Fired when a toast is dismissed
+document.addEventListener('toast:dismiss', (e) => {
+  console.log('Toast dismissed:', e.detail.id)
+})
+```
+
+## Accessibility
+
+Accessibility is built into the core of this component:
+
+- **Live region**: Uses `role="log"` for polite screen reader announcements
+- **Keyboard support**: Press <kbd>Escape</kbd> to dismiss all toasts
+- **Non-intrusive**: Toasts don't steal focus from the user's current task
+- **Screen reader friendly**: Type is announced before the message (e.g., "success: Changes saved")
+- **Reduced motion**: Animations respect `prefers-reduced-motion`
+- **Dismiss button**: Each toast has an accessible dismiss button
+
+<Aside type="note" title="Focus behavior">
+  Toasts intentionally don't move focus when they appear. This prevents disrupting users who are in the middle of a task.
+</Aside>
+
+## Styling
+
+Customize the Toast component while maintaining its accessibility features.
+
+<Aside type="caution" title="Accessibility considerations">
+  When customizing styles, ensure you maintain sufficient color contrast ratios and don't remove focus indicators.
+</Aside>
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```css
+    <style is:global>
+      .toast-provider {
+        /* Adjust positioning */
+        --space-l: 2rem;
+      }
+
+      .toast {
+        /* Custom appearance */
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
+      }
+
+      .toast.type-success {
+        --color-success-bg: hsl(142 76% 95%);
+        --color-success-border: hsl(142 76% 36%);
+        --color-success-text: hsl(142 76% 20%);
+      }
+
+      .toast.type-error {
+        --color-error-bg: hsl(0 84% 95%);
+        --color-error-border: hsl(0 84% 60%);
+        --color-error-text: hsl(0 84% 20%);
+      }
+
+      .toast-dismiss:focus-visible {
+        outline-color: currentColor;
+        outline-offset: 2px;
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <ToastProvider 
+      class="[&_.toast]:rounded-xl [&_.toast]:shadow-lg"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+### CSS custom properties
+
+The toast system uses these CSS custom properties for theming:
+
+```css
+/* Spacing and sizing */
+--space-xs
+--space-2xs
+--space-l
+--radius-m
+
+/* Type-specific colors (for each type: default, info, success, warning, error) */
+--color-{type}-bg
+--color-{type}-border
+--color-{type}-text
+
+/* Animation */
+--toast-translate
+--animation-timing
+
+/* Elevation */
+--elevation-2
+--z-index-2
+```
+
+## Interactive examples
+
+### All variants
+
+<div class="not-content" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+  <Button data-toast-demo="default" data-toast-message="Default notification">Default</Button>
+  <Button data-toast-demo="success" type="success">Success</Button>
+  <Button data-toast-demo="info" type="info">Info</Button>
+  <Button data-toast-demo="warning" type="warning">Warning</Button>
+  <Button data-toast-demo="error" type="error">Error</Button>
+  <Button data-toast-demo="dismiss-all" variant="outlined">Dismiss all</Button>
+</div>
+
+### Persistent toast
+
+<div class="not-content">
+  <Button data-toast-demo="persistent" data-toast-message="This toast will stay until dismissed.">Show persistent toast</Button>
+</div>
