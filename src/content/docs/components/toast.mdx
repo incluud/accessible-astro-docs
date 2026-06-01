@@ -4,7 +4,7 @@ description: A fully accessible toast notification system with multiple variants
 ---
 
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
-import { ToastProvider, Button } from 'accessible-astro-components';
+import { Button } from 'accessible-astro-components';
 
 ## Introduction
 
@@ -37,8 +37,6 @@ Toast notifications are ideal for:
     <Button data-toast-demo="info" data-toast-message="Your session will refresh in 2 minutes." type="info">Show info</Button>
     <Button data-toast-demo="warning" data-toast-message="Storage is almost full." type="warning">Show warning</Button>
   </div>
-  
-  <ToastProvider position="bottom-right" />
 </div>
 
 ## Usage
@@ -141,6 +139,14 @@ Control where toasts appear using the `position` prop:
 
 Available positions: `bottom-right` (default), `bottom-left`, `bottom-center`, `top-right`, `top-left`, `top-center`.
 
+### Stacking contexts
+
+Render `ToastProvider` near the end of your layout body when possible. If the provider must be nested inside an element that creates a stacking context, set `portal` to move the provider to `document.body` after initialization:
+
+```astro
+<ToastProvider portal />
+```
+
 ## Props
 
 ### ToastProvider
@@ -154,6 +160,8 @@ Configure the toast container using these props:
 | `duration` | `number` | `5000` | Default auto-dismiss time in milliseconds. Set to `0` for persistent toasts |
 | `maxToasts` | `number` | `5` | Maximum visible toasts. Oldest are dismissed when exceeded |
 | `ariaLabel` | `string` | `'Notifications'` | Accessible label for the toast region |
+| `zIndex` | `string \| number` | `'var(--z-index-8, 80)'` | CSS z-index value applied through `--toast-z-index` |
+| `portal` | `boolean` | `false` | Moves the provider to `document.body` on initialization to escape ancestor stacking contexts |
 | `class` | `string` | `''` | Additional CSS classes |
 </div>
 
@@ -302,7 +310,7 @@ The toast system uses these CSS custom properties for theming:
 
 /* Elevation */
 --elevation-2
---z-index-2
+--toast-z-index
 ```
 
 ## Interactive examples

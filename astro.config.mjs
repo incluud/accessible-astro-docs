@@ -50,6 +50,7 @@ export default defineConfig({
       },
       components: {
         Head: './src/components/Head.astro',
+        PageFrame: './src/components/PageFrame.astro',
       },
       sidebar: [
         {

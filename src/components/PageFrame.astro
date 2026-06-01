@@ -1,0 +1,12 @@
+---
+import Default from '@astrojs/starlight/components/PageFrame.astro'
+import { ToastProvider } from 'accessible-astro-components'
+---
+
+<Default>
+  <slot />
+  <slot name="header" slot="header" />
+  <slot name="sidebar" slot="sidebar" />
+</Default>
+
+<ToastProvider position="bottom-right" />
