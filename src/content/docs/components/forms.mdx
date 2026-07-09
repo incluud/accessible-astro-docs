@@ -24,6 +24,7 @@ Key features include:
 - **Accessible error handling** with live regions and error summaries
 - **Group validation** for checkboxes and radio buttons
 - **Security protection** against ReDoS and pattern injection attacks
+- **Full internationalization (i18n)** - Every user-facing string can be translated via props
 
 ## When to use
 
@@ -159,6 +160,70 @@ import { Form, Input, Button } from 'accessible-astro-components';
 </Form>
 ```
 
+## Internationalization (i18n)
+
+Every user-facing string in the form system can be translated through props, so there are no hardcoded English messages. This includes the required-field indicator (`requiredText`), per-field validation messages, and the Form-level error summary and fallback messages.
+
+Set global fallbacks on the `Form` with `defaultFieldValidationMessage`, `defaultFieldsetValidationMessage`, and `errorSummaryMessage`, then provide field-specific messages where you need more precise wording.
+
+```astro
+---
+import { Form, Input, Textarea, Fieldset, Checkbox } from 'accessible-astro-components'
+---
+
+<Form
+  errorSummaryMessage="Es gab ein Problem mit Ihrer Eingabe. Die folgenden Felder benötigen Aufmerksamkeit:"
+  defaultFieldValidationMessage="Dieses Feld ist erforderlich"
+  defaultFieldsetValidationMessage="Bitte wählen Sie mindestens eine Option"
+>
+  <Input
+    name="name"
+    label="Name"
+    required
+    requiredText="(Pflichtfeld)"
+    requiredValidationMessage="Bitte geben Sie Ihren Namen ein"
+  />
+
+  <Input
+    name="email"
+    label="E-Mail-Adresse"
+    type="email"
+    required
+    requiredText="(Pflichtfeld)"
+    emailValidationMessage="Bitte geben Sie eine gültige E-Mail-Adresse ein"
+  />
+
+  <Textarea
+    name="message"
+    label="Nachricht"
+    required
+    requiredText="(Pflichtfeld)"
+    requiredValidationMessage="Bitte geben Sie eine Nachricht ein"
+  />
+
+  <Fieldset
+    name="topics"
+    legend="Themen"
+    required
+    requiredText="(Pflichtfeld)"
+    requiredValidationMessage="Bitte wählen Sie mindestens ein Thema"
+  >
+    <Checkbox name="topics" value="support" label="Support" />
+    <Checkbox name="topics" value="sales" label="Vertrieb" />
+  </Fieldset>
+
+  <button type="submit">Senden</button>
+</Form>
+```
+
+<Aside type="tip" title="What to translate">
+  For a fully translated form, translate the strings on each level:
+  - On `Form`: `errorSummaryMessage` (the summary heading) plus `defaultFieldValidationMessage` and `defaultFieldsetValidationMessage`, which act as the final fallback when a field or fieldset has no message of its own.
+  - On each field: `requiredText` (the label indicator) and the relevant message prop (`requiredValidationMessage`, `emailValidationMessage`, etc.).
+
+  Note that `Input`, `Textarea`, and `Fieldset` already ship non-empty English defaults for their message props, so those component defaults take precedence over the Form-level fallback. To translate an individual field's message you must set its message prop directly.
+</Aside>
+
 ## Props
 
 ### Form
@@ -174,6 +239,9 @@ import { Form, Input, Button } from 'accessible-astro-components';
 | `enctype` | `'application/x-www-form-urlencoded' \| 'multipart/form-data' \| 'text/plain'` | `'application/x-www-form-urlencoded'` | Encoding type for form data |
 | `target` | `'_self' \| '_blank' \| '_parent' \| '_top'` | `'_self'` | Target for form submission |
 | `autocomplete` | `'on' \| 'off'` | `'on'` | Autocomplete behavior |
+| `errorSummaryMessage` | `string` | `'There was a problem with your submission. The following inputs need attention:'` | Message shown at the top of the error summary when validation fails (i18n) |
+| `defaultFieldValidationMessage` | `string` | `'This field is required'` | Fallback message for invalid fields without a custom message (i18n) |
+| `defaultFieldsetValidationMessage` | `string` | `'Please select at least one option'` | Fallback message for invalid fieldsets without a custom message (i18n) |
 
 </div>
 
@@ -185,9 +253,15 @@ import { Form, Input, Button } from 'accessible-astro-components';
 |------|------|---------|-------------|
 | `name` | `string` | - | **Required.** Name attribute for form submission |
 | `label` | `string` | - | **Required.** Label text for the input |
-| `data-validation` | `string` | Auto-generated | Custom error message |
 | `type` | `'text' \| 'email' \| 'password' \| 'tel' \| 'url'` | `'text'` | Input type with built-in validation |
 | `required` | `boolean` | `false` | Whether the field is required |
+| `requiredText` | `string` | `'(required)'` | Text shown next to the label for required fields (i18n) |
+| `requiredValidationMessage` | `string` | `'This field is required'` | Message for required `text` fields (i18n) |
+| `emailValidationMessage` | `string` | `'Please provide an email address, for example houston@astro.build'` | Message for invalid `email` fields (i18n) |
+| `telValidationMessage` | `string` | `'Please provide a valid phone number'` | Message for invalid `tel` fields (i18n) |
+| `passwordValidationMessage` | `string` | `'Password must be at least 8 characters long'` | Message for invalid `password` fields (i18n) |
+| `urlValidationMessage` | `string` | `'Please provide a valid URL, for example https://astro.build'` | Message for invalid `url` fields (i18n) |
+| `data-validation` | `string` | Auto-generated | Custom error message that overrides the type-specific message |
 | `data-validation-pattern` | `string` | `undefined` | Custom regex validation pattern |
 | `data-validation-fn` | `string` | `undefined` | Custom validation function name |
 | `value` | `string` | `undefined` | Default value |
@@ -197,6 +271,10 @@ import { Form, Input, Button } from 'accessible-astro-components';
 
 </div>
 
+<Aside type="note" title="Message precedence">
+  Each input resolves its validation message in this order: `data-validation` (explicit override) → the type-specific message prop (e.g. `emailValidationMessage`) → the Form-level default (`defaultFieldValidationMessage`). This lets you set global defaults on the `Form` while overriding individual fields when needed.
+</Aside>
+
 ### Textarea
 
 <div class="props-wrapper">
@@ -205,8 +283,10 @@ import { Form, Input, Button } from 'accessible-astro-components';
 |------|------|---------|-------------|
 | `name` | `string` | - | **Required.** Name attribute for form submission |
 | `label` | `string` | - | **Required.** Label text for the textarea |
-| `data-validation` | `string` | Auto-generated | Custom error message |
 | `required` | `boolean` | `false` | Whether the field is required |
+| `requiredText` | `string` | `'(required)'` | Text shown next to the label for required fields (i18n) |
+| `requiredValidationMessage` | `string` | `'This field is required'` | Message for required textareas (i18n) |
+| `data-validation` | `string` | Auto-generated | Custom error message that overrides `requiredValidationMessage` |
 | `data-validation-pattern` | `string` | `undefined` | Custom regex validation pattern |
 | `data-validation-fn` | `string` | `undefined` | Custom validation function name |
 | `rows` | `number` | `undefined` | Number of visible text lines |
@@ -252,7 +332,9 @@ import { Form, Input, Button } from 'accessible-astro-components';
 | `name` | `string` | - | **Required.** Name attribute for group validation |
 | `legend` | `string` | - | **Required.** Legend text for the fieldset |
 | `required` | `boolean` | `false` | Whether at least one selection is required |
-| `data-validation` | `string` | Auto-generated | Custom error message for group validation |
+| `requiredText` | `string` | `'(required)'` | Text shown next to the legend for required fieldsets (i18n) |
+| `requiredValidationMessage` | `string` | `'Please select at least one option'` | Message for required fieldsets (i18n) |
+| `data-validation` | `string` | Auto-generated | Custom error message that overrides `requiredValidationMessage` |
 | `variant` | `'default' \| 'minimal'` | `'default'` | Visual style variant |
 
 </div>
