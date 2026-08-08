@@ -1,0 +1,198 @@
+---
+title: Switch
+description: An accessible, form-submittable on/off switch built on a native checkbox without JavaScript.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import { Switch } from 'accessible-astro-components';
+
+## Introduction
+
+The Switch component represents an immediate on/off setting. It uses a native checkbox with `role="switch"`, so it works with forms, can be toggled from the keyboard, and exposes its on/off state to assistive technology without requiring JavaScript.
+
+<Aside type="note" title="Switches apply immediately">
+  Use a switch for a setting that takes effect as soon as it changes. Use a [Checkbox](/components/forms/#checkbox) when users select options that are applied later, such as when submitting a form.
+</Aside>
+
+## When to use
+
+Use the Switch component when you need to:
+
+- Turn a preference or feature on or off
+- Apply a binary setting immediately
+- Submit an on/off value with a form
+- Provide a clearly labeled control that works without JavaScript
+
+Avoid a switch when the choice is not binary, when its effect is delayed until form submission, or when the setting needs more than a short label to be understood.
+
+## Quick example
+
+<div class="not-content">
+  <Switch name="quick-notifications" label="Enable notifications" />
+</div>
+
+## Usage
+
+### Basic usage
+
+```astro
+---
+import { Switch } from 'accessible-astro-components'
+---
+
+<Switch name="notifications" label="Enable notifications" />
+```
+
+### Default on
+
+Use `checked` when the setting should be on when the page first loads.
+
+```astro
+<Switch
+  name="weekly-summary"
+  label="Send me a weekly summary"
+  checked
+/>
+```
+
+### Form submission
+
+A checked switch submits its `value` under its `name`. An unchecked switch is not included in native form data, following standard checkbox behavior.
+
+```astro
+<form action="/preferences" method="post">
+  <Switch
+    name="theme"
+    value="dark"
+    label="Use dark theme"
+  />
+
+  <button type="submit">Save preferences</button>
+</form>
+```
+
+<Aside type="tip" title="Unchecked values">
+  If your server needs an explicit value for the off state, handle the missing field on the server or pair the switch with an appropriate hidden input strategy.
+</Aside>
+
+### Disabled
+
+```astro
+<Switch
+  name="automatic-updates"
+  label="Enable automatic updates"
+  disabled
+/>
+```
+
+Disabled switches cannot be toggled and are not submitted with the form. When possible, explain nearby why a setting is unavailable.
+
+### Description and other input attributes
+
+Additional HTML attributes are passed to the underlying `<input>`. This lets you add relationships such as `aria-describedby` or standard checkbox attributes such as `required`.
+
+```astro
+<Switch
+  id="usage-data"
+  name="usage-data"
+  label="Share anonymous usage data"
+  aria-describedby="usage-data-description"
+/>
+<p id="usage-data-description">
+  Help improve the product by sharing anonymous diagnostics.
+</p>
+```
+
+<Aside type="caution" title="Use unique IDs">
+  Without an `id`, the component generates `switch-${name}`. Pass an explicit `id` when more than one switch uses the same `name`, or whenever the generated ID would not be unique on the page.
+</Aside>
+
+## Props
+
+<div class="props-wrapper">
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | - | **Required.** Name used for form submission and the generated ID |
+| `label` | `string` | - | **Required.** Visible label and accessible name |
+| `id` | `string` | `` `switch-${name}` `` | ID shared by the input and its label |
+| `value` | `string` | `'on'` | Value submitted when the switch is checked |
+| `checked` | `boolean` | `false` | Whether the switch is on by default |
+| `disabled` | `boolean` | `false` | Whether the switch is unavailable |
+| `class` | `string` | - | Additional classes applied to the outer `.switch-group` container |
+| Other HTML attributes | - | - | Passed through to the underlying checkbox input |
+
+</div>
+
+## Accessibility
+
+### Keyboard navigation
+
+| Key | Action |
+|-----|--------|
+| <kbd>Tab</kbd> | Moves focus to the switch |
+| <kbd>Space</kbd> | Toggles the focused switch on or off |
+
+### Screen reader behavior
+
+- Uses a native `<input type="checkbox">` for form and keyboard behavior
+- Adds `role="switch"` so supporting assistive technologies announce an on/off switch
+- Connects the visible `<label>` to the input with matching `for` and `id` values
+- Communicates state through the native checked state
+- Moves the thumb as well as changing color, so the visual state does not rely on color alone
+- Provides an approximately 44 CSS-pixel-wide control target
+- Disables motion when the user prefers reduced motion
+
+<Aside type="caution" title="Write state-independent labels">
+  Label the setting, not the action. Prefer “Email notifications” over “Turn on email notifications,” because the same label must make sense when the switch is both on and off.
+</Aside>
+
+## Styling
+
+Pass a class to style a particular switch. The class is applied to the outer container; target its `input`, label, and thumb from a global style block.
+
+```astro
+<Switch
+  class="brand-switch"
+  name="compact-mode"
+  label="Compact mode"
+/>
+
+<style>
+  :global(.brand-switch input) {
+    border-color: hsl(265 55% 45%);
+  }
+
+  :global(.brand-switch input:checked) {
+    background-color: hsl(265 70% 45%);
+  }
+
+  :global(.brand-switch input:focus-visible) {
+    outline: 3px solid hsl(265 80% 60%);
+    outline-offset: 3px;
+  }
+</style>
+```
+
+The component uses the shared `--color-default-border`, `--color-primary-bg`, `--color-primary-border`, and `--animation-timing` design tokens. It does not define component-specific custom properties.
+
+<Aside type="caution" title="Preserve visible states">
+  When changing colors, keep at least 3:1 contrast for the track, thumb, and focus indicator against adjacent colors. Make sure on and off remain distinguishable by thumb position as well as color.
+</Aside>
+
+## Interactive examples
+
+Use <kbd>Tab</kbd> to focus each enabled switch and <kbd>Space</kbd> to change its state.
+
+<div class="not-content">
+  <div style="display: grid; gap: 1rem;">
+    <Switch name="example-off" label="Off by default" />
+    <Switch name="example-on" label="On by default" checked />
+    <Switch name="example-disabled" label="Unavailable setting" disabled />
+  </div>
+</div>
+
+## Related components
+
+- [Forms](/components/forms/) for checkboxes, radio buttons, inputs, and validation patterns
+- [DarkMode](/components/dark-mode/) for a ready-made color-theme control

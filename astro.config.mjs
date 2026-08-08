@@ -146,8 +146,8 @@ export default defineConfig({
               label: 'Drawer',
               link: '/components/drawer',
               badge: {
-                text: 'next',
-                variant: 'tip',
+                text: 'new',
+                variant: 'success',
               },
             },
             {
@@ -195,24 +195,24 @@ export default defineConfig({
               link: '/components/skip-link',
             },
             {
+              label: 'Switch',
+              link: '/components/switch',
+              badge: {
+                text: 'new',
+                variant: 'success',
+              },
+            },
+            {
               label: 'Tabs',
               link: '/components/tabs',
             },
             {
               label: 'Toast',
               link: '/components/toast',
-              badge: {
-                text: 'new',
-                variant: 'success',
-              },
             },
             {
               label: 'Tooltip',
               link: '/components/tooltip',
-              badge: {
-                text: 'new',
-                variant: 'success',
-              },
             },
             {
               label: 'Video',

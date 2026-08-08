@@ -1,10 +1,252 @@
 ---
 title: Drawer
-description: A fully accessible drawer component for expanding and collapsing content sections using native HTML elements.
+description: An accessible modal drawer with focus management, edge positioning, and optional footer actions.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Drawer } from 'accessible-astro-components';
 
-<Aside type="tip" title="Soon">
-  <p>This component is being considered for a future release. To stay updated with what might be coming next you can check out our [Accessible Astro Roadmap](https://github.com/orgs/incluud/projects/4/views/1).</p>
+## Introduction
+
+The Drawer component displays supplementary content in a modal panel that slides in from an edge of the viewport. It uses the native `<dialog>` element, associates its title with `aria-labelledby`, traps keyboard focus while open, and supports closing with the close button, the <kbd>Escape</kbd> key, or a click on the backdrop.
+
+<Aside type="note" title="View transitions">
+  Drawer automatically reconnects its trigger after Astro view transitions.
 </Aside>
+
+## When to use
+
+Use the Drawer component when you need to:
+
+- Show navigation or filters without leaving the current page
+- Reveal contextual details or settings
+- Present a short task with optional footer actions
+- Keep supporting content available without permanently occupying the layout
+
+<Aside type="caution" title="Keep primary content on the page">
+  A drawer is modal and makes the rest of the page temporarily unavailable. Keep essential content and primary journeys in the main page flow.
+</Aside>
+
+## Quick example
+
+<div class="not-content">
+  <button id="drawer-example-trigger" class="sl-button variant-accent" type="button">
+    Open drawer
+  </button>
+
+  <Drawer triggerId="drawer-example-trigger" title="Project details">
+    <p>This drawer contains supporting information for the current page.</p>
+    <p>Press <kbd>Escape</kbd>, use the close button, or click the backdrop to close it.</p>
+  </Drawer>
+</div>
+
+## Usage
+
+### Basic usage
+
+The trigger's `id` must exactly match the Drawer's `triggerId`.
+
+```astro
+---
+import { Drawer } from 'accessible-astro-components'
+---
+
+<button id="project-drawer-trigger" type="button">View project details</button>
+
+<Drawer triggerId="project-drawer-trigger" title="Project details">
+  <p>This drawer contains additional information about the project.</p>
+</Drawer>
+```
+
+<Aside type="caution" title="Use a unique trigger ID">
+  Drawer throws an error when it cannot find an element whose `id` matches `triggerId`. Give every trigger and drawer pair a unique ID.
+</Aside>
+
+### Position
+
+Drawers open from the right by default. Use `position` to choose any viewport edge.
+
+```astro
+<Drawer triggerId="filters-trigger" title="Filters" position="left">
+  <form><!-- Filter controls --></form>
+</Drawer>
+
+<Drawer triggerId="notifications-trigger" title="Notifications" position="top">
+  <p>You have no unread notifications.</p>
+</Drawer>
+```
+
+### Footer actions
+
+Set `showFooter` and fill the named `footer` slot to keep actions separate from scrollable drawer content.
+
+```astro
+<button id="settings-trigger" type="button">Edit settings</button>
+
+<Drawer triggerId="settings-trigger" title="Settings" showFooter>
+  <form id="settings-form">
+    <!-- Settings fields -->
+  </form>
+
+  <Fragment slot="footer">
+    <button type="button" onclick="closeDrawer()">Cancel</button>
+    <button type="submit" form="settings-form">Save settings</button>
+  </Fragment>
+</Drawer>
+```
+
+<Aside type="tip" title="Programmatic closing">
+  Call the global `closeDrawer()` function from a custom action. Without an argument, it closes the last open drawer in document order. You can also pass a specific `HTMLDialogElement`.
+</Aside>
+
+### Heading appearance
+
+The drawer title is always a semantic `<h2>`. Use `headingSize` only to change its visual size, without changing the document outline.
+
+```astro
+<Drawer
+  triggerId="compact-drawer-trigger"
+  title="Quick settings"
+  headingSize="h4"
+>
+  <!-- Drawer content -->
+</Drawer>
+```
+
+## Props
+
+<div class="props-wrapper">
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `triggerId` | `string` | - | **Required.** ID of the element that opens the drawer |
+| `title` | `string` | - | **Required.** Drawer title and accessible name |
+| `position` | `'right' \| 'left' \| 'top' \| 'bottom'` | `'right'` | Viewport edge from which the drawer opens |
+| `closeText` | `string` | `'Close'` | Visually hidden accessible text for the close button |
+| `headingSize` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h6'` | Visual size of the semantic `<h2>` title |
+| `showFooter` | `boolean` | `false` | Whether to render the named `footer` slot |
+| `class` | `string` | - | Additional classes applied to the `<dialog>` element |
+| Other HTML attributes | - | - | Passed through to the `<dialog>` element |
+
+</div>
+
+## Slots
+
+| Slot | Description |
+|------|-------------|
+| Default | Main drawer content in the scrollable content area |
+| `footer` | Optional footer content rendered when `showFooter` is `true` |
+
+## Accessibility
+
+### Keyboard navigation
+
+| Key | Action |
+|-----|--------|
+| <kbd>Tab</kbd> | Moves focus to the next focusable element and wraps within the open drawer |
+| <kbd>Shift</kbd> + <kbd>Tab</kbd> | Moves focus backward and wraps within the open drawer |
+| <kbd>Escape</kbd> | Closes the drawer through the native dialog behavior |
+
+### Screen reader and focus behavior
+
+- Uses a modal `<dialog>` opened with `showModal()`
+- Labels the dialog with its visible title through `aria-labelledby`
+- Gives the title initial focus so the drawer's context is announced first
+- Uses a semantic `<h2>` for a predictable document outline
+- Keeps keyboard focus inside the open drawer
+- Provides customizable, visually hidden text for the close button
+- Prevents the page behind the drawer from scrolling while a dialog is open
+- Disables slide transitions when the user prefers reduced motion
+
+<Aside type="note" title="Meaningful close text">
+  The default `closeText="Close"` is suitable when only one dialog is present. More specific text such as `closeText="Close project details"` can provide extra context.
+</Aside>
+
+## Styling
+
+Pass a custom class and target it from a global style block. Component selectors use `:where()`, so you can override them without high-specificity selectors.
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```astro
+    <Drawer
+      class="project-drawer"
+      triggerId="project-drawer-trigger"
+      title="Project details"
+    >
+      <!-- Drawer content -->
+    </Drawer>
+
+    <style>
+      :global(.project-drawer) {
+        --drawer-transition-duration: 0.35s;
+        inline-size: min(32rem, 90vw);
+      }
+
+      :global(.project-drawer .drawer-header) {
+        background-color: var(--color-primary-bg);
+      }
+
+      :global(.project-drawer .drawer-content) {
+        padding: var(--space-l);
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Global CSS">
+    ```css
+    .drawer {
+      --drawer-transition-duration: 0.35s;
+    }
+
+    .drawer-footer {
+      justify-content: flex-end;
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+### CSS custom properties
+
+| Property | Default | Description |
+|----------|---------|-------------|
+| `--drawer-transition-duration` | `0.25s` | Duration of the drawer and backdrop transitions |
+| `--drawer-transition-easing` | `var(--animation-timing, cubic-bezier(0.165, 0.84, 0.44, 1))` | Easing used by drawer transitions |
+
+<Aside type="caution" title="Preserve modal affordances">
+  Keep a visible focus indicator, sufficient contrast, and a clear distinction between the drawer and its backdrop when customizing the component.
+</Aside>
+
+## Interactive examples
+
+Open each example to compare the available positions.
+
+<div class="not-content">
+  <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+    <button id="drawer-right-trigger" class="sl-button" type="button">Open right</button>
+    <button id="drawer-left-trigger" class="sl-button" type="button">Open left</button>
+    <button id="drawer-top-trigger" class="sl-button" type="button">Open top</button>
+    <button id="drawer-bottom-trigger" class="sl-button" type="button">Open bottom</button>
+  </div>
+
+  <Drawer triggerId="drawer-right-trigger" title="Right drawer">
+    <p>This drawer uses the default right position.</p>
+  </Drawer>
+
+  <Drawer triggerId="drawer-left-trigger" title="Left drawer" position="left">
+    <p>This drawer enters from the inline start edge.</p>
+  </Drawer>
+
+  <Drawer triggerId="drawer-top-trigger" title="Top drawer" position="top">
+    <p>This drawer enters from the top of the viewport.</p>
+  </Drawer>
+
+  <Drawer triggerId="drawer-bottom-trigger" title="Bottom drawer" position="bottom">
+    <p>This drawer enters from the bottom of the viewport.</p>
+  </Drawer>
+</div>
+
+## Related components
+
+- [Modal](/components/modal/) for focused content in a centered dialog
+- [Accordion](/components/accordion/) for non-modal progressive disclosure within the page
