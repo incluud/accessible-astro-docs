@@ -138,8 +138,8 @@ export default defineConfig({
               label: 'DataTable',
               link: '/components/data-table',
               badge: {
-                text: 'next',
-                variant: 'tip',
+                text: 'new',
+                variant: 'success',
               },
             },
             {

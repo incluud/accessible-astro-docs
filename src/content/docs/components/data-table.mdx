@@ -1,10 +1,313 @@
 ---
 title: DataTable
-description: A fully accessible data table component with sorting, filtering, and pagination support.
+description: Compose semantic data tables with sorting, search, result announcements, and pagination.
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { DataTable, DataTableHeader, DataTableColumn, DataTableBody, DataTableRow, DataTableCell, DataTableSearch, DataTableInfo, DataTablePagination } from 'accessible-astro-components';
 
-<Aside type="note" title="Coming soon">
-  The DataTable component is coming soon.
+## Introduction
+
+DataTable combines a native HTML table with optional sorting, search, and pagination. Compose its ten components to control the columns, cell content, labels, and row actions.
+
+## When to use
+
+Use DataTable for structured records such as users, projects, or orders. For a small static comparison, omit search and sortable headers. For editable spreadsheets or virtualized datasets, use a dedicated grid solution: DataTable uses ordinary table navigation and renders every supplied row.
+
+## Quick example
+
+Search for “longer” to find a record beyond the first page, sort Users, or move to the next page. Long project names wrap while column widths stay stable.
+
+<div class="not-content">
+  <DataTable caption="Projects" pageSize={3} style="--data-table-min-width: 32rem">
+    <DataTableSearch slot="search" label="Search projects" />
+    <DataTableInfo slot="info" start={1} end={4} total={4} />
+    <DataTableHeader>
+      <DataTableColumn sortable width="50%">Project</DataTableColumn>
+      <DataTableColumn sortable numeric width="20%">Users</DataTableColumn>
+      <DataTableColumn sortable width="30%">Updated</DataTableColumn>
+    </DataTableHeader>
+    <DataTableBody>
+      <DataTableRow>
+        <DataTableCell as="th">Acme Starter</DataTableCell>
+        <DataTableCell numeric sortValue={1280}>1,280</DataTableCell>
+        <DataTableCell sortValue="2026-02-10">2026-02-10</DataTableCell>
+      </DataTableRow>
+      <DataTableRow>
+        <DataTableCell as="th">Beacon Dashboard</DataTableCell>
+        <DataTableCell numeric sortValue={642}>642</DataTableCell>
+        <DataTableCell sortValue="2026-01-22">2026-01-22</DataTableCell>
+      </DataTableRow>
+      <DataTableRow>
+        <DataTableCell as="th">Citrine Docs</DataTableCell>
+        <DataTableCell numeric sortValue={2890}>2,890</DataTableCell>
+        <DataTableCell sortValue="2026-02-17">2026-02-17</DataTableCell>
+      </DataTableRow>
+      <DataTableRow>
+        <DataTableCell as="th">A project with a longer descriptive name</DataTableCell>
+        <DataTableCell numeric sortValue={35}>35</DataTableCell>
+        <DataTableCell sortValue="2026-03-01">2026-03-01</DataTableCell>
+      </DataTableRow>
+    </DataTableBody>
+    <DataTablePagination slot="footer" client ariaLabel="Projects pagination" />
+  </DataTable>
+</div>
+
+```astro
+---
+import {
+  DataTable, DataTableHeader, DataTableColumn, DataTableBody,
+  DataTableRow, DataTableCell, DataTableSearch, DataTableInfo,
+  DataTablePagination,
+} from 'accessible-astro-components'
+
+const projects = [
+  { name: 'Acme Starter', users: 1280, updated: '2026-02-10' },
+  { name: 'Beacon Dashboard', users: 642, updated: '2026-01-22' },
+  { name: 'Citrine Docs', users: 2890, updated: '2026-02-17' },
+  { name: 'A project with a longer descriptive name', users: 35, updated: '2026-03-01' },
+]
+---
+
+<DataTable caption="Projects" pageSize={3} style="--data-table-min-width: 32rem">
+  <DataTableSearch slot="search" label="Search projects" />
+  <DataTableInfo slot="info" start={1} end={projects.length} total={projects.length} />
+  <DataTableHeader>
+    <DataTableColumn sortable width="50%">Project</DataTableColumn>
+    <DataTableColumn sortable numeric width="20%">Users</DataTableColumn>
+    <DataTableColumn sortable width="30%">Updated</DataTableColumn>
+  </DataTableHeader>
+  <DataTableBody>
+    {projects.map((project) => (
+      <DataTableRow>
+        <DataTableCell as="th">{project.name}</DataTableCell>
+        <DataTableCell numeric sortValue={project.users}>
+          {project.users.toLocaleString('en-US')}
+        </DataTableCell>
+        <DataTableCell sortValue={project.updated}>{project.updated}</DataTableCell>
+      </DataTableRow>
+    ))}
+  </DataTableBody>
+  <DataTablePagination slot="footer" client ariaLabel="Projects pagination" />
+</DataTable>
+```
+
+Install the package with `npm install accessible-astro-components` and import the components from its root. DataTable is available in version 5.8.0 and later.
+
+## Composition and slots
+
+<div class="props-wrapper">
+<table>
+<thead><tr><th scope="col">Component</th><th scope="col">Rendered element / purpose</th></tr></thead>
+<tbody><tr><td><code>DataTable</code></td><td>Container, captioned <code>table</code>, scroll area, and polite live region</td></tr><tr><td><code>DataTableHeader</code></td><td><code>thead</code> containing a single <code>tr</code></td></tr><tr><td><code>DataTableColumn</code></td><td><code>th scope=&quot;col&quot;</code>; adds a native button when sortable</td></tr><tr><td><code>DataTableBody</code></td><td><code>tbody</code></td></tr><tr><td><code>DataTableRow</code></td><td><code>tr</code></td></tr><tr><td><code>DataTableCell</code></td><td><code>td</code>, or a <code>th</code> with <code>as=&quot;th&quot;</code></td></tr><tr><td><code>DataTableActions</code></td><td><code>td</code> excluded from search by default</td></tr><tr><td><code>DataTableSearch</code></td><td>Labeled search input and clear button</td></tr><tr><td><code>DataTableInfo</code></td><td>Visible result summary</td></tr><tr><td><code>DataTablePagination</code></td><td>Client pagination buttons or page navigation links</td></tr></tbody>
+</table>
+</div>
+
+Use the default slot for `DataTableHeader` and `DataTableBody`. Place `DataTableSearch` in `slot="search"`, `DataTableInfo` in `slot="info"` between the search and table, and pagination in `slot="footer"`. Header, row, cell, and action components accept their content in the default slot. Keep each row's cells aligned with the header columns; the client logic expects a single body and simple columns rather than spanning or nested tables.
+
+## Search and pagination
+
+Search uses a case-insensitive substring match across the text of filterable cells. It runs after a 300 ms typing pause; Enter and a submit button are not required. The clear button removes the query, restores all matching records, and returns focus to the input. Use `filterable={false}` to exclude an individual cell; action cells are excluded by default.
+
+For client pagination, render the **complete dataset**, set `pageSize` on `DataTable`, and add `DataTablePagination client`. Sorting and filtering operate on all supplied rows before selecting the visible page. Changing the search or sort returns to page one. Client pagination does not fetch data from a server.
+
+For page-reload pagination, omit `pageSize` and `client`, render the current page's records, and supply URLs or a `baseUrl`:
+
+```astro
+<DataTablePagination
+  slot="footer"
+  baseUrl="/users"
+  currentPage={2}
+  totalPages={5}
+/>
+```
+
+This generates `/users` for page one and `/users/2`, `/users/3`, and so on. In this mode, built-in search and sorting cover only the rendered page. Implement filtering and sorting on your server if they must cover records that are not present in the document. The component does not provide server request hooks or a public JavaScript API.
+
+## Sorting and values
+
+A new sortable column starts ascending. Activating it again switches between ascending and descending. Only one column is sorted at a time. Unsorted columns show a paired arrow; the active column shows a single up or down arrow. Equal values retain their original row order.
+
+Set `numeric` on both the column and its cells for numeric sorting and alignment. Prefer a raw `sortValue` for formatted numbers and ISO dates. Search still uses the displayed text, not `sortValue`.
+
+```astro
+<DataTableColumn sortable numeric sortKey="revenue">Revenue</DataTableColumn>
+<!-- In the corresponding row: -->
+<DataTableCell numeric sortKey="revenue" sortValue={1234.5}>€1,234.50</DataTableCell>
+```
+
+Matching `sortKey` values select a cell explicitly; otherwise the column position is used. Set `sorted="ascending"` or `sorted="descending"` on at most one sortable column to initialize its order. Render rows in that order on the server too if the initial HTML must match the indicated state without JavaScript.
+
+## Row actions
+
+Place buttons or links in `DataTableActions`. Include the record name in each accessible label, for example `aria-label="View details for Albert Flores"`. A details action can open a [Drawer](/components/drawer/); follow the Drawer documentation for its trigger and dialog content. DataTable itself does not open dialogs or implement deletion.
+
+## Props
+
+All components accept `class` and additional HTML attributes. Attributes go to their rendered wrapper, except `DataTableSearch`, which forwards additional attributes to the input, and `DataTable`'s `id`, which identifies the table. Keep IDs unique across instances.
+
+### DataTable
+
+<div class="props-wrapper">
+<table>
+<thead><tr><th scope="col">Prop</th><th scope="col">Type</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+<tbody><tr><td><code>caption</code></td><td><code>string</code></td><td>Required</td><td>Accessible table title</td></tr><tr><td><code>id</code></td><td><code>string</code></td><td>Generated</td><td>ID of the table</td></tr><tr><td><code>captionHidden</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Visually hide the caption, preserving its accessible name</td></tr><tr><td><code>pageSize</code></td><td><code>number</code></td><td>—</td><td>Positive client page size; omit for unpaginated or server-paginated rows</td></tr><tr><td><code>initialPage</code></td><td><code>number</code></td><td><code>1</code></td><td>Initial client page; clamped to the available pages</td></tr><tr><td><code>labels</code></td><td><code>object</code></td><td>See below</td><td>Sort announcements, hint, and fallback result summaries</td></tr></tbody>
+</table>
+</div>
+
+### DataTableColumn
+
+<div class="props-wrapper">
+<table>
+<thead><tr><th scope="col">Prop</th><th scope="col">Type</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+<tbody><tr><td><code>sortable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enable the sort button</td></tr><tr><td><code>sorted</code></td><td><code>&#x27;ascending&#x27; | &#x27;descending&#x27;</code></td><td>—</td><td>Initial order for a sortable column</td></tr><tr><td><code>numeric</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Numeric sorting and end alignment</td></tr><tr><td><code>sortKey</code></td><td><code>string</code></td><td>—</td><td>Match a row cell with this key</td></tr><tr><td><code>width</code></td><td><code>string</code></td><td>—</td><td>CSS length or percentage; unspecified columns share remaining space</td></tr></tbody>
+</table>
+</div>
+
+### DataTableCell
+
+<div class="props-wrapper">
+<table>
+<thead><tr><th scope="col">Prop</th><th scope="col">Type</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+<tbody><tr><td><code>as</code></td><td><code>&#x27;td&#x27; | &#x27;th&#x27;</code></td><td><code>&#x27;td&#x27;</code></td><td>Cell element; use <code>th</code> for row headings</td></tr><tr><td><code>scope</code></td><td><code>&#x27;row&#x27; | &#x27;col&#x27; | &#x27;rowgroup&#x27; | &#x27;colgroup&#x27;</code></td><td><code>&#x27;row&#x27;</code> for <code>th</code></td><td>Header scope; ignored for <code>td</code></td></tr><tr><td><code>numeric</code></td><td><code>boolean</code></td><td><code>false</code></td><td>End alignment and tabular numerals</td></tr><tr><td><code>sortValue</code></td><td><code>string | number</code></td><td>Cell text</td><td>Unformatted value used for sorting</td></tr><tr><td><code>sortKey</code></td><td><code>string</code></td><td>—</td><td>Match a column key</td></tr><tr><td><code>filterable</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Include displayed cell text in search</td></tr></tbody>
+</table>
+</div>
+
+### DataTableSearch
+
+<div class="props-wrapper">
+<table>
+<thead><tr><th scope="col">Prop</th><th scope="col">Type</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+<tbody><tr><td><code>id</code></td><td><code>string</code></td><td>Generated</td><td>Input ID</td></tr><tr><td><code>label</code></td><td><code>string</code></td><td><code>&#x27;Search&#x27;</code></td><td>Input label</td></tr><tr><td><code>showLabel</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Set false to visually hide the label</td></tr><tr><td><code>placeholder</code></td><td><code>string</code></td><td><code>&#x27;Search entries...&#x27;</code></td><td>Input hint; does not replace the label</td></tr><tr><td><code>clearLabel</code></td><td><code>string</code></td><td><code>&#x27;Clear search&#x27;</code></td><td>Accessible name of the clear button</td></tr></tbody>
+</table>
+</div>
+
+### DataTableInfo
+
+<div class="props-wrapper">
+<table>
+<thead><tr><th scope="col">Prop</th><th scope="col">Type</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+<tbody><tr><td><code>start</code>, <code>end</code>, <code>total</code></td><td><code>number</code></td><td>Required</td><td>Server-rendered summary values; use zero for an empty dataset</td></tr><tr><td><code>template</code></td><td><code>string</code></td><td><code>Showing &#123;start&#125; to &#123;end&#125; of &#123;total&#125; entries</code></td><td>Unfiltered summary</td></tr><tr><td><code>filteredTemplate</code></td><td><code>string</code></td><td><code>Showing &#123;start&#125; to &#123;end&#125; of &#123;filtered&#125; entries matching &quot;&#123;query&#125;&quot;</code></td><td>Matching result summary</td></tr><tr><td><code>emptyLabel</code></td><td><code>string</code></td><td><code>No entries matching &quot;&#123;query&#125;&quot;</code></td><td>No-match summary</td></tr></tbody>
+</table>
+</div>
+
+The client updates the summary after initialization. For client pagination, provide the full rendered range initially so the summary also matches the rows when JavaScript is unavailable. Supported replacement tokens are `{start}`, `{end}`, `{total}`, `{filtered}`, and `{query}` during client updates; the server-rendered `template` supports `{start}`, `{end}`, and `{total}`.
+
+### DataTablePagination
+
+<div class="props-wrapper">
+<table>
+<thead><tr><th scope="col">Prop</th><th scope="col">Type</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+<tbody><tr><td><code>client</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Use client buttons with <code>DataTable pageSize</code></td></tr><tr><td><code>pageTemplate</code></td><td><code>string</code></td><td><code>Page &#123;page&#125; of &#123;pages&#125;</code></td><td>Client progress text</td></tr><tr><td><code>currentPage</code>, <code>totalPages</code></td><td><code>string | number</code></td><td><code>1</code></td><td>Link-mode page numbers; client state comes from DataTable</td></tr><tr><td><code>baseUrl</code></td><td><code>string</code></td><td>—</td><td>Generate link-mode routes</td></tr><tr><td><code>firstPage</code>, <code>previousPage</code>, <code>nextPage</code>, <code>lastPage</code></td><td><code>string | null | undefined</code></td><td>—</td><td>Explicit routes; missing routes fall back to <code>baseUrl</code> or disabled controls</td></tr><tr><td><code>ariaLabel</code></td><td><code>string</code></td><td><code>&#x27;Table pagination&#x27;</code></td><td>Navigation name</td></tr><tr><td><code>firstPageLabel</code></td><td><code>string</code></td><td><code>&#x27;Go to the first page&#x27;</code></td><td>First control label</td></tr><tr><td><code>previousPageLabel</code></td><td><code>string</code></td><td><code>&#x27;Go to the previous page&#x27;</code></td><td>Previous control label</td></tr><tr><td><code>nextPageLabel</code></td><td><code>string</code></td><td><code>&#x27;Go to the next page&#x27;</code></td><td>Next control label</td></tr><tr><td><code>lastPageLabel</code></td><td><code>string</code></td><td><code>&#x27;Go to the last page&#x27;</code></td><td>Last control label</td></tr><tr><td><code>renderProgress</code></td><td><code>(&#123; currentPage, totalPages &#125;) =&gt; string</code></td><td>—</td><td>Link-mode progress callback</td></tr><tr><td><code>renderPageLabel</code></td><td><code>(&#123; type, page &#125;) =&gt; string</code></td><td>—</td><td>Link-mode control label callback</td></tr></tbody>
+</table>
+</div>
+
+Callback page values are `string | number`; `type` is `'first' | 'previous' | 'next' | 'last'`. See [Pagination](/components/pagination/) for callback examples. Client mode uses `pageTemplate` and the individual control labels instead.
+
+`DataTableHeader`, `DataTableBody`, `DataTableRow`, and `DataTableActions` have no additional component-specific props beyond `class` and HTML attributes.
+
+## Translations and announcements
+
+`DataTable labels` supports these values:
+
+<div class="props-wrapper">
+<table>
+<thead><tr><th scope="col">Key</th><th scope="col">Default</th></tr></thead>
+<tbody><tr><td><code>sortAscending</code></td><td><code>ascending</code></td></tr><tr><td><code>sortDescending</code></td><td><code>descending</code></td></tr><tr><td><code>sortAnnouncement</code></td><td><code>Sorted by &#123;column&#125; &#123;direction&#125;</code></td></tr><tr><td><code>sortableHint</code></td><td><code>Column headers with buttons are sortable.</code></td></tr><tr><td><code>results</code></td><td><code>Showing &#123;start&#125; to &#123;end&#125; of &#123;total&#125; entries</code></td></tr><tr><td><code>filteredResults</code></td><td><code>Showing &#123;start&#125; to &#123;end&#125; of &#123;filtered&#125; entries matching &quot;&#123;query&#125;&quot;</code></td></tr><tr><td><code>emptyResults</code></td><td><code>No entries matching &quot;&#123;query&#125;&quot;</code></td></tr></tbody>
+</table>
+</div>
+
+The three result labels are fallbacks when `DataTableInfo` is omitted. When it is present, its templates supply both visible and announced summaries. Translate those templates together with the search and pagination labels. Do not add another live region to `DataTableInfo`: the table already announces updates through its own polite, atomic region.
+
+## Accessibility behavior
+
+- Native table, caption, column headers, and optional row headers preserve table relationships.
+- Tab and Shift+Tab move between interactive controls. Enter or Space activates sort, clear, and client pagination buttons. There is no spreadsheet-style arrow-key navigation.
+- The sorted header exposes `aria-sort`; the table announces the column and direction without moving focus away from the button.
+- Search announces the result summary after its typing delay, including the query and no-match state. Pagination announces the updated range. When a focused page button becomes disabled at a boundary, focus moves to the progress text within the navigation.
+- The scroll area enters the tab order when it overflows, allowing keyboard scrolling. Long text wraps, while action labels stay on one line.
+- Focus outlines, forced-color styles, and reduced-motion overrides are included. Test colors and focus styling in your consuming theme.
+
+Without JavaScript, all supplied rows remain readable and client pagination stays hidden. Search and sorting require JavaScript; page-reload pagination links work without it. Use server-rendered sorting/filtering when those features must work without scripts.
+
+
+## Styling
+
+Pass a custom class to style a particular table. The class is applied to the outer container; use a global selector to reach it from an Astro style block. Most component selectors use `:where()` so theme styles can override them easily.
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```astro
+    <DataTable caption="Projects" class="project-table">
+      <!-- Headers and rows -->
+    </DataTable>
+
+    <style>
+      :global(.project-table) {
+        --data-table-min-width: 32rem;
+        --data-table-border: var(--color-default-border);
+        --data-table-header-surface: var(--color-primary-bg);
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Global CSS">
+    ```css
+    .data-table {
+      --data-table-border: var(--color-default-border);
+      --data-table-header-surface: var(--color-primary-bg);
+    }
+
+    .project-table {
+      --data-table-min-width: 32rem;
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+### Stable column widths
+
+The table uses fixed layout so sorting and filtering do not resize columns based on their contents. Set `width` on column headers to control proportions. Long text wraps, including unbroken strings such as emails, rather than being truncated.
+
+Set `--data-table-min-width` on the root when a dense table needs horizontal scrolling instead of increasingly narrow columns. Reserve enough width for action buttons, which do not wrap.
+
+```astro
+<DataTable caption="Projects" class="project-table">
+  <DataTableHeader>
+    <DataTableColumn sortable width="50%">Project</DataTableColumn>
+    <DataTableColumn sortable numeric width="20%">Users</DataTableColumn>
+    <DataTableColumn sortable width="30%">Updated</DataTableColumn>
+  </DataTableHeader>
+  <!-- DataTableBody with matching cells -->
+</DataTable>
+```
+
+### CSS custom properties
+
+<div class="props-wrapper">
+<table>
+  <thead>
+    <tr><th scope="col">Property</th><th scope="col">Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--data-table-min-width</code></td><td>Minimum table width; defaults to 100% of its container</td></tr>
+    <tr><td><code>--data-table-border</code></td><td>Outer and search borders; defaults to the shared Input token <code>--color-default-border</code></td></tr>
+    <tr><td><code>--data-table-divider</code></td><td>Row dividers</td></tr>
+    <tr><td><code>--data-table-surface</code></td><td>Table and cell background</td></tr>
+    <tr><td><code>--data-table-header-surface</code></td><td>Header background</td></tr>
+    <tr><td><code>--data-table-row-hover</code></td><td>Hovered rows and active sort-button background</td></tr>
+    <tr><td><code>--data-table-muted</code></td><td>Headers and result summary text</td></tr>
+    <tr><td><code>--data-table-focus</code></td><td>Component focus outline color</td></tr>
+  </tbody>
+</table>
+</div>
+
+<Aside type="caution" title="Preserve visible states">
+  Keep focus outlines visible, maintain sufficient text and control contrast in both themes, and leave enough space for action buttons. Preserve wrapping and horizontal scrolling so long content remains accessible.
 </Aside>
+
+## Related components
+
+- [Pagination](/components/pagination/) for page navigation outside a table.
+- [Drawer](/components/drawer/) for supplementary record details.
+- [Button](/components/button/) for row actions.
