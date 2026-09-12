@@ -115,20 +115,11 @@ This is what separates a Popover from a Tooltip. Anything you put in the `popove
 </Popover>
 ```
 
-### Plain text popovers
+### Short plain text belongs in a Tooltip
 
-When the help really is a single plain sentence with nothing to interact with, set `association="description"`. That links it with `aria-describedby` instead of `aria-details`, so it is read out as part of the trigger's description.
+If the help is one plain sentence with nothing to interact with, it is a description of the trigger, not a region of its own — use [Tooltip](/components/tooltip/).
 
-```astro
-<Popover id="popover-shipping" association="description" showClose={false}>
-  Shipping
-  <Fragment slot="popover">Orders placed before 16:00 ship the same working day.</Fragment>
-</Popover>
-```
-
-<Aside type="caution" title="Only for plain text">
-  Use `association="description"` only when the popover holds no links or other interactive content. A description is announced as one flat string, so a link inside it loses any signal that it is a link — exactly the Tooltip problem described above.
-</Aside>
+A Popover always links its content with `aria-details`, deliberately. Linking it with `aria-describedby` instead would announce the whole thing as soon as the trigger is focused, while `aria-expanded` still reported it as collapsed: the reader would get the content without ever opening it, which makes the disclosure pointless and the semantics contradictory.
 
 ### Positioning
 
@@ -164,14 +155,13 @@ Configure the Popover component with these available props.
 | `offset` | `string` | `'var(--space-2xs)'` | Gap from the trigger |
 | `triggerLabel` | `string` | `undefined` | Name for an icon-only trigger |
 | `showIcon` | `boolean` | `true` | Show the default info icon |
-| `association` | `'details' \| 'description'` | `'details'` | Which ARIA relationship to use |
 | `showClose` | `boolean` | `true` | Show the close button |
 | `closeText` | `string` | `'Close'` | Close button label |
 | `class` | `string` | `undefined` | Extra trigger classes |
 | `style` | `string` | `undefined` | Extra trigger styles |
 </div>
 
-`triggerLabel` is required whenever the trigger has no visible text, and should name the subject of the help rather than the widget. `association` controls whether the content is linked with `aria-details` or `aria-describedby` — see [Plain text popovers](#plain-text-popovers).
+`triggerLabel` is required whenever the trigger has no visible text, and should name the subject of the help rather than the widget.
 
 Any other attributes you pass are spread onto the trigger button.
 
@@ -188,7 +178,7 @@ Any other attributes you pass are spread onto the trigger button.
 
 - The trigger is a semantic `<button>`, so it is reachable and operable by keyboard with no extra code
 - `aria-expanded` reflects whether the popover is open, and `aria-controls` points at it
-- `aria-details` links the trigger to the popover as a region, which keeps links and other interactive content reachable. `association="description"` switches this to `aria-describedby` for plain text popovers
+- `aria-details` links the trigger to the popover as a region, which keeps links and other interactive content reachable
 - The popover opens in the top layer, so it is never clipped by an ancestor with `overflow: hidden`
 - Escape and clicking outside both close the popover, and focus returns to the trigger
 - Tab from the trigger moves into the popover, so its links are reachable in a logical order
@@ -258,8 +248,12 @@ The Popover API is supported across current browsers, and it is what provides to
 
 ### Positions
 
+`position` is a *preference*. Each trigger below sits in a block with room on the side it
+is demonstrating, so each one actually opens where it is asked to. Shrink the window and
+they will flip to stay on screen.
+
 <div class="not-content">
-  <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem 1rem; justify-items: center; padding-block: 6rem;">
     <Popover id="popover-position-top" position="top">
       <span>Top</span>
       <Fragment slot="popover">This popover prefers the top side.</Fragment>
@@ -268,13 +262,13 @@ The Popover API is supported across current browsers, and it is what provides to
       <span>Bottom</span>
       <Fragment slot="popover">This popover prefers the bottom side.</Fragment>
     </Popover>
-    <Popover id="popover-position-left" position="left">
-      <span>Left</span>
-      <Fragment slot="popover">This popover prefers the left side.</Fragment>
-    </Popover>
     <Popover id="popover-position-right" position="right">
       <span>Right</span>
       <Fragment slot="popover">This popover prefers the right side.</Fragment>
+    </Popover>
+    <Popover id="popover-position-left" position="left">
+      <span>Left</span>
+      <Fragment slot="popover">This popover prefers the left side.</Fragment>
     </Popover>
   </div>
 </div>
