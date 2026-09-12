@@ -187,6 +187,14 @@ export default defineConfig({
               link: '/components/pagination',
             },
             {
+              label: 'RangeSlider',
+              link: '/components/range-slider',
+              badge: {
+                text: 'new',
+                variant: 'success',
+              },
+            },
+            {
               label: 'ReducedMotion',
               link: '/components/reduced-motion',
             },

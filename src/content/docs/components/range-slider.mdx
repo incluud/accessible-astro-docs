@@ -1,0 +1,312 @@
+---
+title: RangeSlider
+description: An accessible slider for bounded numeric input, built on native range inputs with typed entry alongside.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import { RangeSlider } from 'accessible-astro-components';
+
+## Introduction
+
+The RangeSlider component is a form control for picking a number between a minimum and a maximum. It is built on native `<input type="range">` elements, so arrow keys, <kbd>Home</kbd>, <kbd>End</kbd>, <kbd>Page Up</kbd>, <kbd>Page Down</kbd> and the slider semantics exposed to assistive technology all come from the browser rather than from ARIA.
+
+Set `multiThumb` to render a coupled minimum and maximum pair, which is the usual shape of a price filter. By default the component also renders number inputs next to the slider so a precise value can be typed instead of dragged.
+
+<Aside type="note" title="Not an image slider">
+  RangeSlider is a numeric form control. It is unrelated to a carousel or image slider, which is a different pattern for cycling through content.
+</Aside>
+
+## When to use
+
+Use the RangeSlider component when you need to:
+
+- Let someone pick a number within a known minimum and maximum
+- Offer a minimum and maximum pair, such as a price or weight filter
+- Show the selected value while it is being changed
+- Give an approximate value quickly, with exact entry still available
+
+Avoid a slider when the exact value matters more than the range, when there is no meaningful minimum and maximum, or when only a handful of values are selectable. A number input, a select, or a group of radio buttons communicates those better.
+
+## Quick example
+
+<div class="not-content">
+  <RangeSlider name="quick-volume" label="Volume" />
+</div>
+
+## Usage
+
+### Basic usage
+
+```astro
+---
+import { RangeSlider } from 'accessible-astro-components'
+---
+
+<RangeSlider name="volume" label="Volume" />
+```
+
+`min` defaults to `0`, `max` to `100`, and `step` to `1`. The value starts at `min` unless you pass `value`.
+
+### Bounds and step
+
+```astro
+<RangeSlider
+  name="servings"
+  label="Servings"
+  min={2}
+  max={12}
+  step={2}
+  value={6}
+/>
+```
+
+### Minimum and maximum pair
+
+Pass `multiThumb` for two coupled thumbs. The component renders a `<fieldset>` with `legend` as the group label, and submits two values under `${name}-min` and `${name}-max`.
+
+```astro
+<RangeSlider
+  multiThumb
+  name="price"
+  legend="Price range"
+  min={0}
+  max={500}
+  step={5}
+  valueMin={25}
+  valueMax={300}
+/>
+```
+
+Each thumb stops against the other rather than pushing it, so the lower value can never exceed the upper one. Override the submitted names with `nameMin` and `nameMax`, and the visible field labels with `labelMin` and `labelMax`.
+
+### Keeping the thumbs apart
+
+`minGap` sets the smallest distance allowed between the two thumbs. It defaults to `0`, which lets both thumbs meet on the same value.
+
+```astro
+<RangeSlider
+  multiThumb
+  name="delivery"
+  legend="Delivery window in days"
+  min={0}
+  max={30}
+  valueMin={2}
+  valueMax={9}
+  minGap={2}
+/>
+```
+
+### Formatted values
+
+`valueFormat` changes how the value is presented and how it is announced. Set it to `currency` (with `currency`) or `percent`. The formatted value becomes the control's `aria-valuetext`, and the unit is added to the visible field label.
+
+```astro
+<RangeSlider
+  multiThumb
+  name="price"
+  legend="Price range"
+  min={0}
+  max={500}
+  step={5}
+  valueMin={25}
+  valueMax={300}
+  valueFormat="currency"
+  currency="EUR"
+/>
+```
+
+<Aside type="note" title="Locale is pinned">
+  `locale` defaults to `'en-US'` so the server and the browser format the value identically. Pass your own BCP 47 locale to change it, but set it explicitly rather than relying on the runtime default.
+</Aside>
+
+### Without the number inputs
+
+Set `showNumberInput={false}` to replace the editable fields with a read-only `<output>` that displays the current value.
+
+```astro
+<RangeSlider
+  name="brightness"
+  label="Brightness"
+  value={70}
+  valueFormat="percent"
+  showNumberInput={false}
+/>
+```
+
+<Aside type="caution" title="Dragging alone excludes people">
+  Reaching an exact value by dragging is difficult with a tremor, a trackpad, or a touch screen. The number inputs are rendered by default for that reason. If you turn them off, make sure the exact value is not required, or offer another way to enter it.
+</Aside>
+
+### Disabled
+
+```astro
+<RangeSlider
+  name="volume"
+  label="Volume"
+  value={40}
+  disabled
+/>
+```
+
+### Other input attributes
+
+Additional HTML attributes are passed to the outer element, so you can attach relationships such as `aria-describedby`.
+
+```astro
+<RangeSlider
+  id="budget"
+  name="budget"
+  label="Monthly budget"
+  aria-describedby="budget-description"
+/>
+<p id="budget-description">
+  We use this to filter results, and you can change it at any time.
+</p>
+```
+
+<Aside type="caution" title="Use unique IDs">
+  Without an `id`, the component generates `range-slider-${name}` and derives every other ID from it. Pass an explicit `id` when more than one slider shares a `name`, or whenever the generated ID would not be unique on the page.
+</Aside>
+
+## Props
+
+<div class="props-wrapper">
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | - | **Required.** Name used for form submission and the generated ID |
+| `label` | `string` | - | **Required** unless `multiThumb`. Visible label and accessible name |
+| `legend` | `string` | - | **Required** when `multiThumb`. Visible group label for the fieldset |
+| `multiThumb` | `boolean` | `false` | Render a coupled minimum and maximum pair |
+| `min` | `number` | `0` | Lowest selectable value |
+| `max` | `number` | `100` | Highest selectable value |
+| `step` | `number` | `1` | Granularity of the value |
+| `value` | `number` | `min` | Initial value in single-thumb mode |
+| `valueMin` | `number` | `min` | Initial lower value in multi-thumb mode |
+| `valueMax` | `number` | `max` | Initial upper value in multi-thumb mode |
+| `nameMin` | `string` | `` `${name}-min` `` | Submitted name of the lower value |
+| `nameMax` | `string` | `` `${name}-max` `` | Submitted name of the upper value |
+| `labelMin` | `string` | `'From'` | Visible label for the lower value |
+| `labelMax` | `string` | `'To'` | Visible label for the upper value |
+| `minGap` | `number` | `0` | Smallest allowed distance between the two thumbs |
+| `showNumberInput` | `boolean` | `true` | Render number inputs for precise typed entry |
+| `valueFormat` | `'number' \| 'currency' \| 'percent'` | `'number'` | How the value is displayed and announced |
+| `currency` | `string` | `'EUR'` | ISO 4217 code used when `valueFormat` is `currency` |
+| `locale` | `string` | `'en-US'` | BCP 47 locale used for formatting |
+| `disabled` | `boolean` | `false` | Whether the control is unavailable |
+| `class` | `string` | - | Additional classes applied to the outer container |
+| Other HTML attributes | - | - | Passed through to the outer element |
+
+</div>
+
+<Aside type="note" title="Why there is no required prop">
+  A range input always has a value, so `required` can never fail validation on it. The prop is deliberately left out rather than offered as a no-op.
+</Aside>
+
+## Accessibility
+
+### Keyboard navigation
+
+| Key | Action |
+|-----|--------|
+| <kbd>Tab</kbd> | Moves focus to the number input, then to each slider thumb |
+| <kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd> | Changes the value by one `step` |
+| <kbd>Page Up</kbd> <kbd>Page Down</kbd> | Changes the value by a larger amount |
+| <kbd>Home</kbd> | Jumps to the minimum |
+| <kbd>End</kbd> | Jumps to the maximum |
+
+### Screen reader behavior
+
+- Uses native `<input type="range">`, so it is announced as a slider with its value, minimum, and maximum
+- Applies `aria-valuetext` only when `valueFormat` is set, so a formatted value such as `€25` is announced in place of the bare number
+- Groups the two thumbs of a `multiThumb` slider in a `<fieldset>` labelled by its `legend`
+- Gives each thumb its own label, visually hidden when the visible label belongs to the matching number input
+- Puts the unit in the visible label rather than duplicating it into an `aria-label`
+
+<Aside type="note" title="No live region by design">
+  The value is not announced through a live region. A range input already announces its own value as it changes, so adding one would read every value twice. When `showNumberInput` is `false`, the `<output>` that displays the value carries `aria-live="off"` for that reason.
+</Aside>
+
+### Target size and visual state
+
+- The thumb is 24 CSS pixels square, meeting the minimum target size of WCAG 2.2 success criterion 2.5.8
+- In single-thumb mode the full 44-pixel-tall strip responds to a pointer, not only the thumb
+- The focus indicator is drawn on the thumb, where the focus actually is, rather than around the full-width input
+- The filled portion of the track is a redundant cue; the value is also carried by the thumb position and the number input
+- Explicit system colors keep the track, the fill, and the thumb distinguishable in forced-colors mode
+- The only transition is on the thumb color, and it is skipped when reduced motion is preferred
+
+### Without JavaScript
+
+The sliders work and submit without JavaScript, because the range inputs carry the `name` and the filled track is rendered on the server from the initial values. The number inputs are a progressive enhancement: they are not submitted, and edits made to them before the script runs are not applied.
+
+## Styling
+
+The component exposes custom properties on its outer container.
+
+<div class="props-wrapper">
+
+| Custom property | Default | Controls |
+|-----------------|---------|----------|
+| `--range-slider-thumb-size` | `1.5rem` | Thumb diameter and pointer target |
+| `--range-slider-track-height` | `0.5rem` | Thickness of the track and the fill |
+| `--range-slider-track-color` | `--color-default-border` | Unfilled part of the track |
+| `--range-slider-progress-color` | `--color-primary-border` | Filled part of the track |
+| `--range-slider-thumb-color` | `--color-primary-border` | Thumb fill |
+| `--range-slider-thumb-ring-color` | `--color-default-bg` | Ring separating the thumb from the track |
+
+</div>
+
+```astro
+<RangeSlider
+  class="brand-slider"
+  name="compact-volume"
+  label="Volume"
+/>
+
+<style>
+  :global(.brand-slider) {
+    --range-slider-progress-color: hsl(265 70% 45%);
+    --range-slider-thumb-color: hsl(265 70% 45%);
+  }
+</style>
+```
+
+<Aside type="caution" title="Preserve visible states">
+  When changing colors, keep at least 3:1 contrast for the track, the fill, the thumb, and the focus indicator against adjacent colors. Lowering `--range-slider-thumb-size` below `1.5rem` takes the thumb under the minimum target size.
+</Aside>
+
+## Interactive examples
+
+Use <kbd>Tab</kbd> to reach each control, the arrow keys to change a value, and <kbd>Home</kbd> or <kbd>End</kbd> to jump to either end.
+
+<div class="not-content">
+  <div style="display: grid; gap: 2rem;">
+    <RangeSlider name="example-volume" label="Volume" value={40} />
+    <RangeSlider
+      multiThumb
+      name="example-price"
+      legend="Price range"
+      min={0}
+      max={500}
+      step={5}
+      valueMin={25}
+      valueMax={300}
+      valueFormat="currency"
+      currency="EUR"
+    />
+    <RangeSlider
+      name="example-brightness"
+      label="Brightness"
+      value={70}
+      valueFormat="percent"
+      showNumberInput={false}
+    />
+    <RangeSlider name="example-disabled" label="Unavailable setting" value={40} disabled />
+  </div>
+</div>
+
+## Related components
+
+- [Forms](/components/forms/) for inputs, checkboxes, radio buttons, and validation patterns
+- [Switch](/components/switch/) for an immediate on/off setting
