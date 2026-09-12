@@ -10,8 +10,8 @@ import { Tooltip } from 'accessible-astro-components';
 
 The Tooltip component displays supplemental information in a small popup anchored to a trigger element. It uses the Popover API together with CSS Anchor Positioning, so placement and fallback behavior are handled by the browser.
 
-<Aside type="note" title="Interaction pattern">
-  This implementation is activated via a trigger button (`popovertarget`), which makes it suitable for concise helper content users intentionally reveal.
+<Aside type="note" title="Interaction pattern, and a planned change">
+  This implementation is activated by clicking a trigger button (`popovertarget`) and stays open until dismissed. A tooltip should appear on hover and focus and disappear on blur, so this behaviour is scheduled to change in the next major version — see [issue #172](https://github.com/incluud/accessible-astro-components/issues/172). If you rely on click-to-open, or on content that does more than describe the trigger, use [Popover](/components/popover/) instead.
 </Aside>
 
 <Aside type="note" title="Modern API support and fallback strategy">
@@ -27,8 +27,10 @@ Use the Tooltip component when you need to:
 - Clarify labels or terms without cluttering the UI
 - Show non-critical, supplementary content
 
-<Aside type="caution" title="Use concise content">
-  Tooltips are best for short supporting text. If users need rich content or interactive controls, use a dialog or drawer instead.
+<Aside type="caution" title="Content must not be interactive">
+  A Tooltip's content must be plain text. Do not put links, buttons, form controls or any other interactive content inside it — use the [Popover](/components/popover/) component for that.
+
+  `role="tooltip"` marks the content as a *description* of the trigger, and `aria-describedby` flattens it into a single string, so a link inside a Tooltip is announced as ordinary words rather than as a link. It is also scheduled to become genuinely unreachable: Tooltip will move to hover and focus activation in a future major version, at which point the content disappears as soon as you try to reach it. See [issue #172](https://github.com/incluud/accessible-astro-components/issues/172).
 </Aside>
 
 ## Quick example
@@ -100,6 +102,10 @@ Accessibility is built into the component through semantic trigger markup and de
 - Preserved focus visibility from native button behavior
 - Reduced motion support through `prefers-reduced-motion`
 
+<Aside type="caution" title="Plain text only">
+  The accessible description built from the tooltip content is a single flat string. Keep it to one short sentence, and never include interactive content.
+</Aside>
+
 <Aside type="tip" title="Accessible naming">
   Provide meaningful visible trigger text. When the trigger is icon-only or ambiguous, set `triggerLabel` so assistive technologies receive a clear accessible name.
 </Aside>
@@ -151,6 +157,7 @@ See the Tooltip component in action with common usage patterns.
 
 ## Related components
 
+- [Popover](/components/popover/) — for contextual help that can hold links and formatted content
 - [Modal](/components/modal/)
 - [Drawer](/components/drawer/)
 - [Notification](/components/notification/)

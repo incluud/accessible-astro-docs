@@ -187,6 +187,14 @@ export default defineConfig({
               link: '/components/pagination',
             },
             {
+              label: 'Popover',
+              link: '/components/popover',
+              badge: {
+                text: 'new',
+                variant: 'success',
+              },
+            },
+            {
               label: 'ReducedMotion',
               link: '/components/reduced-motion',
             },

@@ -1,0 +1,287 @@
+---
+title: Popover
+description: Contextual help revealed on click, built on the Popover API and CSS Anchor Positioning, for help text that can hold links and formatted content.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import { Popover } from 'accessible-astro-components';
+
+## Introduction
+
+The Popover component shows contextual help next to the thing it explains: why a checkout form asks for a phone number, how tax and shipping are calculated, where to find the size guide. The trigger is a real button, and the help itself opens in the browser's top layer using the Popover API together with CSS Anchor Positioning.
+
+Because the help is a real region rather than a description flattened onto the trigger, it can contain links, lists and formatted text, and it stays open until the reader dismisses it.
+
+<Aside type="note" title="Static first">
+  Opening, closing, Escape and click-outside dismissal are all handled by the native `popover` attribute, so the component works with no JavaScript at all. The small script only keeps `aria-expanded` in sync and backstops focus return.
+</Aside>
+
+## Popover or Tooltip?
+
+These two components look similar and are easy to confuse. The difference is what the help *is*, not how it is triggered.
+
+A [Tooltip](/components/tooltip/) is a short description *of* something else: `role="tooltip"` plus `aria-describedby` flatten its content into a single string attached to the trigger. A Popover is a region of content in its own right, which is why it can hold links and why it needs a way to be dismissed.
+
+<div class="props-wrapper">
+| | [Tooltip](/components/tooltip/) | Popover |
+|---|---|---|
+| Purpose | Describes a control | Help you read and act on |
+| Content | Plain text only | Text, links, lists |
+| Interactive content | Not supported | Supported |
+| ARIA | `aria-describedby` | `aria-details` |
+| Role | `role="tooltip"` | Region, no role |
+| Dismiss | None | Escape, outside click, close button |
+</div>
+
+A link inside a Tooltip is announced as ordinary words in that description rather than as a link, so a screen reader user has no signal it is there. In a Popover the content stays a region, so links keep their semantics and the open state is exposed through `aria-expanded`.
+
+<Aside type="caution" title="Never put a link in a Tooltip">
+  If the help contains a link, a button, or anything else the reader has to reach, it belongs in a Popover. In a Tooltip that content is announced as part of a flat description, which gives no signal that it is interactive — and Tooltip is moving to hover and focus activation in a future major version, which will make it genuinely unreachable. See [issue #172](https://github.com/incluud/accessible-astro-components/issues/172).
+</Aside>
+
+## When to use
+
+Use the Popover component when you need to:
+
+- Explain why a form asks for a particular piece of information
+- Break down a price, a tax line, or a shipping rule
+- Point to a size guide, a policy page, or related documentation
+- Define a term that only some readers will know
+- Offer help that the reader chooses to open, rather than help that interrupts them
+
+<Aside type="caution" title="Keep it a popover">
+  A Popover is for a short paragraph and perhaps a link. If the content needs headings, a form, or several paragraphs, reach for a [Modal](/components/modal/) or a [Drawer](/components/drawer/) instead.
+</Aside>
+
+## Quick example
+
+<div class="not-content">
+  <p>
+    Phone number
+    <Popover id="popover-quick-example" triggerLabel="Why do we need your phone number?">
+      <Fragment slot="popover">We only use your phone number to contact you about this delivery.</Fragment>
+    </Popover>
+  </p>
+</div>
+
+## Usage
+
+Learn how to implement the Popover component in your project, from a plain help sentence to help that links elsewhere.
+
+### Basic usage
+
+The default slot is the visible trigger text. The named `popover` slot is the help itself.
+
+```astro
+---
+import { Popover } from 'accessible-astro-components'
+---
+
+<Popover id="popover-phone">
+  Why do we need this?
+  <Fragment slot="popover">
+    We only use your phone number to contact you about this delivery.
+  </Fragment>
+</Popover>
+```
+
+### Icon-only trigger
+
+When the trigger is just the info icon, give it a name with `triggerLabel`. The name should say what the help is about, not merely that help exists.
+
+```astro
+<Popover id="popover-vat" triggerLabel="More information about VAT">
+  <Fragment slot="popover">
+    VAT is calculated at checkout based on your delivery address.
+  </Fragment>
+</Popover>
+```
+
+<Aside type="tip" title="Name the subject, not the widget">
+  `triggerLabel="More information about VAT"` tells a screen reader user what they are about to open. `triggerLabel="More information"` or `triggerLabel="Help"` does not, especially on a page with several popovers.
+</Aside>
+
+### Content with links
+
+This is what separates a Popover from a Tooltip. Anything you put in the `popover` slot stays reachable by keyboard and by screen reader.
+
+```astro
+<Popover id="popover-size-guide">
+  Size guide
+  <Fragment slot="popover">
+    <p>Measurements are in centimetres and taken flat.</p>
+    <p><a href="/size-chart">Open the full size chart</a></p>
+  </Fragment>
+</Popover>
+```
+
+### Plain text popovers
+
+When the help really is a single plain sentence with nothing to interact with, set `association="description"`. That links it with `aria-describedby` instead of `aria-details`, so it is read out as part of the trigger's description.
+
+```astro
+<Popover id="popover-shipping" association="description" showClose={false}>
+  Shipping
+  <Fragment slot="popover">Orders placed before 16:00 ship the same working day.</Fragment>
+</Popover>
+```
+
+<Aside type="caution" title="Only for plain text">
+  Use `association="description"` only when the popover holds no links or other interactive content. A description is announced as one flat string, so a link inside it loses any signal that it is a link — exactly the Tooltip problem described above.
+</Aside>
+
+### Positioning
+
+`position` sets the preferred side. If there is not enough room there, the browser flips the popover to the opposite side so it stays on screen and clear of the trigger.
+
+```astro
+<Popover id="popover-top" position="top">
+  Delivery estimate
+  <Fragment slot="popover">Estimates assume dispatch on the next working day.</Fragment>
+</Popover>
+```
+
+### Hiding the close button
+
+The close button is shown by default, because click-outside and Escape are not obvious to everyone, and neither is available to a reader using a touch screen with a switch device.
+
+```astro
+<Popover id="popover-no-close" showClose={false}>
+  Returns
+  <Fragment slot="popover">Free returns within 30 days.</Fragment>
+</Popover>
+```
+
+## Props
+
+Configure the Popover component with these available props.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | - | Unique ID, required |
+| `position` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` | Preferred side, flipped if no room |
+| `offset` | `string` | `'var(--space-2xs)'` | Gap from the trigger |
+| `triggerLabel` | `string` | `undefined` | Name for an icon-only trigger |
+| `showIcon` | `boolean` | `true` | Show the default info icon |
+| `association` | `'details' \| 'description'` | `'details'` | Which ARIA relationship to use |
+| `showClose` | `boolean` | `true` | Show the close button |
+| `closeText` | `string` | `'Close'` | Close button label |
+| `class` | `string` | `undefined` | Extra trigger classes |
+| `style` | `string` | `undefined` | Extra trigger styles |
+</div>
+
+`triggerLabel` is required whenever the trigger has no visible text, and should name the subject of the help rather than the widget. `association` controls whether the content is linked with `aria-details` or `aria-describedby` — see [Plain text popovers](#plain-text-popovers).
+
+Any other attributes you pass are spread onto the trigger button.
+
+### Slots
+
+<div class="props-wrapper">
+| Slot | Description |
+|------|-------------|
+| default | Visible trigger content, optional with `triggerLabel` |
+| `popover` | The help content, required |
+</div>
+
+## Accessibility
+
+- The trigger is a semantic `<button>`, so it is reachable and operable by keyboard with no extra code
+- `aria-expanded` reflects whether the popover is open, and `aria-controls` points at it
+- `aria-details` links the trigger to the popover as a region, which keeps links and other interactive content reachable. `association="description"` switches this to `aria-describedby` for plain text popovers
+- The popover opens in the top layer, so it is never clipped by an ancestor with `overflow: hidden`
+- Escape and clicking outside both close the popover, and focus returns to the trigger
+- Tab from the trigger moves into the popover, so its links are reachable in a logical order
+- The popover is placed beside the trigger and flips to the opposite side when there is no room, so it never covers the focused trigger ([WCAG 2.4.11 Focus Not Obscured](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html))
+- The trigger and the close button are both at least 24 by 24 CSS pixels, and grow with the reader's font size ([WCAG 2.5.8 Target Size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html))
+- The popover content stays in the DOM, so it is available to in-page search and when JavaScript fails
+- Motion is removed when `prefers-reduced-motion: reduce` is set
+
+<Aside type="note" title="Support for aria-details">
+  `aria-details` is the right relationship for help that contains interactive content, but screen reader support for it is still uneven. `aria-expanded` and `aria-controls` carry the disclosure relationship regardless, and the content is reachable by keyboard either way.
+</Aside>
+
+<Aside type="caution" title="Placement in your markup">
+  The popover content renders as a `<div>`, so avoid placing the component inside a `<p>`. Put it next to a `<label>`, in a list item, or in any other flow container.
+</Aside>
+
+## Styling
+
+The component exposes CSS custom properties you can override:
+
+- `--popover-offset` — distance between the trigger and the popover
+- `--popover-max-inline-size` — maximum width of the popover
+- `--popover-max-block-size` — maximum height before the content scrolls
+- `--popover-viewport-inset` — minimum distance kept from the viewport edge
+- `--transition-duration` and `--transition-easing` — open and close animation
+- `--translate-offset` — distance the popover travels as it opens
+
+Selectors use `:where()` so they carry no specificity, which means a plain class in your own stylesheet is enough to override them.
+
+```css
+#popover-size-guide {
+  --popover-max-inline-size: 24rem;
+}
+```
+
+<Aside type="caution" title="Accessibility considerations">
+  When customizing styles, keep sufficient color contrast for the popover text and its border, and preserve the visible focus indicator on both the trigger and the close button.
+</Aside>
+
+## Browser support
+
+The component is built on the Popover API and CSS Anchor Positioning.
+
+The Popover API is supported across current browsers, and it is what provides top-layer rendering, Escape handling and click-outside dismissal. CSS Anchor Positioning is newer. Where it is missing, the anchor-specific styles are skipped through an `@supports` query and the browser falls back to its own centred top-layer placement, with a backdrop so the placement reads as deliberate. The popover remains fully operable either way.
+
+## Interactive examples
+
+### Content with a link
+
+<div class="not-content">
+  <Popover id="popover-links-example">
+    Size guide
+    <Fragment slot="popover">
+      <p>Measurements are in centimetres and taken flat.</p>
+      <p><a href="/components/overview/">Open the full size chart</a></p>
+    </Fragment>
+  </Popover>
+</div>
+
+### Icon-only trigger
+
+<div class="not-content">
+  <Popover id="popover-icon-example" triggerLabel="More information about VAT">
+    <Fragment slot="popover">VAT is calculated at checkout based on your delivery address.</Fragment>
+  </Popover>
+</div>
+
+### Positions
+
+<div class="not-content">
+  <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+    <Popover id="popover-position-top" position="top">
+      <span>Top</span>
+      <Fragment slot="popover">This popover prefers the top side.</Fragment>
+    </Popover>
+    <Popover id="popover-position-bottom" position="bottom">
+      <span>Bottom</span>
+      <Fragment slot="popover">This popover prefers the bottom side.</Fragment>
+    </Popover>
+    <Popover id="popover-position-left" position="left">
+      <span>Left</span>
+      <Fragment slot="popover">This popover prefers the left side.</Fragment>
+    </Popover>
+    <Popover id="popover-position-right" position="right">
+      <span>Right</span>
+      <Fragment slot="popover">This popover prefers the right side.</Fragment>
+    </Popover>
+  </div>
+</div>
+
+## Related components
+
+- [Tooltip](/components/tooltip/) — for short descriptions with no interactive content
+- [Modal](/components/modal/)
+- [Drawer](/components/drawer/)
+- [Notification](/components/notification/)
