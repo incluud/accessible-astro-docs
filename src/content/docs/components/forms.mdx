@@ -4,7 +4,7 @@ description: A fully accessible form system with progressive enhancement validat
 ---
 
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
-import { Form, Input, Textarea, Checkbox, Radio, Fieldset, Button } from 'accessible-astro-components';
+import { Form, Input, Textarea, Select, Checkbox, Radio, Fieldset, Button } from 'accessible-astro-components';
 
 <Aside type="caution" title="Beta components">
   <p>The form components are currently in beta. While they are fully functional and accessible, the API may change in future versions based on feedback.</p>
@@ -23,6 +23,7 @@ Key features include:
 - **Custom validation patterns** and functions
 - **Accessible error handling** with live regions and error summaries
 - **Group validation** for checkboxes and radio buttons
+- **Native form controls** throughout, so mobile pickers, type-ahead and forced-colors rendering come from the platform
 - **Security protection** against ReDoS and pattern injection attacks
 - **Full internationalization (i18n)** - Every user-facing string can be translated via props
 
@@ -33,6 +34,7 @@ Use the form components when you need:
 - **Contact forms** with email validation and required fields
 - **Registration forms** with password requirements and field validation
 - **Survey forms** with grouped checkboxes and radio button selections
+- **Checkout and address forms** with country, region or variant selects
 - **Feedback forms** with textarea inputs and custom validation
 - **Newsletter signups** with email validation and accessibility features
 - **Multi-step forms** that require robust validation and error handling
@@ -109,6 +111,76 @@ import { Form, Input, Button } from 'accessible-astro-components';
   />
 </Form>
 ```
+
+### Select with option groups
+
+The `Select` component wraps a native `<select>`. Pass options as data, or write
+`<option>` and `<optgroup>` elements in the default slot — both work, and slotted
+options render after the ones from the `options` prop.
+
+```astro {6-19}
+---
+import { Form, Select } from 'accessible-astro-components';
+---
+
+<Form>
+  <Select
+    name="country"
+    label="Country"
+    required
+    autocomplete="country-name"
+    placeholder="Select a country"
+    data-validation="Please select a country"
+    options={[
+      {
+        label: 'Europe',
+        options: [
+          { value: 'nl', label: 'Netherlands' },
+          { value: 'be', label: 'Belgium' },
+        ],
+      },
+      { label: 'North America', options: [{ value: 'us', label: 'United States' }] },
+    ]}
+  />
+</Form>
+```
+
+The `options` prop also accepts plain strings and flat option objects:
+
+```astro
+<Select name="size" label="Size" options={['Small', 'Medium', 'Large']} />
+
+<Select
+  name="shipping"
+  label="Shipping method"
+  value="standard"
+  options={[
+    { value: 'standard', label: 'Standard (3-5 days)' },
+    { value: 'express', label: 'Express (next day)' },
+    { value: 'pickup', label: 'Collect in store', disabled: true },
+  ]}
+/>
+```
+
+Or write the options yourself:
+
+```astro
+<Select name="variant" label="Variant">
+  <option value="">Pick a variant</option>
+  <optgroup label="Cotton">
+    <option value="cotton-s">Cotton, small</option>
+    <option value="cotton-m">Cotton, medium</option>
+  </optgroup>
+</Select>
+```
+
+<Aside type="caution" title="Placeholder is not a label">
+  `placeholder` renders a prompt option (`<option value="">`) at the top of the list. It never replaces the visible `<label>`, which `Select` always renders. On a `required` select the prompt is disabled, so it cannot be chosen back.
+</Aside>
+
+<Aside type="note">
+  Use `autocomplete` on address and payment selects (`country`, `country-name`) so browsers can fill them in. This is WCAG 2.2 success criterion 1.3.5 Identify Input Purpose.
+</Aside>
 
 ### Checkbox and radio groups
 
@@ -201,6 +273,16 @@ import { Form, Input, Textarea, Fieldset, Checkbox } from 'accessible-astro-comp
     requiredValidationMessage="Bitte geben Sie eine Nachricht ein"
   />
 
+  <Select
+    name="anrede"
+    label="Anrede"
+    required
+    requiredText="(Pflichtfeld)"
+    placeholder="Bitte wählen"
+    requiredValidationMessage="Bitte wählen Sie eine Anrede aus"
+    options={['Frau', 'Herr', 'Keine Angabe']}
+  />
+
   <Fieldset
     name="topics"
     legend="Themen"
@@ -221,7 +303,7 @@ import { Form, Input, Textarea, Fieldset, Checkbox } from 'accessible-astro-comp
   - On `Form`: `errorSummaryMessage` (the summary heading) plus `defaultFieldValidationMessage` and `defaultFieldsetValidationMessage`, which act as the final fallback when a field or fieldset has no message of its own.
   - On each field: `requiredText` (the label indicator) and the relevant message prop (`requiredValidationMessage`, `emailValidationMessage`, etc.).
 
-  Note that `Input`, `Textarea`, and `Fieldset` already ship non-empty English defaults for their message props, so those component defaults take precedence over the Form-level fallback. To translate an individual field's message you must set its message prop directly.
+  Note that `Input`, `Textarea`, `Select`, and `Fieldset` already ship non-empty English defaults for their message props, so those component defaults take precedence over the Form-level fallback. To translate an individual field's message you must set its message prop directly.
 </Aside>
 
 ## Props
@@ -295,6 +377,35 @@ import { Form, Input, Textarea, Fieldset, Checkbox } from 'accessible-astro-comp
 
 </div>
 
+### Select
+
+<div class="props-wrapper">
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | - | **Required.** Name attribute for form submission |
+| `label` | `string` | - | **Required.** Label text for the select |
+| `options` | `(string \| SelectOption \| SelectOptionGroup)[]` | `[]` | Options to render. Accepts plain strings, `{ value, label, disabled, selected }` objects, and `{ label, disabled, options }` groups |
+| `value` | `string \| string[]` | `undefined` | Value (or values, with `multiple`) selected on load |
+| `placeholder` | `string` | `undefined` | Prompt option shown first when nothing is selected. Disabled when the field is `required` |
+| `required` | `boolean` | `false` | Whether the field is required |
+| `requiredText` | `string` | `'(required)'` | Text shown next to the label for required fields (i18n) |
+| `requiredValidationMessage` | `string` | `'Please select an option'` | Message for required selects (i18n) |
+| `data-validation` | `string` | Auto-generated | Custom error message that overrides `requiredValidationMessage` |
+| `data-validation-pattern` | `string` | `undefined` | Custom regex validation pattern |
+| `data-validation-fn` | `string` | `undefined` | Custom validation function name |
+| `disabled` | `boolean` | `false` | Whether the field is disabled |
+| `multiple` | `boolean` | `false` | Whether more than one option can be selected |
+| `size` | `number` | `undefined` | Number of options shown at once. Renders a list box instead of a dropdown when larger than 1 |
+| `autocomplete` | `string` | `'on'` | Autocomplete attribute value, for example `'country-name'` |
+| `aria-invalid` | `'true' \| 'false'` | `undefined` | Marks the field invalid on the server, so its message renders before any client-side validation runs |
+
+</div>
+
+<Aside type="note" title="Options as data or as markup">
+  `options` and slotted `<option>` children can be combined. Prop-driven options render first, slotted children after. An option is selected when its own `selected` is true, or when its `value` matches the `value` prop.
+</Aside>
+
 ### Checkbox
 
 <div class="props-wrapper">
@@ -346,8 +457,15 @@ The form system is designed with accessibility as a priority and meets WCAG 2.2 
 ### Keyboard navigation
 - **Tab navigation** through all form controls in logical order
 - **Enter key** submits forms when focused on submit buttons
-- **Arrow keys** navigate between radio buttons in the same group
+- **Arrow keys** navigate between radio buttons in the same group, and between options in a `Select`
 - **Space key** toggles checkboxes and selects radio buttons
+- **Type-ahead** jumps to a matching option in a `Select`, provided by the browser
+
+### Native semantics
+- Every control is a real form element, so roles and states come from the browser rather than ARIA
+- `Select` maps to `combobox`, or to a multi-selectable `listbox` when `multiple` is set
+- Mobile browsers render their own native picker for a `Select`, including the platform's accessibility affordances
+- Custom dropdown-arrow styling is dropped in forced-colors (Windows High Contrast) mode, where the native control and its own arrow are restored
 
 ### Screen reader support
 - **Proper labeling** with `<label>` elements associated via `for` attributes
@@ -375,6 +493,7 @@ The form system is designed with accessibility as a priority and meets WCAG 2.2 
 - **Phone number** format validation
 - **URL format** validation with protocol requirements
 - **Required field** validation with clear messaging
+- **Select** validation treats the empty prompt option as "nothing chosen"
 
 ## Styling
 
@@ -521,6 +640,32 @@ Form components use CSS custom properties for easy theming while maintaining acc
   <Input name="email" label="Email address" type="email" required autocomplete="email" />
 
   <Input name="phone" label="Phone number" type="tel" required data-validation-pattern="^[0-9]{10}$" />
+
+  <Select
+    name="country"
+    label="Country"
+    required
+    autocomplete="country-name"
+    placeholder="Select a country"
+    data-validation="Please select a country so we can route your message"
+    options={[
+      {
+        label: 'Europe',
+        options: [
+          { value: 'nl', label: 'Netherlands' },
+          { value: 'be', label: 'Belgium' },
+          { value: 'de', label: 'Germany' },
+        ],
+      },
+      {
+        label: 'North America',
+        options: [
+          { value: 'ca', label: 'Canada' },
+          { value: 'us', label: 'United States' },
+        ],
+      },
+    ]}
+  />
 
   <Textarea name="message" label="Message" required />
 
