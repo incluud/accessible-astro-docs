@@ -55,7 +55,7 @@ import { Form, Input, Button } from 'accessible-astro-components';
     required
     data-validation="Please provide a valid email address"
   />
-  <Button type="submit">Submit form</Button>
+  <Button htmlType="submit">Submit form</Button>
 </Form>
 ```
 
@@ -168,7 +168,7 @@ Set global fallbacks on the `Form` with `defaultFieldValidationMessage`, `defaul
 
 ```astro
 ---
-import { Form, Input, Textarea, Fieldset, Checkbox } from 'accessible-astro-components'
+import { Form, Input, Textarea, Fieldset, Checkbox, Button } from 'accessible-astro-components'
 ---
 
 <Form
@@ -212,7 +212,7 @@ import { Form, Input, Textarea, Fieldset, Checkbox } from 'accessible-astro-comp
     <Checkbox name="topics" value="sales" label="Vertrieb" />
   </Fieldset>
 
-  <button type="submit">Senden</button>
+  <Button htmlType="submit">Senden</Button>
 </Form>
 ```
 
