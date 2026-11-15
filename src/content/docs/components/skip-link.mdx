@@ -149,6 +149,23 @@ Make the SkipLink component your own while maintaining its accessibility feature
   Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
 </Aside>
 
+### CSS custom properties
+
+| Property | Default | Description |
+|----------|---------|-------------|
+| `--skip-link-z-index` | `9999` | Stacking order of the skip link. Intentionally above the shared `--z-index-*` scale so it appears over sticky headers and other site chrome |
+
+```css
+/* In a global stylesheet, so no :global() is needed */
+:root {
+  --skip-link-z-index: 1000;
+}
+```
+
+<Aside type="caution" title="Keep it on top">
+  Only lower this value if nothing on your page sits above it. A skip link that opens behind a sticky header is invisible to the keyboard users it exists for.
+</Aside>
+
 ## Interactive example
 
 See the SkipLink component in action:
