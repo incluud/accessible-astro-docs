@@ -60,7 +60,7 @@ import { Form, Input, Button } from 'accessible-astro-components';
 ```
 
 <Aside type="tip">
-  The Form component automatically adds `novalidate` to prevent browser validation and uses progressive enhancement for consistent, accessible validation across all browsers.
+  Forms use progressive enhancement. When the Form script runs, it sets `novalidate` and replaces the browser's validation popups with the error summary and inline messages. Without JavaScript, the browser validates native constraints such as `required`, `type="email"`, and `pattern`, using its own messages in the browser's language. Required fieldset groups, `data-validation-pattern`, and `data-validation-fn` need JavaScript.
 </Aside>
 
 ### Input types with validation
@@ -226,6 +226,8 @@ import { Form, Input, Textarea, Fieldset, Checkbox, Button } from 'accessible-as
 
 ## Props
 
+Each component also accepts the native HTML attributes of the element it renders: `<form>` for Form, `<fieldset>` for Fieldset, `<textarea>` for Textarea, and the inner `<input>` (not the wrapper) for Input, Checkbox, and Radio.
+
 ### Form
 
 <div class="props-wrapper">
@@ -352,18 +354,15 @@ The form system is designed with accessibility as a priority and meets WCAG 2.2 
 ### Screen reader support
 - **Proper labeling** with `<label>` elements associated via `for` attributes
 - **Fieldset legends** provide group context for checkboxes and radio buttons
-- **Live regions** announce validation errors using `aria-live="polite"`
-- **Error summaries** with focus management for failed validation
+- **Error summaries** receive focus when validation fails, so screen readers read them without a live region
 - **Descriptive error messages** linked via `aria-describedby`
 
 ### ARIA attributes
 - `aria-invalid="true"` applied to fields with validation errors
-- `aria-describedby` links inputs to their validation messages
-- `role="alert"` used for critical error notifications
-- Proper `aria-live` regions for dynamic error announcements
+- `aria-describedby` links inputs and required fieldsets to their validation messages
 
 ### Error handling
-- **Progressive enhancement** ensures forms work without JavaScript
+- **Progressive enhancement** falls back to native browser validation when JavaScript is unavailable
 - **Error summaries** appear at form submission with focusable links
 - **Inline validation messages** appear below each field
 - **Visual and programmatic** error indicators for all users

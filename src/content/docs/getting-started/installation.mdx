@@ -27,6 +27,20 @@ Choose your preferred package manager to install the components. The package inc
   </TabItem>
 </Tabs>
 
+### HTML attributes and TypeScript
+
+Besides their own props, components accept the native HTML attributes of the element they render. For example, Link accepts `<a>` attributes, Button accepts `<button>` attributes, and Input accepts `<input>` attributes. `astro check` and your editor flag attributes that aren't valid on that element, such as `disabled` on a Link.
+
+Hyphenated attributes, such as `data-*`, `aria-*`, or Alpine's `x-data`, are always accepted. To use a custom attribute without a hyphen, declare it in a `.d.ts` file in your project:
+
+```ts title="src/custom-attributes.d.ts"
+declare namespace astroHTML.JSX {
+  interface HTMLAttributes {
+    customAttribute?: string
+  }
+}
+```
+
 ## Installing themes
 
 Our themes come with all the components pre-installed and configured. You can choose between using `git clone` or `degit` for installation.
