@@ -88,6 +88,7 @@ Configure the Tooltip component with these available props.
 | `triggerLabel` | `string` | `undefined` | Screen reader label for icon-only or unclear trigger text |
 | `showIcon` | `boolean` | `true` | Show or hide the default help icon |
 | `class` | `string` | `undefined` | Additional wrapper classes |
+| `style` | `string \| Record<string, any>` | `undefined` | Inline styles for the wrapper, merged with the component's custom properties |
 </div>
 
 ## Accessibility
@@ -121,6 +122,8 @@ The component exposes CSS custom properties for spacing and animation behavior:
 - `--translate-offset-y`
 
 You can provide a custom class via the `class` prop and override styles using global selectors in your project stylesheet.
+
+You can also pass a `style` attribute as a string or an object. It's applied to the wrapper `<span>` and merged with the component's `--tooltip-anchor` and `--tooltip-offset` custom properties. Your styles are applied last, so they take precedence where they overlap. For example, setting `--tooltip-offset` in `style` overrides the `offset` prop.
 
 ## Interactive examples
 

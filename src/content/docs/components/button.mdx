@@ -212,6 +212,7 @@ Configure the Button component using these available props to customize its beha
 | `ariaDescribedby` | `string` | `undefined` | ID of element describing the button |
 | `id` | `string` | `undefined` | The id attribute |
 | `class` | `string` | `undefined` | Additional CSS classes to apply |
+| `style` | `string \| Record<string, any>` | `undefined` | Inline styles, merged with the animation custom properties |
 </div>
 
 <Aside type="tip" title="Animation intensity">
@@ -327,6 +328,8 @@ Make the Button component your own with custom styling while maintaining its acc
 <Aside type="note" title="Style scoping">
   Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
 </Aside>
+
+You can also pass a `style` attribute as a string or an object. When `animateOnHover` or `pulse` is enabled, it's merged with the component's `--scaleAmount` and `--rotateAmount` custom properties. Your styles are applied last, so they take precedence where they overlap.
 
 ## Interactive examples
 
