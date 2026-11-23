@@ -291,6 +291,7 @@ Configure the Link component using these available props to customize its behavi
 | `animationIntensity` | `number` | `5` | Animation intensity (1-10) |
 | `pulse` | `boolean` | `false` | Whether to apply a pulsating animation |
 | `class` | `string` | `''` | Additional CSS classes to apply |
+| `style` | `string \| Record<string, any>` | `undefined` | Inline styles, merged with the animation custom properties |
 </div>
 
 ## Accessibility
@@ -398,6 +399,8 @@ Customize the Link component's appearance while preserving its accessibility fea
 <Aside type="note" title="Style scoping">
   Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
 </Aside>
+
+You can also pass a `style` attribute as a string or an object. When hover animations (`isButton` with `animateOnHover`) or `pulse` are enabled, it's merged with the component's `--scaleAmount` and `--rotateAmount` custom properties. Your styles are applied last, so they take precedence where they overlap.
 
 ## Interactive examples
 

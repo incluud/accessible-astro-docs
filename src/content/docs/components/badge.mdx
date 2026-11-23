@@ -173,6 +173,7 @@ Configure the Badge component using these available props to customize its behav
 | `pulse` | `boolean` | `false` | Whether to apply a pulsating animation |
 | `label` | `string` | `''` | Additional context for screen readers (visually hidden) |
 | `class` | `string` | `''` | Additional CSS classes to apply |
+| `style` | `string \| Record<string, any>` | `undefined` | Inline styles, merged with the animation custom properties when `isButton` is true |
 </div>
 
 ## Accessibility
@@ -258,6 +259,8 @@ Make the Badge component your own with custom styling while maintaining its acce
 <Aside type="note" title="Style scoping">
   Astro components use scoped styles by default. To override component styles, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
 </Aside>
+
+You can also pass a `style` attribute as a string or an object. When `isButton` is true, it's merged with the component's `--scaleAmount` and `--rotateAmount` custom properties. Your styles are applied last, so they take precedence where they overlap.
 
 ## Interactive examples
 
