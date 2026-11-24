@@ -218,6 +218,14 @@ export default defineConfig({
               label: 'Video',
               link: '/components/video',
             },
+            {
+              label: 'VisuallyHidden',
+              link: '/components/visually-hidden',
+              badge: {
+                text: 'new',
+                variant: 'success',
+              },
+            },
           ],
         },
         {
