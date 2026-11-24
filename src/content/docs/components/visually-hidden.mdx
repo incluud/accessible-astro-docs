@@ -12,16 +12,8 @@ The VisuallyHidden component hides its content from the screen while keeping it 
 
 It wraps the existing `.sr-only` utility class, so you don't need to remember the class name or its CSS. With the `focusable` prop, the content becomes visible while it, or something inside it, has keyboard focus.
 
-<Aside type="caution" title="Required styles">
-  VisuallyHidden applies the global `.sr-only` class, but doesn't define it. The Accessible Astro Starter already includes one. If your project doesn't, import the class from the package once, for example in your layout:
-
-  ```astro
-  ---
-  import 'accessible-astro-components/styles/utility.css'
-  ---
-  ```
-
-  The styles that reveal `focusable` content are included in the component.
+<Aside type="note" title="Styles">
+  The `.sr-only` class ships with the package styles, which load automatically when you import a component from `accessible-astro-components`. If your project defines its own `.sr-only`, such as the one in the Accessible Astro Starter, that works too. The styles that reveal `focusable` content are included in the component.
 </Aside>
 
 <Aside type="caution" title="Not a way to hide content from everyone">
