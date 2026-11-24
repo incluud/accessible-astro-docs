@@ -1,0 +1,222 @@
+---
+title: VisuallyHidden
+description: A utility component that hides content visually while keeping it available to screen readers.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { VisuallyHidden } from 'accessible-astro-components';
+
+## Introduction
+
+The VisuallyHidden component hides its content from the screen while keeping it in the accessibility tree, so screen readers still announce it. Use it to add context that sighted users get from the visual layout, such as which article a "Read more" link belongs to.
+
+It wraps the existing `.sr-only` utility class, so you don't need to remember the class name or its CSS. With the `focusable` prop, the content becomes visible while it, or something inside it, has keyboard focus.
+
+<Aside type="note" title="Styles">
+  The `.sr-only` class ships with the package styles, which load automatically when you import a component from `accessible-astro-components`. If your project defines its own `.sr-only`, such as the one in the Accessible Astro Starter, that works too. The styles that reveal `focusable` content are included in the component.
+</Aside>
+
+<Aside type="caution" title="Not a way to hide content from everyone">
+  VisuallyHidden only hides content visually. To hide content from everyone, use the `hidden` attribute or `display: none`. To hide decorative content from screen readers only, use `aria-hidden="true"`.
+</Aside>
+
+## When to use
+
+Use the VisuallyHidden component when you need to:
+
+- Add context to links or buttons whose visible text relies on the surrounding layout, such as "Read more" or "Edit"
+- Provide text for screen readers next to an icon or a visual indicator, such as a current page or a status
+- Write a description that a control can reference with `aria-describedby`
+- Add a skip link or another keyboard shortcut that appears only on focus, using the `focusable` prop
+
+<Aside type="tip" title="Skip to main content">
+  For the standard "Skip to main content" link at the top of a page, use the [SkipLink](/components/skip-link/) component instead.
+</Aside>
+
+## Quick example
+
+<div class="not-content">
+  <p>
+    <a href="/components/forms/">Read more<VisuallyHidden> about the Forms component</VisuallyHidden></a>
+  </p>
+</div>
+
+```astro
+---
+import { VisuallyHidden } from 'accessible-astro-components'
+---
+
+<a href="/blog/accessible-forms">
+  Read more<VisuallyHidden> about accessible forms</VisuallyHidden>
+</a>
+```
+
+Sighted users see "Read more", while screen readers announce "Read more about accessible forms".
+
+## Usage
+
+Learn how to implement the VisuallyHidden component in your project.
+
+### Basic usage
+
+By default, the component renders a `<span>`, so you can place it inside a link, a button, or a sentence.
+
+```astro
+---
+import { VisuallyHidden } from 'accessible-astro-components'
+---
+
+<button type="button">
+  Edit<VisuallyHidden> shipping address</VisuallyHidden>
+</button>
+```
+
+<Aside type="tip" title="Keep the visible text first">
+  Put the hidden text after the visible text, as in the examples above. The accessible name then still starts with the visible label, so people who use voice control can activate the control by saying what they see.
+</Aside>
+
+### Choosing the element
+
+Use the `as` prop to render a different element when a `<span>` isn't the right fit, for example a paragraph or block content. It accepts `'span'`, `'div'`, `'p'`, and `'li'`. Use `'li'` only as a direct child of a `<ul>` or `<ol>`, and keep in mind that screen readers include it in the number of list items they announce.
+
+```astro
+---
+import { VisuallyHidden } from 'accessible-astro-components'
+---
+
+<!-- A paragraph -->
+<VisuallyHidden as="p">Results are sorted by date, newest first.</VisuallyHidden>
+
+<!-- Block content -->
+<VisuallyHidden as="div">
+  <p>Prices include VAT.</p>
+  <p>Shipping is calculated at checkout.</p>
+</VisuallyHidden>
+```
+
+### Referencing hidden text
+
+Attributes such as `id` are passed to the rendered element, so other elements can reference the hidden text.
+
+```astro
+---
+import { VisuallyHidden } from 'accessible-astro-components'
+---
+
+<button type="button" aria-describedby="delete-note">Delete project</button>
+<VisuallyHidden id="delete-note">This also deletes all files in the project.</VisuallyHidden>
+```
+
+### Focusable content
+
+Set `focusable` to show the content while it, or an element inside it, has focus. When focus moves on, the content is hidden again. This is useful for skip links to other parts of the page.
+
+```astro
+---
+import { VisuallyHidden } from 'accessible-astro-components'
+---
+
+<VisuallyHidden focusable class="skip-comments">
+  <a href="#comments">Skip to comments</a>
+</VisuallyHidden>
+```
+
+<Aside type="caution" title="Focusable elements need the focusable prop">
+  Without `focusable`, links, buttons, and other interactive elements inside VisuallyHidden stay hidden when they receive focus. Keyboard users then land on something they can't see. Always set `focusable` when the content contains an interactive element.
+</Aside>
+
+## Props
+
+Configure the VisuallyHidden component with these available props.
+
+<div class="props-wrapper">
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `as` | `'span' \| 'div' \| 'p' \| 'li'` | `'span'` | The element to render |
+| `focusable` | `boolean` | `false` | Shows the content while it, or an element inside it, has focus |
+| `value` | `string \| number` | `undefined` | The ordinal value of the list item, only used when `as="li"` |
+| `class` | `string` | `undefined` | Additional CSS classes, merged with the component's own classes |
+</div>
+
+The component also supports `class:list`, and any other HTML attributes are passed to the rendered element. The default slot contains the content to hide visually.
+
+## Accessibility
+
+VisuallyHidden keeps content available to assistive technology while removing it from the visual layout:
+
+- Uses the `.sr-only` technique: the element is clipped to a 1×1 pixel area instead of being removed with `display: none` or `visibility: hidden`, so it stays in the accessibility tree
+- Adds no ARIA attributes or roles, so the content is announced as normal text in its reading order
+- With `focusable`, shows the content on focus using `:focus-within` and hides it again when focus leaves, so keyboard users can see where they are
+- Supports native elements only (`span`, `div`, `p`, `li`), so you can keep valid HTML structure
+
+<Aside type="note" title="Use it for supplemental text">
+  Content that is useful to everyone should be visible to everyone. Use VisuallyHidden for context that sighted users already get from the layout, not to hide important instructions.
+</Aside>
+
+## Styling
+
+VisuallyHidden has no visual styles of its own beyond hiding the content. When you use `focusable`, style the content that appears on focus, for example the link inside it.
+
+<Aside type="caution" title="Accessibility considerations">
+  When customizing styles, ensure revealed content has sufficient color contrast and a visible focus indicator.
+</Aside>
+
+<Tabs>
+  <TabItem label="Custom CSS">
+    ```astro
+    <VisuallyHidden focusable>
+      <a href="#comments" class="skip-comments-link">Skip to comments</a>
+    </VisuallyHidden>
+
+    <style>
+      .skip-comments-link {
+        display: inline-block;
+        padding-block: 0.5rem;
+        padding-inline: 1rem;
+        background: light-dark(hsl(0 0% 100%), hsl(215 25% 15%));
+        color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
+      }
+
+      .skip-comments-link:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 4px;
+      }
+    </style>
+    ```
+  </TabItem>
+  <TabItem label="Tailwind Classes">
+    ```astro
+    <VisuallyHidden focusable>
+      <a
+        href="#comments"
+        class="inline-block px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus-visible:outline-2 focus-visible:outline-offset-4"
+      >
+        Skip to comments
+      </a>
+    </VisuallyHidden>
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="note" title="Style scoping">
+  Astro components use scoped styles by default. Your page or layout styles apply to content you write in the page, including content you pass into VisuallyHidden, like the link above. To style the element the component renders itself, use a `:global()` selector or the `is:global` directive on your style tag.
+</Aside>
+
+## Interactive example
+
+See the `focusable` prop in action:
+
+<div class="not-content">
+  <p>Use <kbd>Tab</kbd> to move focus to the hidden link in the box below. It appears while it has focus and is hidden again when focus moves on.</p>
+  <div style="border: 1px dashed #ccc; padding: 2rem; margin-top: 1rem;">
+    <VisuallyHidden focusable>
+      <a href="#related-components">Skip to related components</a>
+    </VisuallyHidden>
+  </div>
+</div>
+
+## Related components
+
+- [SkipLink](/components/skip-link/)
+- [Forms](/components/forms/)
+- [Tooltip](/components/tooltip/)
