@@ -4,12 +4,25 @@ description: A utility component that hides content visually while keeping it av
 ---
 
 import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { VisuallyHidden } from 'accessible-astro-components';
 
 ## Introduction
 
 The VisuallyHidden component hides its content from the screen while keeping it in the accessibility tree, so screen readers still announce it. Use it to add context that sighted users get from the visual layout, such as which article a "Read more" link belongs to.
 
 It wraps the existing `.sr-only` utility class, so you don't need to remember the class name or its CSS. With the `focusable` prop, the content becomes visible while it, or something inside it, has keyboard focus.
+
+<Aside type="caution" title="Required styles">
+  VisuallyHidden applies the global `.sr-only` class, but doesn't define it. The Accessible Astro Starter already includes one. If your project doesn't, import the class from the package once, for example in your layout:
+
+  ```astro
+  ---
+  import 'accessible-astro-components/styles/utility.css'
+  ---
+  ```
+
+  The styles that reveal `focusable` content are included in the component.
+</Aside>
 
 <Aside type="caution" title="Not a way to hide content from everyone">
   VisuallyHidden only hides content visually. To hide content from everyone, use the `hidden` attribute or `display: none`. To hide decorative content from screen readers only, use `aria-hidden="true"`.
@@ -29,6 +42,12 @@ Use the VisuallyHidden component when you need to:
 </Aside>
 
 ## Quick example
+
+<div class="not-content">
+  <p>
+    <a href="/components/forms/">Read more<VisuallyHidden> about the Forms component</VisuallyHidden></a>
+  </p>
+</div>
 
 ```astro
 ---
@@ -123,6 +142,7 @@ Configure the VisuallyHidden component with these available props.
 |------|------|---------|-------------|
 | `as` | `'span' \| 'div' \| 'p' \| 'li'` | `'span'` | The element to render |
 | `focusable` | `boolean` | `false` | Shows the content while it, or an element inside it, has focus |
+| `value` | `string \| number` | `undefined` | The ordinal value of the list item, only used when `as="li"` |
 | `class` | `string` | `undefined` | Additional CSS classes, merged with the component's own classes |
 </div>
 
@@ -202,6 +222,19 @@ VisuallyHidden has no visual styles of its own beyond hiding the content. When y
 <Aside type="note" title="Style scoping">
   Astro components use scoped styles by default. To style content inside the component from your page or layout, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
 </Aside>
+
+## Interactive example
+
+See the `focusable` prop in action:
+
+<div class="not-content">
+  <p>Use <kbd>Tab</kbd> to move focus to the hidden link in the box below. It appears while it has focus and is hidden again when focus moves on.</p>
+  <div style="border: 1px dashed #ccc; padding: 2rem; margin-top: 1rem;">
+    <VisuallyHidden focusable>
+      <a href="#related-components">Skip to related components</a>
+    </VisuallyHidden>
+  </div>
+</div>
 
 ## Related components
 
