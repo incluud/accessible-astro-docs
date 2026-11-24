@@ -171,10 +171,13 @@ VisuallyHidden has no visual styles of its own beyond hiding the content. When y
 
 <Tabs>
   <TabItem label="Custom CSS">
-    ```css
-    /* Option 1: Using :global() in your style block */
+    ```astro
+    <VisuallyHidden focusable>
+      <a href="#comments" class="skip-comments-link">Skip to comments</a>
+    </VisuallyHidden>
+
     <style>
-      :global(.skip-comments a) {
+      .skip-comments-link {
         display: inline-block;
         padding-block: 0.5rem;
         padding-inline: 1rem;
@@ -182,23 +185,7 @@ VisuallyHidden has no visual styles of its own beyond hiding the content. When y
         color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
       }
 
-      :global(.skip-comments a:focus-visible) {
-        outline: 2px solid currentColor;
-        outline-offset: 4px;
-      }
-    </style>
-
-    /* Option 2: Using is:global on the style tag */
-    <style is:global>
-      .skip-comments a {
-        display: inline-block;
-        padding-block: 0.5rem;
-        padding-inline: 1rem;
-        background: light-dark(hsl(0 0% 100%), hsl(215 25% 15%));
-        color: light-dark(hsl(215 25% 27%), hsl(215 25% 89%));
-      }
-
-      .skip-comments a:focus-visible {
+      .skip-comments-link:focus-visible {
         outline: 2px solid currentColor;
         outline-offset: 4px;
       }
@@ -220,7 +207,7 @@ VisuallyHidden has no visual styles of its own beyond hiding the content. When y
 </Tabs>
 
 <Aside type="note" title="Style scoping">
-  Astro components use scoped styles by default. To style content inside the component from your page or layout, you'll need to use either `:global()` selectors or the `is:global` directive on your style tag.
+  Astro components use scoped styles by default. Your page or layout styles apply to content you write in the page, including content you pass into VisuallyHidden, like the link above. To style the element the component renders itself, use a `:global()` selector or the `is:global` directive on your style tag.
 </Aside>
 
 ## Interactive example

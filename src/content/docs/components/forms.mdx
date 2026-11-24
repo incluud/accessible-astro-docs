@@ -134,7 +134,7 @@ import { Form, Input, Button } from 'accessible-astro-components';
 
 ### Adding a hint with `aria-describedby`
 
-`Input` and `Textarea` link each field to its validation message with `aria-describedby`. To link extra help text, such as a format hint, pass your own `aria-describedby`. The component combines both in one attribute: the validation message ID first, then your IDs. Empty values are dropped.
+`Input` and `Textarea` link each field to its validation message with `aria-describedby`. To link extra help text, such as a format hint, pass your own `aria-describedby`. The component combines both in one attribute: the validation message ID first, then your IDs. Empty values are dropped. This merging is available in version 5.9.0 and later.
 
 ```astro {6}
 <Form>
@@ -377,7 +377,7 @@ The form system is designed with accessibility as a priority and meets WCAG 2.2 
 
 ### ARIA attributes
 - `aria-invalid="true"` applied to fields with validation errors
-- `aria-describedby` links inputs and required fieldsets to their validation messages. On `Input` and `Textarea`, a consumer `aria-describedby` is merged into the same attribute, after the validation message ID
+- `aria-describedby` links inputs and required fieldsets to their validation messages. On `Input` and `Textarea`, a consumer `aria-describedby` is merged into the same attribute, after the validation message ID (version 5.9.0 and later)
 
 ### Error handling
 - **Progressive enhancement** falls back to native browser validation when JavaScript is unavailable
